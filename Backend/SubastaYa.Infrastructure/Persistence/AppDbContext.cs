@@ -20,9 +20,11 @@ namespace SubastaYa.Infrastructure.Persistence
         public DbSet<TransaccionLedger> TransaccionesLedger { get; set; }
         public DbSet<AuditoriaLog> AuditoriaLogs { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
 
     }

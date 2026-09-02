@@ -14,6 +14,7 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<TransaccionLedger> entity)
         {
             // Configuramos las propiedades de la base de datos de la entidad TransaccionLedger
-            {
-            }
+
+        }
+    }
 }
