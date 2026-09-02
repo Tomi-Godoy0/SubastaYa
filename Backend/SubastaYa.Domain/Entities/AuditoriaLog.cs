@@ -17,6 +17,6 @@ namespace SubastaYa.Domain.Entities
         public DateTime Fecha { get; set; }
 
         //-------
-        //public Usuario? Usuario { get; set; }
+        public Usuario? Usuario { get; set; }
     }
 }
