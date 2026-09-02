@@ -15,7 +15,7 @@ namespace SubastaYa.Domain.Entities
         public DateTime FechaPuja { get; set; }
 
         //-------
-        //public Subasta? Subasta { get; set; }
-        //public Usuario? Comprador { get; set; }
+        public Subasta Subasta { get; set; } = null!;
+        public Usuario Comprador { get; set; } = null!;
     }
 }

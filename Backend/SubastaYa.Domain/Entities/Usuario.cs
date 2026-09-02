@@ -15,9 +15,9 @@ namespace SubastaYa.Domain.Entities
         public DateTime FechaRegistro { get; set; }
 
         //-------
-        //public Billetera? Billetera { get; set; }
-        //public ICollection<Subasta> Subastas { get; set; }
-        //public ICollection<Puja> Pujas { get; set; }
-        //public ICollection<AuditoriaLog> Auditorias { get; set; }
+        public Billetera? Billetera { get; set; }
+        public ICollection<Subasta> Subastas { get; set; } = [];
+        public ICollection<Puja> Pujas { get; set; } = [];
+        public ICollection<AuditoriaLog> Auditorias { get; set; } = [];
     }
 }

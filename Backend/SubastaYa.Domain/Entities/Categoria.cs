@@ -13,6 +13,6 @@ namespace SubastaYa.Domain.Entities
         public string UrlIcono { get; set; } = string.Empty;
 
         //-------
-        //public ICollection<Subasta> Subastas { get; set; }
+        public ICollection<Subasta> Subastas { get; set; } = [];
     }
 }

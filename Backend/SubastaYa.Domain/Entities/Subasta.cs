@@ -19,11 +19,13 @@ namespace SubastaYa.Domain.Entities
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public string Estado { get; set; } = string.Empty;
-        public int Version { get; set; } 
+        public int Version { get; set; }
 
 
         //-----
-        //public Usuario Vendedor { get; set; }
-        //public Categoria Categoria { get; set; }
+        public Usuario Vendedor { get; set; } = null!; 
+        public Categoria Categoria { get; set; } = null!;
+        public ICollection<Puja> Pujas { get; set; } = [];
+        public ICollection<TransaccionLedger> TransaccionesLedgers { get; set; } = [];
     }
 }

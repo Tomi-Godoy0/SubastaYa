@@ -17,6 +17,7 @@ namespace SubastaYa.Domain.Entities
 
         //------------------
 
-        //public Usuario usuario { get; set; } = null!; Se añade cuando cree usuario
+        public Usuario Usuario { get; set; } = null!;
+        public ICollection<TransaccionLedger> TransaccionesLedgers { get; set; } = [];
     }
 }
