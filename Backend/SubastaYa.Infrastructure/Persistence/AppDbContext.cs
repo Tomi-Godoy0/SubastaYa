@@ -12,6 +12,9 @@ namespace SubastaYa.Infrastructure.Persistence
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Puja> Pujas { get; set; }
         public DbSet<Billetera> Billeteras { get; set; }
         public DbSet<Subasta> Subastas { get; set; }
         public DbSet<TransaccionLedger> TransaccionesLedger { get; set; }
