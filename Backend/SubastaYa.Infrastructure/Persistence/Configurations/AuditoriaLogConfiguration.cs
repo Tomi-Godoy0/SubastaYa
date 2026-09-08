@@ -24,14 +24,16 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
                   .HasMaxLength(50);
 
             entity.Property(a => a.EntidadId)
-                  .IsRequired()
-                  .HasMaxLength(50);
+                  .IsRequired();
 
             entity.Property(a => a.Accion)
                   .IsRequired()
                   .HasMaxLength(20);
 
             entity.Property(a => a.DetallesJson)
+                  .IsRequired();
+
+            entity.Property(a => a.Fecha)
                   .IsRequired();
 
             // ---- Relaciones ----

@@ -40,10 +40,6 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
                   .WithOne(u => u.Billetera)
                   .HasForeignKey<Billetera>(b => b.UsuarioId)
                   .OnDelete(DeleteBehavior.Cascade);
-
-
-
-
         }
     }
 }
