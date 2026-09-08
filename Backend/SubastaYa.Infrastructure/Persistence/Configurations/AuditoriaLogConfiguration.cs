@@ -13,7 +13,32 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<AuditoriaLog> entity)
         {
+            entity.ToTable("AuditoriaLogs");
             
+            //Primary Key
+            entity.HasKey(a => a.Id);
+
+            //Propiedades
+            entity.Property(a => a.Entidad)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+            entity.Property(a => a.EntidadId)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+            entity.Property(a => a.Accion)
+                  .IsRequired()
+                  .HasMaxLength(20);
+
+            entity.Property(a => a.DetallesJson)
+                  .IsRequired();
+
+            // ---- Relaciones ----
+            entity.HasOne(a => a.Usuario)
+                  .WithMany(u => u.Auditorias)
+                  .HasForeignKey(a => a.UsuarioId)
+                  .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

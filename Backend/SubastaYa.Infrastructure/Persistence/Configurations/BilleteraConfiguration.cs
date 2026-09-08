@@ -13,10 +13,37 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Billetera> entity)
         {
-            // Configuramos las propiedades de la base de datos de la entidad billetera
+            entity.ToTable("Billeteras");
+
+            //Primary Key
+            entity.HasKey(b => b.Id);
+
+            //Propiedades
+            entity.Property(b => b.SaldoTotal)
+                  .IsRequired()
+                  .HasPrecision(18, 2);
+
+            entity.Property(b => b.SaldoRetenido)
+                  .IsRequired()
+                  .HasPrecision(18, 2);
+
+            entity.Property(b => b.SaldoDisponible)
+                  .IsRequired()
+                  .HasPrecision(18, 2);
+
+            entity.Property(b => b.Version)
+                  .HasDefaultValue(1)
+                  .IsConcurrencyToken();
+
+            // ---- Relaciones ----
+            entity.HasOne(b => b.Usuario)
+                  .WithOne(u => u.Billetera)
+                  .HasForeignKey<Billetera>(b => b.UsuarioId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+
 
 
         }
-
     }
 }

@@ -13,8 +13,33 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<TransaccionLedger> entity)
         {
-            // Configuramos las propiedades de la base de datos de la entidad TransaccionLedger
+            entity.ToTable("TransaccionLedgers");
 
+            // Primary Key
+            entity.HasKey(t => t.Id);
+
+            // Propiedades
+            entity.Property(t => t.Tipo)
+                  .IsRequired()
+                  .HasMaxLength(20);
+
+            entity.Property(t => t.Monto)
+                  .IsRequired()
+                  .HasPrecision(18, 2);
+
+            entity.Property(t => t.Fecha)
+                  .IsRequired();
+
+            // ---- Relaciones ----
+            entity.HasOne(t => t.Billetera)
+                  .WithMany(t => t.TransaccionesLedgers)
+                  .HasForeignKey(t => t.BilleteraId)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(t => t.Subasta)
+                  .WithMany(t => t.TransaccionesLedgers)
+                  .HasForeignKey(t => t.SubastaId)
+                  .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
