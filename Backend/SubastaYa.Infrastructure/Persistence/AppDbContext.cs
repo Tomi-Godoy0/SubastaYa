@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SubastaYa.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,13 @@ namespace SubastaYa.Infrastructure.Persistence
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Categoria> Categorias { get; set; }
-        public DbSet<Puja> Pujas { get; set; }
-        public DbSet<Billetera> Billeteras { get; set; }
-        public DbSet<Subasta> Subastas { get; set; }
-        public DbSet<TransaccionLedger> TransaccionesLedger { get; set; }
-        public DbSet<AuditoriaLog> AuditoriaLogs { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Bid> Bids { get; set; }
+        public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<Auction> Auctions { get; set; }
+        public DbSet<TransactionLedger> TransactionsLedgers { get; set; }
+        public DbSet<AuditLog> AuditsLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,5 @@ namespace SubastaYa.Infrastructure.Persistence
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
-
     }
 }
