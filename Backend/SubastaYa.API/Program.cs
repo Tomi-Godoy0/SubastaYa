@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SubastaYa.API.Middleware;
 using SubastaYa.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,16 +11,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ----------- Database Connection ------------
+// ----------- Conexión de base de datos ------------
 
 //Falta configurar la cadena de conexión en appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
-//Inyección de dependencias
-
+// ----------- Inyección de dependencias ------------
 
 var app = builder.Build();
+
+// ----------- Uso de Middleware ------------
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
