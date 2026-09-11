@@ -12,7 +12,7 @@ using SubastaYa.Infrastructure.Persistence;
 namespace SubastaYa.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260910160924_InitialCreate")]
+    [Migration("20260911030501_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -250,10 +250,6 @@ namespace SubastaYa.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("AvailableBalance")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("HeldBalance")
                         .HasPrecision(18, 2)

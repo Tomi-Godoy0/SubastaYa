@@ -109,7 +109,6 @@ namespace SubastaYa.Infrastructure.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     TotalBalance = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     HeldBalance = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    AvailableBalance = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Version = table.Column<int>(type: "int", nullable: false, defaultValue: 1)
                 },
                 constraints: table =>

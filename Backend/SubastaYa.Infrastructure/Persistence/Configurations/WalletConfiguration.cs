@@ -25,10 +25,6 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
                   .IsRequired()
                   .HasPrecision(18, 2);
 
-            entity.Property(b => b.AvailableBalance)
-                  .IsRequired()
-                  .HasPrecision(18, 2);
-
             entity.Property(b => b.Version)
                   .HasDefaultValue(1)
                   .IsConcurrencyToken();
