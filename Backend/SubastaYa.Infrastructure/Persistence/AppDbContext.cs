@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SubastaYa.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,8 +17,8 @@ namespace SubastaYa.Infrastructure.Persistence
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<Auction> Auctions { get; set; }
-        public DbSet<TransactionLedger> TransactionsLedgers { get; set; }
-        public DbSet<AuditLog> AuditsLogs { get; set; }
+        public DbSet<TransactionLedger> TransactionLedgers { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

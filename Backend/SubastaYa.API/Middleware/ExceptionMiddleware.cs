@@ -42,12 +42,16 @@ namespace SubastaYa.API.Middleware
                 ArgumentException => StatusCodes.Status400BadRequest,
                 // Not Found
                 KeyNotFoundException => StatusCodes.Status404NotFound,
+                NotFoundException => StatusCodes.Status404NotFound,
                 // Unauthorized
                 UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
                 // Conflict
                 DuplicateNameException => StatusCodes.Status409Conflict,
                 ConflictException => StatusCodes.Status409Conflict,
                 DbUpdateConcurrencyException => StatusCodes.Status409Conflict,
+                //
+                //Fallback para excepción de dominio no mapeada
+                DomainException => StatusCodes.Status400BadRequest,
                 _ => StatusCodes.Status500InternalServerError
             };
 
@@ -58,7 +62,7 @@ namespace SubastaYa.API.Middleware
             var response = new
             {
                 StatusCode = statusCode,
-                Message = ex.Message
+                Message = message
             };
 
             var json = System.Text.Json.JsonSerializer.Serialize(response);

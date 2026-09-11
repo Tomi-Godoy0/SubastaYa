@@ -12,7 +12,7 @@ namespace SubastaYa.Domain.Entities
         public int UserId { get; set; }
         public decimal TotalBalance { get; set; }
         public decimal HeldBalance { get; set; }
-        public decimal AvailableBalance { get; set; }
+        public decimal AvailableBalance => TotalBalance - HeldBalance;
         public int Version { get; set; }
 
         //------------------
