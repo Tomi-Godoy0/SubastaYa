@@ -26,8 +26,7 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
                   .HasPrecision(18, 2);
 
             entity.Property(b => b.Version)
-                  .HasDefaultValue(1)
-                  .IsConcurrencyToken();
+                  .IsRowVersion();
 
             // ---- Relaciones ----
             entity.HasOne(b => b.User)

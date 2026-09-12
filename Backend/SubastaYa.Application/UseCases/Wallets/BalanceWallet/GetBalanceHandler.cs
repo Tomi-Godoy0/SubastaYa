@@ -29,7 +29,7 @@ namespace SubastaYa.Application.UseCases.Wallets.BalanceWallet
             {
                 TotalBalance = wallet.TotalBalance,
                 HeldBalance = wallet.HeldBalance,
-                AvailableBalance = wallet.TotalBalance - wallet.HeldBalance
+                AvailableBalance = wallet.AvailableBalance
             };
         }
     }

@@ -48,8 +48,7 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
                    .HasMaxLength(20);
 
             entity.Property(s => s.Version)
-                  .HasDefaultValue(1)
-                  .IsConcurrencyToken();
+                  .IsRowVersion();
 
             // ---- Relaciones ----
             //Vendedor

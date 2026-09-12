@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace SubastaYa.Domain.Entities
         public decimal TotalBalance { get; set; }
         public decimal HeldBalance { get; set; }
         public decimal AvailableBalance => TotalBalance - HeldBalance;
-        public int Version { get; set; }
+        public byte[] Version { get; set; } = null!;
 
         //------------------
 

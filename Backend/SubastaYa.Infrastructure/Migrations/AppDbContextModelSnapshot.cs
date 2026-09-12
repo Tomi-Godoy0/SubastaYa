@@ -70,11 +70,11 @@ namespace SubastaYa.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Version")
+                    b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -119,7 +119,7 @@ namespace SubastaYa.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AuditsLogs");
+                    b.ToTable("AuditLogs");
                 });
 
             modelBuilder.Entity("SubastaYa.Domain.Entities.Bid", b =>
@@ -207,7 +207,7 @@ namespace SubastaYa.Infrastructure.Migrations
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("TransactionsLedgers");
+                    b.ToTable("TransactionLedgers");
                 });
 
             modelBuilder.Entity("SubastaYa.Domain.Entities.User", b =>
@@ -259,11 +259,11 @@ namespace SubastaYa.Infrastructure.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Version")
+                    b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 

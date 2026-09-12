@@ -57,7 +57,7 @@ namespace SubastaYa.Infrastructure.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Version = table.Column<int>(type: "int", nullable: false, defaultValue: 1)
+                    Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,7 +77,7 @@ namespace SubastaYa.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AuditsLogs",
+                name: "AuditLogs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -91,9 +91,9 @@ namespace SubastaYa.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuditsLogs", x => x.Id);
+                    table.PrimaryKey("PK_AuditLogs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AuditsLogs_Users_UserId",
+                        name: "FK_AuditLogs_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -109,7 +109,7 @@ namespace SubastaYa.Infrastructure.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     TotalBalance = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     HeldBalance = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Version = table.Column<int>(type: "int", nullable: false, defaultValue: 1)
+                    Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -151,7 +151,7 @@ namespace SubastaYa.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TransactionsLedgers",
+                name: "TransactionLedgers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -164,15 +164,15 @@ namespace SubastaYa.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TransactionsLedgers", x => x.Id);
+                    table.PrimaryKey("PK_TransactionLedgers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TransactionsLedgers_Auctions_AuctionId",
+                        name: "FK_TransactionLedgers_Auctions_AuctionId",
                         column: x => x.AuctionId,
                         principalTable: "Auctions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TransactionsLedgers_Wallets_WalletId",
+                        name: "FK_TransactionLedgers_Wallets_WalletId",
                         column: x => x.WalletId,
                         principalTable: "Wallets",
                         principalColumn: "Id",
@@ -190,8 +190,8 @@ namespace SubastaYa.Infrastructure.Migrations
                 column: "SellerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuditsLogs_UserId",
-                table: "AuditsLogs",
+                name: "IX_AuditLogs_UserId",
+                table: "AuditLogs",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -205,13 +205,13 @@ namespace SubastaYa.Infrastructure.Migrations
                 column: "BuyerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TransactionsLedgers_AuctionId",
-                table: "TransactionsLedgers",
+                name: "IX_TransactionLedgers_AuctionId",
+                table: "TransactionLedgers",
                 column: "AuctionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TransactionsLedgers_WalletId",
-                table: "TransactionsLedgers",
+                name: "IX_TransactionLedgers_WalletId",
+                table: "TransactionLedgers",
                 column: "WalletId");
 
             migrationBuilder.CreateIndex(
@@ -225,13 +225,13 @@ namespace SubastaYa.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AuditsLogs");
+                name: "AuditLogs");
 
             migrationBuilder.DropTable(
                 name: "Bids");
 
             migrationBuilder.DropTable(
-                name: "TransactionsLedgers");
+                name: "TransactionLedgers");
 
             migrationBuilder.DropTable(
                 name: "Auctions");
