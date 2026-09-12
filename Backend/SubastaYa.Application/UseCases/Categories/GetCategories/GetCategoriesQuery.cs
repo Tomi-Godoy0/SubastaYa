@@ -1,3 +1,5 @@
+using SubastaYa.Application.Interfaces.Repositories;
+using SubastaYa.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

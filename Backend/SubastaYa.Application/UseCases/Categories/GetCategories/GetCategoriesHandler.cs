@@ -1,21 +1,29 @@
-﻿using SubastaYa.Application.Interfaces.Repositories;
+﻿using SubastaYa.Application.Interfaces.DTOs;
+using SubastaYa.Application.Interfaces.Repositories;
+using SubastaYa.Application.Interfaces.Service.Categories;
 using SubastaYa.Domain.Entities;
 
 namespace SubastaYa.Application.UseCases.Categories.GetCategories
 {
-    public class GetCategoriesHandler
+    public class GetCategoriesHandler : IGetCategoriesHandler
     {
         private readonly ICategoryRepository _categoryRepository;
 
-        public GetCategoriesHandler(ICategoryRepository categoriaRepository)
+        public GetCategoriesHandler(ICategoryRepository categoryRepository)
         {
-            _categoryRepository = categoriaRepository;
+            _categoryRepository = categoryRepository;
         }
 
-        public async Task<IEnumerable<Category>> HandleAsync(
-            GetCategoriesQuery query)
+        public async Task<List<CategoryResponse>> HandleAsync(GetCategoriesQuery query)
         {
-            return await _categoryRepository.GetAllAsync();
+            var categories = await _categoryRepository.GetAllAsync();
+
+            return categories.Select(c => new CategoryResponse
+            {
+                Id = c.Id,
+                Name = c.Name,
+                IconUrl = c.IconUrl,
+            }).ToList();
         }
     }
 }

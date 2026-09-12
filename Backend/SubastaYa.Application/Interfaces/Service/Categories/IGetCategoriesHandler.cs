@@ -1,5 +1,5 @@
 ﻿using SubastaYa.Application.Interfaces.DTOs;
-using SubastaYa.Application.UseCases.Categories.CreateCategory;
+using SubastaYa.Application.UseCases.Categories.GetCategories;
 using SubastaYa.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace SubastaYa.Application.Interfaces.Service.Categories
 {
-    public interface ICreateCategoryHandler
+    public interface IGetCategoriesHandler
     {
-        public Task<CategoryResponse> HandleAsync(CreateCategoryCommand command);
+        public Task<List<CategoryResponse>> HandleAsync(GetCategoriesQuery query);
     }
 }
