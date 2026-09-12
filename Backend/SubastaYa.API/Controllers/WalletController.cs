@@ -19,7 +19,7 @@ namespace SubastaYa.API.Controllers
             _depositHandler = depositHandler;
         }
 
-        [HttpGet("balance")]
+        [HttpGet("/{id}/balance")]
         public async Task<IActionResult> GetBalance(int id)
         {
             var balance = await _getBalanceHandler.HandleAsync(new GetBalanceQuery { UserId = id });
@@ -27,7 +27,7 @@ namespace SubastaYa.API.Controllers
             return Ok(balance);
         }
 
-        [HttpPost("deposit")]
+        [HttpPost("/{id}/deposit")]
         public async Task<IActionResult> CreateDeposit(DepositCommand command)
         {
             var newBalance = await _depositHandler.HandleAsync(command);

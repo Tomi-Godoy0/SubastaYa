@@ -40,6 +40,10 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
 
         public async Task<Wallet?> GetByUserIdAsync(int id)
         {
+            return await _context.Wallets.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == id);
+        }
+        public async Task<Wallet?> GetByUserIdTrackedAsync(int id)
+        {
             return await _context.Wallets.FirstOrDefaultAsync(x => x.UserId == id);
         }
     }

@@ -14,6 +14,7 @@ namespace SubastaYa.Application.Interfaces.Repositories
 
         //Queries
         public Task<Wallet?> GetByUserIdAsync(int id);
+        public Task<Wallet?> GetByUserIdTrackedAsync(int id);
         public Task<Wallet?> GetByIdAsync(int id);
     }
 }

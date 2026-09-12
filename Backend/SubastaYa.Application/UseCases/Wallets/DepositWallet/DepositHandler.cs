@@ -24,11 +24,10 @@ namespace SubastaYa.Application.UseCases.Wallets.DepositWallet
 
         public async Task<WalletResponse> HandleAsync(DepositCommand command)
         {
-            var wallet = await _walletRepository.GetByUserIdAsync(command.UserId)
+            var wallet = await _walletRepository.GetByUserIdTrackedAsync(command.UserId)
             ?? throw new NotFoundException("Usuario no encontrado");
 
             wallet.TotalBalance += command.Amount;
-            wallet.Version++;
 
             await _walletRepository.UpdateAsync(wallet);
 
