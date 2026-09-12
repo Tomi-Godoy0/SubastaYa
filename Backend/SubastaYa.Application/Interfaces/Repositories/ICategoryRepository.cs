@@ -12,8 +12,9 @@ namespace SubastaYa.Application.Interfaces.Repositories
 
         Task<Category> UpdateAsync(Category category);
 
-        Task<IEnumerable<Category>> GetAllAsync();
+        Task<List<Category>> GetAllAsync();
 
-        Task DeleteAsync(Category category);
+        Task<bool> ExistsAsync(int id);
+        Task DeleteAsync(Category categoria);
     }
 }

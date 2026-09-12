@@ -1,9 +1,10 @@
 using SubastaYa.Application.Interfaces.Repositories;
+using SubastaYa.Application.Interfaces.Service.Categories;
 using SubastaYa.Domain.Entities;
 
 namespace SubastaYa.Application.UseCases.Categories.CreateCategory
 {
-    public class CreateCategoryHandler
+    public class CreateCategoryHandler : ICreateCategoryHandler
     {
         private readonly ICategoryRepository _categoryRepository;
 
@@ -12,7 +13,7 @@ namespace SubastaYa.Application.UseCases.Categories.CreateCategory
             _categoryRepository = categoryRepository;
         }
 
-        internal async Task<Category> HandleAsync(CreateCategoryCommand command)
+        public async Task<Category> HandleAsync(CreateCategoryCommand command)
         {
             if (string.IsNullOrWhiteSpace(command.Name))
                 throw new ArgumentException("El nombre de la categoría es obligatorio.");
