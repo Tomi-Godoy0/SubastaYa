@@ -3,8 +3,15 @@ using SubastaYa.API.Middleware;
 using SubastaYa.Application.Interfaces;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Security;
+using SubastaYa.Application.Interfaces.Service.Auctions;
+using SubastaYa.Application.Interfaces.Service.Categories;
 using SubastaYa.Application.Interfaces.Service.Users;
 using SubastaYa.Application.Interfaces.Service.Wallets;
+using SubastaYa.Application.UseCases.Auctions.CreateAuction;
+using SubastaYa.Application.UseCases.Auctions.GetAuction;
+using SubastaYa.Application.UseCases.Auctions.GetAuctions;
+using SubastaYa.Application.UseCases.Categories.CreateCategory;
+using SubastaYa.Application.UseCases.Categories.GetCategories;
 using SubastaYa.Application.UseCases.Users.CreateUser;
 using SubastaYa.Application.UseCases.Users.GetUser;
 using SubastaYa.Application.UseCases.Users.UserAuthentication;
@@ -43,6 +50,19 @@ builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IWalletRepository, WalletRepository>();
 builder.Services.AddScoped<IGetBalanceHandler, GetBalanceHandler>();
 builder.Services.AddScoped<IDepositHandler, DepositHandler>();
+
+//Auction
+builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
+builder.Services.AddScoped<ICreateAuctionHandler, CreateAuctionHandler>();
+builder.Services.AddScoped<IGetAuctionHandler, GetAuctionHandler>();
+builder.Services.AddScoped<IGetAuctionsHandler, GetAuctionsHandler>();
+
+//Category
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICreateCategoryHandler, CreateCategoryHandler>();
+builder.Services.AddScoped<IGetCategoriesHandler, GetCategoriesHandler>();
+
+
 
 var app = builder.Build();
 

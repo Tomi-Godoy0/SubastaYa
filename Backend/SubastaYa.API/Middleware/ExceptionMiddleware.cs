@@ -40,6 +40,7 @@ namespace SubastaYa.API.Middleware
                 //Bad Request
                 ArgumentNullException => StatusCodes.Status400BadRequest,
                 ArgumentException => StatusCodes.Status400BadRequest,
+                ValidationException => StatusCodes.Status400BadRequest,
                 // Not Found
                 KeyNotFoundException => StatusCodes.Status404NotFound,
                 NotFoundException => StatusCodes.Status404NotFound,
