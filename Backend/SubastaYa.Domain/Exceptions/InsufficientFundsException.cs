@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SubastaYa.Domain.Exceptions
 {
-    internal class InsufficientFundsException : DomainException
+    public class InsufficientFundsException : DomainException
     {
         public InsufficientFundsException(string message) : base(message)
         {
