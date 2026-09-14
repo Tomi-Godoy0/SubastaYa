@@ -49,6 +49,9 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
             if (auction.EndDate <= DateTime.UtcNow)
                 throw new ConflictException("La subasta ya finalizó");
 
+            if (auction.SellerId == command.BuyerId)
+                throw new ValidationException("El vendedor no puede pujar en su propia subasta");
+
             if(!await _userRepository.ExistsByIdAsync(command.BuyerId))
                 throw new NotFoundException("El comprador no existe");
 
