@@ -1,4 +1,5 @@
-﻿using SubastaYa.Application.Interfaces.DTOs;
+﻿using SubastaYa.Application.Common;
+using SubastaYa.Application.Interfaces.DTOs;
 using SubastaYa.Application.UseCases.Auctions.GetAuctions;
 using System;
 using System.Collections.Generic;

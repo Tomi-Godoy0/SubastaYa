@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SubastaYa.Domain.Exceptions;
-using System.Data;
 using System.Net;
 
 namespace SubastaYa.API.Middleware
@@ -47,7 +46,6 @@ namespace SubastaYa.API.Middleware
                 // Unauthorized
                 UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
                 // Conflict
-                DuplicateNameException => StatusCodes.Status409Conflict,
                 ConflictException => StatusCodes.Status409Conflict,
                 DbUpdateConcurrencyException => StatusCodes.Status409Conflict,
                 //Insufficient

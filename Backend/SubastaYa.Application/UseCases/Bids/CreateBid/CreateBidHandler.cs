@@ -4,7 +4,9 @@ using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.Bids;
 using SubastaYa.Domain.Entities;
 using SubastaYa.Domain.Constants;
-using System.Data;
+using SubastaYa.Application.Interfaces.DTOs;
+using SubastaYa.Application.Common;
+using Microsoft.Extensions.Logging;
 
 namespace SubastaYa.Application.UseCases.Bids.CreateBid
 {
@@ -15,14 +17,25 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
         private readonly IAuctionRepository _aucRepository;
         private readonly IWalletRepository _walletRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAuctionNotifier _auctionNotifier;
+        private readonly ILogger<CreateBidHandler> _logger;
 
-        public CreateBidHandler(IBidRepository bidRepository, IAuctionRepository aucRepository, IWalletRepository walletRepository, IUnitOfWork unitOfWork, IUserRepository userRepository)
+        public CreateBidHandler(
+            IBidRepository bidRepository, 
+            IAuctionRepository aucRepository, 
+            IWalletRepository walletRepository, 
+            IUnitOfWork unitOfWork, 
+            IUserRepository userRepository, 
+            IAuctionNotifier auctionNotifier, 
+            ILogger<CreateBidHandler> logger)
         {
             _bidRepository = bidRepository;
             _aucRepository = aucRepository;
             _walletRepository = walletRepository;
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
+            _auctionNotifier = auctionNotifier;
+            _logger = logger;
         }
 
         public async Task<int> HandleAsync(CreateBidCommand command)
@@ -84,18 +97,43 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
 
                 //Anti-sniping
                 var timeRemaining = auction.EndDate - DateTime.UtcNow; // Es un intervalo de tiempo.
+                bool wasExtended = false;
                 if (timeRemaining.TotalSeconds <= 60)
                 {
+                    wasExtended = true;
                     auction.EndDate = auction.EndDate.AddMinutes(2);
                 }
 
                 await _unitOfWork.SaveChangesAsync();
                 await _unitOfWork.CommitAsync();
 
+                try
+                {
+                    if (wasExtended)
+                        await _auctionNotifier.NotifyAuctionExtendedAsync(auction.Id, auction.EndDate);
+
+                    var payload = new NewBidPayload
+                    {
+                        AuctionId = auction.Id,
+                        Amount = command.Amount,
+                        BuyerId = command.BuyerId,
+                        Alias = AliasGenerator.Generate(auction.Id, command.BuyerId),
+                        CreatedAt = DateTime.UtcNow,
+                        TotalBids = auction.Bids.Count
+                    };
+
+                    await _auctionNotifier.NotifyNewBidAsync(auction.Id, payload);
+
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Hubo un error al notificar.");
+                }
+
                 return newBid.Id;
 
             }
-            catch (DBConcurrencyException ex)
+            catch
             {
                 await _unitOfWork.RollbackAsync();
                 throw;

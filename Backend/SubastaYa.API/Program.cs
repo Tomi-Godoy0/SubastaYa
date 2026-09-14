@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using SubastaYa.API.Hubs;
 using SubastaYa.API.Middleware;
+using SubastaYa.API.Services;
 using SubastaYa.Application.Interfaces;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Security;
@@ -75,6 +77,19 @@ builder.Services.AddHostedService<AuctionWorker>();
 builder.Services.AddScoped<IAuctionClosingService, AuctionClosingService>();
 builder.Services.AddScoped<IAuctionStartingService, AuctionStartingService>();
 
+//SignalR
+builder.Services.AddScoped<IAuctionNotifier, AuctionNotifierService>();
+builder.Services.AddSignalR();
+
+//Configuracion de cors
+builder.Services.AddCors(opciones =>
+    opciones.AddPolicy("frontend", politica => politica
+        .WithOrigins("http://127.0.0.1:5500")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+ ));
+
 var app = builder.Build();
 
 // ----------- Uso de Middleware ------------
@@ -89,8 +104,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("frontend");
 app.UseAuthorization();
 
+// ----------- Uso de SignalR ------------
+app.MapHub<AuctionHub>("/hubs/auction");
 app.MapControllers();
 
 app.Run();
