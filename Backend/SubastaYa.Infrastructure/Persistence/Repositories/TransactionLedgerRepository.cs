@@ -21,14 +21,26 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
             return transaction;
         }
 
-        public async Task<IEnumerable<TransactionLedger>> GetByWalletIdAsync(
-            int walletId)
+        public async Task<(
+            IEnumerable<TransactionLedger> Transactions,
+            int TotalCount)> GetByWalletIdAsync(
+                int walletId,
+                int pageNumber,
+                int pageSize)
         {
-            return await _context.TransactionLedgers
+            var query = _context.TransactionLedgers
                 .AsNoTracking()
                 .Where(t => t.WalletId == walletId)
-                .OrderByDescending(t => t.CreatedAt)
+                .OrderByDescending(t => t.CreatedAt);
+
+            var totalCount = await query.CountAsync();
+
+            var transactions = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            return (transactions, totalCount);
         }
 
         public async Task<TransactionLedger?> GetByIdAsync(int id)

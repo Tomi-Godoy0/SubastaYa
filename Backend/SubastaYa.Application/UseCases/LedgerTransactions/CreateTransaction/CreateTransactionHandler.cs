@@ -2,20 +2,20 @@ using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.LedgerTransactions;
 using SubastaYa.Domain.Entities;
 
-namespace SubastaYa.Application.UseCases.LedgerTransactions.RegisterTransaction
+namespace SubastaYa.Application.UseCases.LedgerTransactions.CreateTransaction
 {
-    public class RegisterTransactionHandler : IRegisterTransactionHandler
+    public class CreateTransactionHandler : ICreateTransactionHandler
     {
         private readonly ITransactionLedgerRepository _transactionRepository;
 
-        public RegisterTransactionHandler(
+        public CreateTransactionHandler(
             ITransactionLedgerRepository transactionRepository)
         {
             _transactionRepository = transactionRepository;
         }
 
         public async Task<TransactionLedger> HandleAsync(
-            RegisterTransactionCommand command)
+           CreateTransactionCommand command)
         {
             if (command.WalletId <= 0)
                 throw new ArgumentException(

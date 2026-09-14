@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SubastaYa.Application.Interfaces.Service.LedgerTransactions;
+using SubastaYa.Application.UseCases.LedgerTransactions.CreateTransaction;
+using SubastaYa.Application.UseCases.LedgerTransactions.GetTransaction;
 using SubastaYa.Application.UseCases.LedgerTransactions.GetTransactions;
-using SubastaYa.Application.UseCases.LedgerTransactions.RegisterTransaction;
 
 namespace SubastaYa.API.Controllers
 {
@@ -10,45 +11,62 @@ namespace SubastaYa.API.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly IGetTransactionsHandler _getTransactionsHandler;
-        private readonly IRegisterTransactionHandler _registerTransactionHandler;
+        private readonly ICreateTransactionHandler _createTransactionHandler;
+        private readonly IGetTransactionHandler _getTransactionHandler;
 
         public TransactionController(
+            IGetTransactionHandler getTransactionHandler,
             IGetTransactionsHandler getTransactionsHandler,
-            IRegisterTransactionHandler registerTransactionHandler)
+            ICreateTransactionHandler createTransactionHandler)
         {
+            _getTransactionHandler = getTransactionHandler;
             _getTransactionsHandler = getTransactionsHandler;
-            _registerTransactionHandler = registerTransactionHandler;
+            _createTransactionHandler = createTransactionHandler;
         }
 
         [HttpGet("wallet/{walletId}")]
-        public async Task<IActionResult> GetTransactions(int walletId)
+        public async Task<IActionResult> GetTransactions(
+            int walletId,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
             var transactions = await _getTransactionsHandler.HandleAsync(
                 new GetTransactionsQuery
                 {
-                    WalletId = walletId
+                    WalletId = walletId,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
                 });
 
             return Ok(transactions);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> RegisterTransaction(
-            RegisterTransactionCommand command)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTransaction(int id)
         {
-            var transaction = await _registerTransactionHandler
+            var transaction = await _getTransactionHandler.HandleAsync(
+                new GetTransactionQuery
+                {
+                    Id = id
+                });
+
+            if (transaction == null)
+                return NotFound();
+
+            return Ok(transaction);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateTransaction(
+            CreateTransactionCommand command)
+        {
+            var transaction = await _createTransactionHandler
                 .HandleAsync(command);
 
             return CreatedAtAction(
                 nameof(GetTransaction),
                 new { id = transaction.Id },
                 transaction);
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetTransaction(int id)
-        {
-            return Ok();
         }
     }
 }

@@ -22,7 +22,8 @@ using SubastaYa.Infrastructure.Persistence.Repositories;
 using SubastaYa.Infrastructure.Security;
 using SubastaYa.Application.Interfaces.Service.LedgerTransactions;
 using SubastaYa.Application.UseCases.LedgerTransactions.GetTransactions;
-using SubastaYa.Application.UseCases.LedgerTransactions.RegisterTransaction;
+using SubastaYa.Application.UseCases.LedgerTransactions.GetTransaction;
+using SubastaYa.Application.UseCases.LedgerTransactions.CreateTransaction;
 using SubastaYa.Application.Interfaces.Service.Audits;
 using SubastaYa.Application.UseCases.Audits.CreateAudit;
 using SubastaYa.Application.UseCases.Audits.GetAudit;
@@ -75,8 +76,9 @@ builder.Services.AddScoped<IGetCategoriesHandler, GetCategoriesHandler>();
 
 // Ledger
 builder.Services.AddScoped<ITransactionLedgerRepository, TransactionLedgerRepository>();
+builder.Services.AddScoped<IGetTransactionHandler, GetTransactionHandler>();
 builder.Services.AddScoped<IGetTransactionsHandler, GetTransactionsHandler>();
-builder.Services.AddScoped<IRegisterTransactionHandler, RegisterTransactionHandler>();
+builder.Services.AddScoped<ICreateTransactionHandler, CreateTransactionHandler>();
 
 // Audit
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();

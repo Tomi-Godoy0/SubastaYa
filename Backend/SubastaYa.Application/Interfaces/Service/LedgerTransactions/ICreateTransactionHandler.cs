@@ -1,11 +1,11 @@
-using SubastaYa.Application.UseCases.LedgerTransactions.RegisterTransaction;
+using SubastaYa.Application.UseCases.LedgerTransactions.CreateTransaction;
 using SubastaYa.Domain.Entities;
 
 namespace SubastaYa.Application.Interfaces.Service.LedgerTransactions
 {
-    public interface IRegisterTransactionHandler
+    public interface ICreateTransactionHandler
     {
         Task<TransactionLedger> HandleAsync(
-            RegisterTransactionCommand command);
+            CreateTransactionCommand command);
     }
 }
