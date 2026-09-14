@@ -18,7 +18,8 @@ namespace SubastaYa.Application.UseCases.LedgerTransactions.RegisterTransaction
             RegisterTransactionCommand command)
         {
             if (command.WalletId <= 0)
-                throw new ArgumentException("La billetera no es válida.");
+                throw new ArgumentException(
+                    "La billetera no es válida.");
 
             if (string.IsNullOrWhiteSpace(command.Type))
                 throw new ArgumentException(

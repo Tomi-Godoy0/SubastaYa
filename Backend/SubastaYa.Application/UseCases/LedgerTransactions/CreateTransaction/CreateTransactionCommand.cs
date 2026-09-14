@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SubastaYa.Application.UseCases.LedgerTransactions.RegisterTransaction
 {
-    internal class RegisterTransactionCommand
+    public  class RegisterTransactionCommand
     {
         public int WalletId { get; set; }
         public string Type { get; set; } = string.Empty;

@@ -20,25 +20,50 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
             return auditLog;
         }
 
-        public async Task<IEnumerable<AuditLog>> GetAllAsync()
+        public async Task<(IEnumerable<AuditLog> Audits, int TotalCount)> GetAllAsync(
+            int pageNumber,
+            int pageSize)
         {
-            return await _context.AuditLogs
-                .OrderByDescending(a => a.CreatedAt)
+            var query = _context.AuditLogs
+                .AsNoTracking()
+                .OrderByDescending(a => a.CreatedAt);
+
+            var totalCount = await query.CountAsync();
+
+            var audits = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            return (audits, totalCount);
         }
 
-        public async Task<IEnumerable<AuditLog>> GetByUserIdAsync(int userId)
+        public async Task<(IEnumerable<AuditLog> Audits, int TotalCount)> GetByUserIdAsync(
+            int userId,
+            int pageNumber,
+            int pageSize)
         {
-            return await _context.AuditLogs
+            var query = _context.AuditLogs
+                .AsNoTracking()
                 .Where(a => a.UserId == userId)
-                .OrderByDescending(a => a.CreatedAt)
+                .OrderByDescending(a => a.CreatedAt);
+
+            var totalCount = await query.CountAsync();
+
+            var audits = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            return (audits, totalCount);
         }
 
         public async Task<AuditLog?> GetByIdAsync(int id)
         {
             return await _context.AuditLogs
+                .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
     }
 }
+

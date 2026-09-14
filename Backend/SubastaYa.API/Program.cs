@@ -20,12 +20,13 @@ using SubastaYa.Application.UseCases.Wallets.DepositWallet;
 using SubastaYa.Infrastructure.Persistence;
 using SubastaYa.Infrastructure.Persistence.Repositories;
 using SubastaYa.Infrastructure.Security;
-using SubastaYa.Application.Interfaces.Service.Audits;
 using SubastaYa.Application.Interfaces.Service.LedgerTransactions;
-using SubastaYa.Application.UseCases.Audits.GetAudits;
-using SubastaYa.Application.UseCases.Audits.RegisterAudits;
 using SubastaYa.Application.UseCases.LedgerTransactions.GetTransactions;
 using SubastaYa.Application.UseCases.LedgerTransactions.RegisterTransaction;
+using SubastaYa.Application.Interfaces.Service.Audits;
+using SubastaYa.Application.UseCases.Audits.CreateAudit;
+using SubastaYa.Application.UseCases.Audits.GetAudit;
+using SubastaYa.Application.UseCases.Audits.GetAudits;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,6 +65,7 @@ builder.Services.AddScoped<ICreateAuctionHandler, CreateAuctionHandler>();
 builder.Services.AddScoped<IGetAuctionHandler, GetAuctionHandler>();
 builder.Services.AddScoped<IGetAuctionsHandler, GetAuctionsHandler>();
 
+
 //Category
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICreateCategoryHandler, CreateCategoryHandler>();
@@ -78,8 +80,9 @@ builder.Services.AddScoped<IRegisterTransactionHandler, RegisterTransactionHandl
 
 // Audit
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
+builder.Services.AddScoped<ICreateAuditHandler, CreateAuditHandler>();
 builder.Services.AddScoped<IGetAuditHandler, GetAuditHandler>();
-builder.Services.AddScoped<IRegisterAuditHandler, RegisterAuditHandler>();
+builder.Services.AddScoped<IGetAuditsHandler, GetAuditsHandler>();
 
 
 

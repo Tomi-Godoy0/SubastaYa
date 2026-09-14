@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace SubastaYa.Application.UseCases.Audits.GetAudits
 {
-    public class GetAuditQuery
+    public class GetAuditsQuery
     {
         public int? UserId { get; set; }
+
+        public int PageNumber { get; set; } = 1;
+
+        public int PageSize { get; set; } = 10;
     }
 }
+

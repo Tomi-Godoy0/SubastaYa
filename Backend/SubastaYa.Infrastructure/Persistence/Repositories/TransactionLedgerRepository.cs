@@ -17,7 +17,6 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
             TransactionLedger transaction)
         {
             await _context.TransactionLedgers.AddAsync(transaction);
-            await _context.SaveChangesAsync();
 
             return transaction;
         }
@@ -26,6 +25,7 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
             int walletId)
         {
             return await _context.TransactionLedgers
+                .AsNoTracking()
                 .Where(t => t.WalletId == walletId)
                 .OrderByDescending(t => t.CreatedAt)
                 .ToListAsync();
@@ -34,6 +34,7 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
         public async Task<TransactionLedger?> GetByIdAsync(int id)
         {
             return await _context.TransactionLedgers
+                .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
     }
