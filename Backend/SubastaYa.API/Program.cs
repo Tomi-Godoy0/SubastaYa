@@ -8,6 +8,7 @@ using SubastaYa.Application.Interfaces.Service.Bids;
 using SubastaYa.Application.Interfaces.Service.Categories;
 using SubastaYa.Application.Interfaces.Service.Users;
 using SubastaYa.Application.Interfaces.Service.Wallets;
+using SubastaYa.Application.Interfaces.Service.Worker;
 using SubastaYa.Application.UseCases.Auctions.CreateAuction;
 using SubastaYa.Application.UseCases.Auctions.GetAuction;
 using SubastaYa.Application.UseCases.Auctions.GetAuctions;
@@ -19,6 +20,7 @@ using SubastaYa.Application.UseCases.Users.GetUser;
 using SubastaYa.Application.UseCases.Users.UserAuthentication;
 using SubastaYa.Application.UseCases.Wallets.BalanceWallet;
 using SubastaYa.Application.UseCases.Wallets.DepositWallet;
+using SubastaYa.Application.UseCases.Worker;
 using SubastaYa.Infrastructure.Persistence;
 using SubastaYa.Infrastructure.Persistence.Repositories;
 using SubastaYa.Infrastructure.Security;
@@ -67,6 +69,11 @@ builder.Services.AddScoped<IGetCategoriesHandler, GetCategoriesHandler>();
 //Pujas
 builder.Services.AddScoped<IBidRepository, BidRepository>();
 builder.Services.AddScoped<ICreateBidHandler, CreateBidHandler>();
+
+//Worker
+builder.Services.AddHostedService<AuctionWorker>();
+builder.Services.AddScoped<IAuctionClosingService, AuctionClosingService>();
+builder.Services.AddScoped<IAuctionStartingService, AuctionStartingService>();
 
 var app = builder.Build();
 

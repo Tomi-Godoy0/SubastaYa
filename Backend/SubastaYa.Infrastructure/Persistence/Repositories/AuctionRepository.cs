@@ -39,10 +39,10 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
             return await _context.Auctions.AnyAsync(a => a.Id == id);
         }
 
-        public async Task<List<Auction>> GetActiveAsync(DateTime now)
+        public async Task<List<Auction>> GetReadyToStartAsync(DateTime now)
         {
             return await _context.Auctions
-                .Where(a => a.Status == AuctionConstants.Active)
+                .Where(a => a.Status == AuctionConstants.Scheduled && a.StartDate <= now)
                 .ToListAsync();
         }
         public async Task<List<Auction>> GetExpiredAsync(DateTime now)

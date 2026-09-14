@@ -24,13 +24,9 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
 
             return bid;
         }
-        public async Task<Bid?> GetByIdAsync(int id)
+        public async Task<bool> ExistsByAuctionIdAsync(int auctionId)
         {
-            return await _context.Bids.FirstOrDefaultAsync(b => b.Id == id);
-        }
-        public async Task<int> CountByAuctionIdAsync(int auctionId)
-        {
-            return await _context.Bids.CountAsync(b => b.AuctionId == auctionId);
+            return await _context.Bids.AnyAsync(b => b.AuctionId == auctionId);
         }
         public async Task<List<Bid>> GetByAuctionIdAsync(int auctionId)
         {
