@@ -1,6 +1,7 @@
 using SubastaYa.Application.Interfaces.DTOs;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.LedgerTransactions;
+using SubastaYa.Domain.Exceptions;
 
 namespace SubastaYa.Application.UseCases.LedgerTransactions.GetTransaction
 {
@@ -17,15 +18,9 @@ namespace SubastaYa.Application.UseCases.LedgerTransactions.GetTransaction
         public async Task<TransactionResponse?> HandleAsync(
             GetTransactionQuery query)
         {
-            if (query.Id <= 0)
-                throw new ArgumentException(
-                    "El Id de transacción no es válido.");
 
-            var transaction = await _transactionRepository
-                .GetByIdAsync(query.Id);
-
-            if (transaction == null)
-                return null;
+            var transaction = await _transactionRepository.GetByIdAsync(query.Id)
+                ?? throw new NotFoundException($"No se encontro la transacción {query.Id}");
 
             return new TransactionResponse
             {

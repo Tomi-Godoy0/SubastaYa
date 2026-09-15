@@ -6,7 +6,7 @@ using SubastaYa.Application.UseCases.LedgerTransactions.GetTransactions;
 
 namespace SubastaYa.API.Controllers
 {
-    [Route("api/v1/transactions")]
+    [Route("api/transactions")]
     [ApiController]
     public class TransactionController : ControllerBase
     {
@@ -25,10 +25,7 @@ namespace SubastaYa.API.Controllers
         }
 
         [HttpGet("wallet/{walletId}")]
-        public async Task<IActionResult> GetTransactions(
-            int walletId,
-            [FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> GetTransactions(int walletId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             var transactions = await _getTransactionsHandler.HandleAsync(
                 new GetTransactionsQuery
@@ -54,19 +51,6 @@ namespace SubastaYa.API.Controllers
                 return NotFound();
 
             return Ok(transaction);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateTransaction(
-            CreateTransactionCommand command)
-        {
-            var transaction = await _createTransactionHandler
-                .HandleAsync(command);
-
-            return CreatedAtAction(
-                nameof(GetTransaction),
-                new { id = transaction.Id },
-                transaction);
         }
     }
 }

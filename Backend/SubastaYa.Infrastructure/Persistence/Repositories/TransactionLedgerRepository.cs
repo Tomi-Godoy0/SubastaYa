@@ -13,8 +13,7 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<TransactionLedger> AddAsync(
-            TransactionLedger transaction)
+        public async Task<TransactionLedger> AddAsync(TransactionLedger transaction)
         {
             await _context.TransactionLedgers.AddAsync(transaction);
 
@@ -22,7 +21,7 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
         }
 
         public async Task<(
-            IEnumerable<TransactionLedger> Transactions,
+            List<TransactionLedger> Transactions,
             int TotalCount)> GetByWalletIdAsync(
                 int walletId,
                 int pageNumber,

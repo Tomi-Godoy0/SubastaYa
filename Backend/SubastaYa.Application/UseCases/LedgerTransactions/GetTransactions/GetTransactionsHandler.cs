@@ -14,21 +14,8 @@ namespace SubastaYa.Application.UseCases.LedgerTransactions.GetTransactions
             _transactionRepository = transactionRepository;
         }
 
-        public async Task<PagedResult<TransactionResponse>> HandleAsync(
-            GetTransactionsQuery query)
+        public async Task<PagedResult<TransactionResponse>> HandleAsync(GetTransactionsQuery query)
         {
-            if (query.WalletId <= 0)
-                throw new ArgumentException(
-                    "La billetera no es válida.");
-
-            if (query.PageNumber <= 0)
-                throw new ArgumentException(
-                    "El número de página debe ser mayor a cero.");
-
-            if (query.PageSize <= 0)
-                throw new ArgumentException(
-                    "El tamaño de página debe ser mayor a cero.");
-
             var (transactions, totalCount) =
                 await _transactionRepository.GetByWalletIdAsync(
                     query.WalletId,
