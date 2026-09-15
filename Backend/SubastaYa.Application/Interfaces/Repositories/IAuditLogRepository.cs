@@ -6,11 +6,11 @@ namespace SubastaYa.Application.Interfaces.Repositories
     {
         Task<AuditLog> AddAsync(AuditLog auditLog);
 
-        Task<(IEnumerable<AuditLog> Audits, int TotalCount)> GetAllAsync(
+        Task<(List<AuditLog> Audits, int TotalCount)> GetAllAsync(
             int pageNumber,
             int pageSize);
 
-        Task<(IEnumerable<AuditLog> Audits, int TotalCount)> GetByUserIdAsync(
+        Task<(List<AuditLog> Audits, int TotalCount)> GetByUserIdAsync(
             int userId,
             int pageNumber,
             int pageSize);

@@ -15,26 +15,13 @@ namespace SubastaYa.Application.UseCases.Audits.GetAudits
             _auditRepository = auditRepository;
         }
 
-        public async Task<PagedResult<AuditResponse>> HandleAsync(
-            GetAuditsQuery query)
+        public async Task<PagedResult<AuditResponse>> HandleAsync(GetAuditsQuery query)
         {
-            if (query.PageNumber <= 0)
-                throw new ArgumentException(
-                    "El número de página debe ser mayor a cero.");
-
-            if (query.PageSize <= 0)
-                throw new ArgumentException(
-                    "El tamaño de página debe ser mayor a cero.");
-
-            IEnumerable<AuditLog> audits;
+            List<AuditLog> audits;
             int totalCount;
 
             if (query.UserId.HasValue)
             {
-                if (query.UserId.Value <= 0)
-                    throw new ArgumentException(
-                        "El Id de usuario no es válido.");
-
                 (audits, totalCount) =
                     await _auditRepository.GetByUserIdAsync(
                         query.UserId.Value,

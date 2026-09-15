@@ -20,7 +20,7 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
             return auditLog;
         }
 
-        public async Task<(IEnumerable<AuditLog> Audits, int TotalCount)> GetAllAsync(
+        public async Task<(List<AuditLog> Audits, int TotalCount)> GetAllAsync(
             int pageNumber,
             int pageSize)
         {
@@ -38,7 +38,7 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
             return (audits, totalCount);
         }
 
-        public async Task<(IEnumerable<AuditLog> Audits, int TotalCount)> GetByUserIdAsync(
+        public async Task<(List<AuditLog> Audits, int TotalCount)> GetByUserIdAsync(
             int userId,
             int pageNumber,
             int pageSize)

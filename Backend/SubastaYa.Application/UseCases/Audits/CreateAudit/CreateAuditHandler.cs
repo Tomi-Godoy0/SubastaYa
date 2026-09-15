@@ -1,3 +1,4 @@
+using SubastaYa.Application.Interfaces;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.Audits;
 using SubastaYa.Domain.Entities;
@@ -7,31 +8,16 @@ namespace SubastaYa.Application.UseCases.Audits.CreateAudit
     public class CreateAuditHandler : ICreateAuditHandler
     {
         private readonly IAuditLogRepository _auditRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateAuditHandler(
-            IAuditLogRepository auditRepository)
+        public CreateAuditHandler(IAuditLogRepository auditRepository, IUnitOfWork unitOfWork)
         {
             _auditRepository = auditRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<AuditLog> HandleAsync(
-            CreateAuditCommand command)
+        public async Task<AuditLog> HandleAsync(CreateAuditCommand command)
         {
-            if (string.IsNullOrWhiteSpace(command.Entity))
-                throw new ArgumentException(
-                    "La entidad es obligatoria.");
-
-            if (command.EntityId <= 0)
-                throw new ArgumentException(
-                    "El EntityId no es válido.");
-
-            if (string.IsNullOrWhiteSpace(command.Action))
-                throw new ArgumentException(
-                    "La acción es obligatoria.");
-
-            if (command.CreatedAt == default)
-                command.CreatedAt = DateTime.UtcNow;
-
             var audit = new AuditLog
             {
                 Entity = command.Entity.Trim(),
@@ -39,10 +25,13 @@ namespace SubastaYa.Application.UseCases.Audits.CreateAudit
                 Action = command.Action.Trim(),
                 UserId = command.UserId,
                 DetailJson = command.DetailJson,
-                CreatedAt = command.CreatedAt
+                CreatedAt = DateTime.UtcNow
             };
 
-            return await _auditRepository.AddAsync(audit);
+            await _auditRepository.AddAsync(audit);
+            await _unitOfWork.SaveChangesAsync();
+
+            return audit;
         }
     }
 }

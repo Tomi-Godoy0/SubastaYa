@@ -6,20 +6,17 @@ using SubastaYa.Application.UseCases.Audits.GetAudits;
 
 namespace SubastaYa.API.Controllers
 {
-    [Route("api/v1/audits")]
+    [Route("api/audits")]
     [ApiController]
     public class AuditController : ControllerBase
     {
-        private readonly ICreateAuditHandler _createAuditHandler;
         private readonly IGetAuditHandler _getAuditHandler;
         private readonly IGetAuditsHandler _getAuditsHandler;
 
         public AuditController(
-            ICreateAuditHandler createAuditHandler,
             IGetAuditHandler getAuditHandler,
             IGetAuditsHandler getAuditsHandler)
         {
-            _createAuditHandler = createAuditHandler;
             _getAuditHandler = getAuditHandler;
             _getAuditsHandler = getAuditsHandler;
         }
@@ -29,31 +26,13 @@ namespace SubastaYa.API.Controllers
             [FromQuery] GetAuditsQuery query)
         {
             var audits = await _getAuditsHandler.HandleAsync(query);
-
             return Ok(audits);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateAudit(
-            CreateAuditCommand command)
-        {
-            var audit = await _createAuditHandler.HandleAsync(command);
-
-            return CreatedAtAction(
-                nameof(GetAuditById),
-                new { id = audit.Id },
-                audit);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAuditById(int id)
         {
-            var audit = await _getAuditHandler.HandleAsync(
-                new GetAuditQuery
-                {
-                    Id = id
-                });
-
+            var audit = await _getAuditHandler.HandleAsync(new GetAuditQuery { Id = id });
             return Ok(audit);
         }
     }

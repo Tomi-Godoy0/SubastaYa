@@ -16,18 +16,10 @@ namespace SubastaYa.Application.UseCases.Audits.GetAudit
             _auditRepository = auditRepository;
         }
 
-        public async Task<AuditResponse> HandleAsync(
-            GetAuditQuery query)
+        public async Task<AuditResponse> HandleAsync(GetAuditQuery query)
         {
-            if (query.Id <= 0)
-                throw new ArgumentException(
-                    "El Id de auditoría no es válido.");
-
-            var audit = await _auditRepository.GetByIdAsync(query.Id);
-
-            if (audit == null)
-                throw new NotFoundException(
-                    $"Auditoría {query.Id} no encontrada.");
+            var audit = await _auditRepository.GetByIdAsync(query.Id)
+                ?? throw new NotFoundException($"Auditoría {query.Id} no encontrada.");
 
             return new AuditResponse
             {
