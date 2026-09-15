@@ -42,5 +42,10 @@ namespace SubastaYa.Infrastructure.Persistence
         }
 
         public Task SaveChangesAsync(CancellationToken ct = default) => _context.SaveChangesAsync(ct);
+
+        public void ClearTracking()
+        {
+            _context.ChangeTracker.Clear();
+        }
     }
 }

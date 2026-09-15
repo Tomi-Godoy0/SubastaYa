@@ -72,7 +72,6 @@ builder.Services.AddScoped<ICreateAuctionHandler, CreateAuctionHandler>();
 builder.Services.AddScoped<IGetAuctionHandler, GetAuctionHandler>();
 builder.Services.AddScoped<IGetAuctionsHandler, GetAuctionsHandler>();
 
-
 //Category
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICreateCategoryHandler, CreateCategoryHandler>();
@@ -81,6 +80,18 @@ builder.Services.AddScoped<IGetCategoriesHandler, GetCategoriesHandler>();
 //Pujas
 builder.Services.AddScoped<IBidRepository, BidRepository>();
 builder.Services.AddScoped<ICreateBidHandler, CreateBidHandler>();
+
+// Ledger
+builder.Services.AddScoped<ITransactionLedgerRepository, TransactionLedgerRepository>();
+builder.Services.AddScoped<IGetTransactionHandler, GetTransactionHandler>();
+builder.Services.AddScoped<IGetTransactionsHandler, GetTransactionsHandler>();
+builder.Services.AddScoped<ICreateTransactionHandler, CreateTransactionHandler>();
+
+// Audit
+builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
+builder.Services.AddScoped<ICreateAuditHandler, CreateAuditHandler>();
+builder.Services.AddScoped<IGetAuditHandler, GetAuditHandler>();
+builder.Services.AddScoped<IGetAuditsHandler, GetAuditsHandler>();
 
 //Worker
 builder.Services.AddHostedService<AuctionWorker>();
@@ -99,20 +110,6 @@ builder.Services.AddCors(opciones =>
         .AllowAnyMethod()
         .AllowCredentials()
  ));
-
-// Ledger
-builder.Services.AddScoped<ITransactionLedgerRepository, TransactionLedgerRepository>();
-builder.Services.AddScoped<IGetTransactionHandler, GetTransactionHandler>();
-builder.Services.AddScoped<IGetTransactionsHandler, GetTransactionsHandler>();
-builder.Services.AddScoped<ICreateTransactionHandler, CreateTransactionHandler>();
-
-// Audit
-builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
-builder.Services.AddScoped<ICreateAuditHandler, CreateAuditHandler>();
-builder.Services.AddScoped<IGetAuditHandler, GetAuditHandler>();
-builder.Services.AddScoped<IGetAuditsHandler, GetAuditsHandler>();
-
-
 
 var app = builder.Build();
 

@@ -19,6 +19,8 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAuctionNotifier _auctionNotifier;
         private readonly ILogger<CreateBidHandler> _logger;
+        private readonly ITransactionLedgerRepository _transactionLedgerRepository;
+        private readonly IAuditLogRepository _auditLogRepository; 
 
         public CreateBidHandler(
             IBidRepository bidRepository, 
@@ -27,7 +29,9 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
             IUnitOfWork unitOfWork, 
             IUserRepository userRepository, 
             IAuctionNotifier auctionNotifier, 
-            ILogger<CreateBidHandler> logger)
+            ILogger<CreateBidHandler> logger, 
+            ITransactionLedgerRepository transactionLedgerRepository,
+            IAuditLogRepository auditLogRepository)
         {
             _bidRepository = bidRepository;
             _aucRepository = aucRepository;
@@ -36,6 +40,8 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
             _userRepository = userRepository;
             _auctionNotifier = auctionNotifier;
             _logger = logger;
+            _transactionLedgerRepository = transactionLedgerRepository;
+            _auditLogRepository = auditLogRepository;
         }
 
         public async Task<int> HandleAsync(CreateBidCommand command)
@@ -79,11 +85,21 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
 
                     lastWallet.HeldBalance -= highestBid.Amount;
 
-                    await _walletRepository.UpdateAsync(lastWallet);
+                    var ledgerRelease = new TransactionLedger
+                    {
+                        WalletId = lastWallet.Id,
+                        Type = TransactionConstants.Release,
+                        Amount = highestBid.Amount,
+                        CreatedAt = DateTime.UtcNow,
+                        AuctionId = command.AuctionId,
+                    };
+
+                    await _transactionLedgerRepository.AddAsync(ledgerRelease);
+                    await _walletRepository.UpdateAsync(lastWallet); //Sacar
                 }
 
                 wallet.HeldBalance += command.Amount;
-                await _walletRepository.UpdateAsync(wallet);
+                await _walletRepository.UpdateAsync(wallet); //Sacar
 
 
                 var newBid = new Bid
@@ -96,7 +112,16 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
 
                 await _bidRepository.AddAsync(newBid);
 
-                //Pendiente registrar movimientos en Transaction.
+                var ledgerRetention = new TransactionLedger
+                {
+                    WalletId = wallet.Id,
+                    Type = TransactionConstants.Retention,
+                    Amount = command.Amount,
+                    CreatedAt = DateTime.UtcNow,
+                    AuctionId = command.AuctionId
+                };
+
+                await _transactionLedgerRepository.AddAsync(ledgerRetention);
 
                 //Anti-sniping
                 var timeRemaining = auction.EndDate - DateTime.UtcNow; // Es un intervalo de tiempo.
@@ -105,6 +130,17 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
                 {
                     wasExtended = true;
                     auction.EndDate = auction.EndDate.AddMinutes(2);
+
+                    var auditAddTime = new AuditLog
+                    {
+                        Entity = "SUBASTA",
+                        EntityId = auction.Id,
+                        Action = "extension_tiempo",
+                        UserId = null,
+                        DetailJson = System.Text.Json.JsonSerializer.Serialize(new { newEndate = auction.EndDate, initialEndDate = auction.EndDate.AddMinutes(-2)}),
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    await _auditLogRepository.AddAsync(auditAddTime);
                 }
 
                 await _unitOfWork.SaveChangesAsync();
@@ -136,9 +172,30 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
                 return newBid.Id;
 
             }
-            catch
+            catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
+                _unitOfWork.ClearTracking();
+
+                try
+                {
+                    var auditBid = new AuditLog
+                    {
+                        Entity = "SUBASTA",
+                        EntityId = auction.Id,
+                        Action = "puja_rechazada",
+                        UserId = command.BuyerId,
+                        DetailJson = System.Text.Json.JsonSerializer.Serialize(new { detail = ex.Message }),
+                        CreatedAt = DateTime.UtcNow
+                    };
+
+                    await _auditLogRepository.AddAsync(auditBid);
+                    await _unitOfWork.SaveChangesAsync();
+                }
+                catch(Exception logEx)
+                {
+                    _logger.LogError(logEx, "No se pudo registrar el AuditLog de puja rechazada.");
+                }
                 throw;
             }
         }

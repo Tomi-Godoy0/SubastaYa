@@ -4,6 +4,7 @@ using SubastaYa.Application.Interfaces.DTOs;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.Worker;
 using SubastaYa.Domain.Constants;
+using SubastaYa.Domain.Entities;
 using SubastaYa.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -20,16 +21,25 @@ namespace SubastaYa.Application.UseCases.Worker
         private readonly IWalletRepository _walletRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<AuctionClosingService> _logger;
-        //Falta el Ledger 
-        //Falta audit
+        private readonly ITransactionLedgerRepository _transactionLedgerRepository;
+        private readonly IAuditLogRepository _auditLogRepository;
 
-        public AuctionClosingService(IAuctionRepository auctionRepository, IBidRepository bidRepository, IWalletRepository walletRepository, IUnitOfWork unitOfWork, ILogger<AuctionClosingService> logger)
+        public AuctionClosingService(
+            IAuctionRepository auctionRepository,
+            IBidRepository bidRepository, 
+            IWalletRepository walletRepository, 
+            IUnitOfWork unitOfWork, 
+            ILogger<AuctionClosingService> logger,
+            ITransactionLedgerRepository transactionLedgerRepository,
+            IAuditLogRepository auditLogRepository)
         {
             _auctionRepository = auctionRepository;
             _bidRepository = bidRepository;
             _walletRepository = walletRepository;
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _transactionLedgerRepository = transactionLedgerRepository;
+            _auditLogRepository = auditLogRepository;
         }
 
         public async Task<AuctionResult> HandleAsync()
@@ -64,14 +74,57 @@ namespace SubastaYa.Application.UseCases.Worker
                         buyerWallet.TotalBalance -= highestBid.Amount;
                         buyerWallet.HeldBalance -= highestBid.Amount;
 
+                        var ledgerPay = new TransactionLedger
+                        {
+                            WalletId = buyerWallet.Id,
+                            Type = TransactionConstants.Pay,
+                            Amount = highestBid.Amount,
+                            CreatedAt = DateTime.UtcNow,
+                            AuctionId = auction.Id
+                        };
+                        await _transactionLedgerRepository.AddAsync(ledgerPay);
+
                         sellerWallet.TotalBalance += highestBid.Amount;
 
-                    }else
+                        var ledgerCollection = new TransactionLedger
+                        {
+                            WalletId = sellerWallet.Id,
+                            Type = TransactionConstants.Collection,
+                            Amount = highestBid.Amount,
+                            CreatedAt = DateTime.UtcNow,
+                            AuctionId = auction.Id
+                        };
+                        await _transactionLedgerRepository.AddAsync(ledgerCollection);
+
+                        var audit = new AuditLog
+                        {
+                            Entity = "SUBASTA",
+                            EntityId = auction.Id,
+                            Action = "finalizada_worker",
+                            UserId = null,
+                            DetailJson = System.Text.Json.JsonSerializer.Serialize(new { amount = highestBid.Amount, buyerId = highestBid.BuyerId}),
+                            CreatedAt = DateTime.UtcNow
+                        };
+
+                        await _auditLogRepository.AddAsync(audit);
+
+                    }
+                    else
                     {
                         result.AuctionsDeserted++;
                         auction.Status = AuctionConstants.Deserted;
 
-                        //Recordatorio: Registrar en AuditLog (Action: "desierta_worker", UserId: null, EntityId: auction.Id)
+                        var audit = new AuditLog
+                        {
+                            Entity = "SUBASTA",
+                            EntityId = auction.Id,
+                            Action = "desierta_worker",
+                            UserId = null,
+                            DetailJson = null,
+                            CreatedAt = DateTime.UtcNow
+                        };
+
+                        await _auditLogRepository.AddAsync(audit);
                     }
 
                     await _unitOfWork.SaveChangesAsync();
@@ -83,7 +136,6 @@ namespace SubastaYa.Application.UseCases.Worker
                     _logger.LogError(ex, "Error al procesar el cierre de la subasta {AuctionId}", auction.Id);
                 }
             }
-
             return result;
         }
     }

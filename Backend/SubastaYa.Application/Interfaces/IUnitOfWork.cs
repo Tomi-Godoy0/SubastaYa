@@ -12,5 +12,6 @@ namespace SubastaYa.Application.Interfaces
         Task CommitAsync();
         Task RollbackAsync();
         Task SaveChangesAsync(CancellationToken ct = default);
+        void ClearTracking();
     }
 }
