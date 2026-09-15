@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SubastaYa.API;
 using SubastaYa.API.Hubs;
 using SubastaYa.API.Middleware;
 using SubastaYa.API.Services;
@@ -6,17 +7,25 @@ using SubastaYa.Application.Interfaces;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Security;
 using SubastaYa.Application.Interfaces.Service.Auctions;
+using SubastaYa.Application.Interfaces.Service.Audits;
 using SubastaYa.Application.Interfaces.Service.Bids;
 using SubastaYa.Application.Interfaces.Service.Categories;
+using SubastaYa.Application.Interfaces.Service.LedgerTransactions;
 using SubastaYa.Application.Interfaces.Service.Users;
 using SubastaYa.Application.Interfaces.Service.Wallets;
 using SubastaYa.Application.Interfaces.Service.Worker;
 using SubastaYa.Application.UseCases.Auctions.CreateAuction;
 using SubastaYa.Application.UseCases.Auctions.GetAuction;
 using SubastaYa.Application.UseCases.Auctions.GetAuctions;
+using SubastaYa.Application.UseCases.Audits.CreateAudit;
+using SubastaYa.Application.UseCases.Audits.GetAudit;
+using SubastaYa.Application.UseCases.Audits.GetAudits;
 using SubastaYa.Application.UseCases.Bids.CreateBid;
 using SubastaYa.Application.UseCases.Categories.CreateCategory;
 using SubastaYa.Application.UseCases.Categories.GetCategories;
+using SubastaYa.Application.UseCases.LedgerTransactions.CreateTransaction;
+using SubastaYa.Application.UseCases.LedgerTransactions.GetTransaction;
+using SubastaYa.Application.UseCases.LedgerTransactions.GetTransactions;
 using SubastaYa.Application.UseCases.Users.CreateUser;
 using SubastaYa.Application.UseCases.Users.GetUser;
 using SubastaYa.Application.UseCases.Users.UserAuthentication;
@@ -26,15 +35,6 @@ using SubastaYa.Application.UseCases.Worker;
 using SubastaYa.Infrastructure.Persistence;
 using SubastaYa.Infrastructure.Persistence.Repositories;
 using SubastaYa.Infrastructure.Security;
-using SubastaYa.Application.Interfaces.Service.LedgerTransactions;
-using SubastaYa.Application.UseCases.LedgerTransactions.GetTransactions;
-using SubastaYa.Application.UseCases.LedgerTransactions.GetTransaction;
-using SubastaYa.Application.UseCases.LedgerTransactions.CreateTransaction;
-using SubastaYa.Application.Interfaces.Service.Audits;
-using SubastaYa.Application.UseCases.Audits.CreateAudit;
-using SubastaYa.Application.UseCases.Audits.GetAudit;
-using SubastaYa.Application.UseCases.Audits.GetAudits;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -131,5 +131,11 @@ app.UseAuthorization();
 // ----------- Uso de SignalR ------------
 app.MapHub<AuctionHub>("/hubs/auction");
 app.MapControllers();
+
+// ----------- Seed de la base de datos ------------
+using (var scope = app.Services.CreateScope())
+{
+    await DatabaseSeeder.SeedAsync(scope.ServiceProvider);
+}
 
 app.Run();
