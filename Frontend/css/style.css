@@ -1,361 +1,423 @@
 /* =========================
-RESET
+   RESET
 ========================= */
 
-{
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html {
-scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 body {
-font-family: Arial, Helvetica, sans-serif;
-background-color: #f4f6f8;
-color: #1f2937;
-line-height: 1.6;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f8;
+    color: #1f2937;
+    line-height: 1.6;
 }
 
 button,
 input,
 select,
 textarea {
-font: inherit;
+    font: inherit;
 }
 
 button {
-cursor: pointer;
+    cursor: pointer;
 }
 
+
 /* =========================
-HEADER
+   HEADER
 ========================= */
 
 .header {
-position: sticky;
-top: 0;
-z-index: 1000;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 
-display: flex;
-align-items: center;
-justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-padding: 16px 40px;
+    padding: 16px 40px;
 
-background-color: #111827;
-color: white;
+    background-color: #111827;
+    color: white;
 
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 .header__logo a {
-color: white;
-text-decoration: none;
-font-size: 24px;
-font-weight: bold;
+    color: white;
+    text-decoration: none;
+
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header__logo a:hover {
+    color: #93c5fd;
 }
 
 .header__nav {
-display: flex;
-gap: 24px;
+    display: flex;
+    gap: 24px;
 }
 
 .header__nav a {
-color: #d1d5db;
-text-decoration: none;
-font-weight: 500;
+    color: #d1d5db;
+    text-decoration: none;
+    font-weight: 500;
+
+    transition: color 0.2s ease;
 }
 
-.header__nav a {
-color: white;
+.header__nav a:hover {
+    color: white;
 }
 
 .header__user {
-display: flex;
-align-items: center;
-gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header__user span {
+    font-weight: 500;
 }
 
 .header__user button {
-border: none;
-border-radius: 6px;
-padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
 
-background-color: #374151;
-color: white;
+    padding: 8px 12px;
 
+    background-color: #374151;
+    color: white;
+
+    transition: background-color 0.2s ease;
 }
 
-.header__user button {
-background-color: #4b5563;
+.header__user button:hover {
+    background-color: #4b5563;
 }
+
 
 /* =========================
-MAIN
+   MAIN
 ========================= */
 
 main {
-width: 100%;
+    width: 100%;
 }
 
 .section {
-max-width: 1200px;
-margin: 0 auto;
-padding: 60px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 24px;
 }
 
 .section__header {
-margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 .section__header h1,
 .section__header h2 {
-margin-bottom: 8px;
-color: #111827;
+    margin-bottom: 8px;
+    color: #111827;
 }
 
 .section__header p {
-color: #6b7280;
+    color: #6b7280;
 }
 
+
 /* =========================
-FILTROS
+   LOGIN
+========================= */
+
+.section--login {
+    max-width: 600px;
+    min-height: 500px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 30px;
+
+    background-color: white;
+    border-radius: 10px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================
+   FILTROS
 ========================= */
 
 .filters {
-display: grid;
-grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr auto;
-gap: 12px;
+    display: grid;
 
-margin-bottom: 30px;
-padding: 20px;
+    grid-template-columns:
+        2fr
+        1fr
+        1fr
+        1fr
+        1fr
+        1fr
+        auto;
 
-background-color: white;
-border-radius: 10px;
+    gap: 12px;
 
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin-bottom: 30px;
+    padding: 20px;
 
+    background-color: white;
+    border-radius: 10px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
+
 /* =========================
-INPUTS
+   INPUTS
 ========================= */
 
 input,
 select,
 textarea {
-width: 100%;
+    width: 100%;
 
-padding: 10px 12px;
+    padding: 10px 12px;
 
-border: 1px solid #d1d5db;
-border-radius: 6px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
 
-background-color: white;
-color: #1f2937;
+    background-color: white;
+    color: #1f2937;
 
-outline: none;
+    outline: none;
 
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-input,
-select,
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
 textarea {
-border-color: #2563eb;
-box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+    min-height: 120px;
+    resize: vertical;
 }
 
-textarea {
-min-height: 120px;
-resize: vertical;
-}
 
 /* =========================
-BOTONES
+   BOTONES
 ========================= */
 
 button {
-border: none;
-border-radius: 6px;
+    border: none;
+    border-radius: 6px;
 
-padding: 10px 16px;
+    padding: 10px 16px;
 
-background-color: #2563eb;
-color: white;
+    background-color: #2563eb;
+    color: white;
 
-transition:
-    background-color 0.2s ease,
-    transform 0.2s ease;
-
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
 }
 
-button {
-background-color: #1d4ed8;
+button:hover {
+    background-color: #1d4ed8;
 }
 
-button {
-transform: scale(0.98);
+button:active {
+    transform: scale(0.98);
 }
 
-button {
-background-color: #9ca3af;
-cursor: not-allowed;
+button:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
 }
+
 
 /* =========================
-SUBASTAS
+   SUBASTAS
 ========================= */
 
 .auctions-grid {
-display: grid;
+    display: grid;
 
-grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
-gap: 24px;
-
+    gap: 24px;
 }
 
 .auction-card {
-overflow: hidden;
+    overflow: hidden;
 
-background-color: white;
+    background-color: white;
 
-border-radius: 10px;
+    border-radius: 10px;
 
-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.08);
 
-transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.auction-card {
-transform: translateY(-4px);
+.auction-card:hover {
+    transform: translateY(-4px);
 
-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .auction-card__image {
-width: 100%;
-height: 220px;
+    display: block;
 
-object-fit: cover;
+    width: 100%;
+    height: 220px;
 
-background-color: #e5e7eb;
+    object-fit: cover;
 
+    background-color: #e5e7eb;
 }
 
 .auction-card__body {
-padding: 20px;
+    padding: 20px;
 }
 
 .auction-card__body h3 {
-margin-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.auction-card__body p {
+    color: #6b7280;
 }
 
 .auction-card__category {
-display: inline-block;
+    display: inline-block;
 
-margin-bottom: 12px;
-padding: 4px 8px;
+    margin-bottom: 12px;
+    padding: 4px 8px;
 
-border-radius: 20px;
+    border-radius: 20px;
 
-background-color: #eff6ff;
-color: #2563eb;
+    background-color: #eff6ff;
+    color: #2563eb;
 
-font-size: 13px;
-
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .auction-card__price {
-margin-top: 12px;
+    margin-top: 12px;
 
-font-size: 22px;
-font-weight: bold;
+    font-size: 22px;
+    font-weight: bold;
 
-color: #111827;
-
+    color: #111827;
 }
 
 .auction-card__bids {
-color: #6b7280;
-font-size: 14px;
+    margin-top: 5px;
+
+    color: #6b7280;
+    font-size: 14px;
 }
 
 .auction-card__timer {
-margin-top: 12px;
+    margin-top: 12px;
+    margin-bottom: 15px;
 
-padding: 10px;
+    padding: 10px;
 
-border-radius: 6px;
+    border-radius: 6px;
 
-background-color: #fef3c7;
-color: #92400e;
+    background-color: #fef3c7;
+    color: #92400e;
 
-font-weight: bold;
-
+    font-weight: bold;
 }
 
+
 /* =========================
-FORMULARIOS
+   FORMULARIOS
 ========================= */
 
 #form-crear-subasta {
-display: grid;
+    display: grid;
 
-grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
 
-gap: 20px;
+    gap: 20px;
 
-padding: 30px;
+    padding: 30px;
 
-background-color: white;
+    background-color: white;
 
-border-radius: 10px;
+    border-radius: 10px;
 
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .form-group {
-display: flex;
-flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-gap: 6px;
-
+    gap: 6px;
 }
 
 .form-group label {
-font-weight: bold;
+    font-weight: bold;
 }
 
-#form-crear-subasta .form-group(2) {
-grid-column: 1 / -1;
+.form-group--full {
+    grid-column: 1 / -1;
 }
 
-#form-crear-subasta button {
-grid-column: 1 / -1;
-justify-self: start;
+.form-submit {
+    grid-column: 1 / -1;
+    justify-self: start;
 }
+
 
 /* =========================
-SALA DE SUBASTA
+   SALA DE SUBASTA
 ========================= */
 
 #subasta-detalle {
-display: grid;
+    display: grid;
 
-grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr 1fr;
 
-gap: 24px;
-
+    gap: 24px;
 }
 
 .auction-info,
@@ -363,471 +425,483 @@ gap: 24px;
 .current-bid,
 .bid-console,
 .bid-history,
-#estado-puja {
-padding: 24px;
+.bid-status {
+    padding: 24px;
 
-background-color: white;
+    background-color: white;
 
-border-radius: 10px;
+    border-radius: 10px;
 
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .auction-info {
-display: flex;
-gap: 20px;
+    display: flex;
+    gap: 20px;
 }
 
 #subasta-imagen {
-width: 280px;
-height: 220px;
+    width: 280px;
+    height: 220px;
 
-object-fit: cover;
+    object-fit: cover;
 
-border-radius: 8px;
+    border-radius: 8px;
 
-background-color: #e5e7eb;
-
+    background-color: #e5e7eb;
 }
 
 .auction-timer {
-text-align: center;
+    text-align: center;
 }
 
 .auction-timer span {
-display: block;
-
-color: #6b7280;
-
+    display: block;
+    color: #6b7280;
 }
 
 #contador {
-display: block;
+    display: block;
 
-margin-top: 8px;
+    margin-top: 8px;
 
-font-size: 36px;
+    font-size: 36px;
 
-color: #16a34a;
-
+    color: #16a34a;
 }
 
 #contador.critical {
-color: #dc2626;
+    color: #dc2626;
 }
 
 .current-bid {
-text-align: center;
+    text-align: center;
 }
 
 .current-bid span {
-display: block;
-
-color: #6b7280;
-
+    display: block;
+    color: #6b7280;
 }
 
 #puja-actual {
-display: block;
+    display: block;
 
-margin-top: 5px;
+    margin-top: 5px;
 
-font-size: 30px;
-
+    font-size: 30px;
 }
 
 .bid-console {
-display: flex;
-flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-gap: 12px;
-
+    gap: 12px;
 }
 
 .bid-console p {
-color: #6b7280;
+    color: #6b7280;
 }
 
 #puja-sugerida {
-color: #2563eb;
+    color: #2563eb;
 }
 
-#estado-puja {
-text-align: center;
-
-font-weight: bold;
-
+.bid-status {
+    text-align: center;
+    font-weight: bold;
 }
 
-#estado-puja.liderando {
-background-color: #dcfce7;
-color: #166534;
+.bid-status.liderando {
+    background-color: #dcfce7;
+    color: #166534;
 }
 
-#estado-puja.superado {
-background-color: #fee2e2;
-color: #991b1b;
+.bid-status.superado {
+    background-color: #fee2e2;
+    color: #991b1b;
 }
 
 .bid-history {
-grid-column: 1 / -1;
+    grid-column: 1 / -1;
 }
 
 #historial-pujas {
-list-style: none;
-
-margin-top: 15px;
-
+    list-style: none;
+    margin-top: 15px;
 }
 
 #historial-pujas li {
-display: flex;
-justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 
-padding: 12px 0;
+    padding: 12px 0;
 
-border-bottom: 1px solid #e5e7eb;
-
+    border-bottom: 1px solid #e5e7eb;
 }
 
+
 /* =========================
-BILLETERA
+   BILLETERA
 ========================= */
 
 .wallet-summary {
-display: grid;
+    display: grid;
 
-grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
-gap: 20px;
+    gap: 20px;
 
-margin-bottom: 30px;
-
+    margin-bottom: 30px;
 }
 
 .wallet-card {
-padding: 25px;
+    padding: 25px;
 
-background-color: white;
+    background-color: white;
 
-border-radius: 10px;
+    border-radius: 10px;
 
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .wallet-card span {
-display: block;
-
-color: #6b7280;
-
+    display: block;
+    color: #6b7280;
 }
 
 .wallet-card strong {
-display: block;
+    display: block;
 
-margin-top: 8px;
+    margin-top: 8px;
 
-font-size: 28px;
+    font-size: 28px;
+}
 
+.wallet-card--available strong {
+    color: #16a34a;
 }
 
 .wallet-deposit,
 .wallet-history {
-margin-top: 24px;
+    margin-top: 24px;
 
-padding: 25px;
+    padding: 25px;
 
-background-color: white;
+    background-color: white;
 
-border-radius: 10px;
+    border-radius: 10px;
 
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 #form-deposito {
-display: flex;
+    display: flex;
 
-gap: 12px;
+    gap: 12px;
 
-margin-top: 15px;
-
+    margin-top: 15px;
 }
 
 #form-deposito input {
-max-width: 300px;
+    max-width: 300px;
 }
 
+
 /* =========================
-TABLA
+   TABLA
 ========================= */
 
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
 table {
-width: 100%;
+    width: 100%;
 
-margin-top: 15px;
+    margin-top: 15px;
 
-border-collapse: collapse;
-
+    border-collapse: collapse;
 }
 
 th,
 td {
-padding: 12px;
+    padding: 12px;
 
-text-align: left;
+    text-align: left;
 
-border-bottom: 1px solid #e5e7eb;
-
+    border-bottom: 1px solid #e5e7eb;
 }
 
 th {
-background-color: #f9fafb;
+    background-color: #f9fafb;
 }
 
+
 /* =========================
-MIS ACTIVIDADES
+   MIS ACTIVIDADES
 ========================= */
 
 .tabs {
-display: flex;
+    display: flex;
 
-gap: 10px;
+    gap: 10px;
 
-margin-bottom: 20px;
-
+    margin-bottom: 20px;
 }
 
-#mis-compras,
+.tab-button {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+.tab-button:hover {
+    background-color: #d1d5db;
+}
+
+.tab-button.active {
+    background-color: #2563eb;
+    color: white;
+}
+
+.activity-panel {
+    padding: 25px;
+
+    background-color: white;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
 #mis-publicaciones {
-padding: 25px;
-
-background-color: white;
-
-border-radius: 10px;
-
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-
+    margin-top: 20px;
 }
 
-#mis-publicaciones {
-margin-top: 20px;
-}
 
 /* =========================
-TOASTS
+   TOASTS
 ========================= */
 
 .toast-container {
-position: fixed;
+    position: fixed;
 
-right: 20px;
-bottom: 20px;
+    right: 20px;
+    bottom: 20px;
 
-z-index: 2000;
+    z-index: 2000;
 
-display: flex;
-flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-gap: 10px;
-
+    gap: 10px;
 }
 
 .toast {
-min-width: 280px;
+    min-width: 280px;
 
-padding: 15px 18px;
+    padding: 15px 18px;
 
-border-radius: 8px;
+    border-radius: 8px;
 
-background-color: #111827;
-color: white;
+    background-color: #111827;
+    color: white;
 
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .toast.success {
-background-color: #16a34a;
+    background-color: #16a34a;
 }
 
 .toast.error {
-background-color: #dc2626;
+    background-color: #dc2626;
 }
 
 .toast.warning {
-background-color: #d97706;
+    background-color: #d97706;
 }
 
+
 /* =========================
-MODAL
+   MODAL
 ========================= */
 
 .modal {
-position: fixed;
+    position: fixed;
 
-inset: 0;
+    inset: 0;
 
-z-index: 3000;
+    z-index: 3000;
 
-display: flex;
-align-items: center;
-justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-padding: 20px;
+    padding: 20px;
 
-background-color: rgba(0, 0, 0, 0.55);
-
+    background-color: rgba(0, 0, 0, 0.55);
 }
 
 .modal[hidden] {
-display: none;
+    display: none;
 }
 
 .modal__content {
-position: relative;
+    position: relative;
 
-width: 100%;
-max-width: 500px;
+    width: 100%;
+    max-width: 500px;
 
-padding: 30px;
+    padding: 30px;
 
-background-color: white;
+    background-color: white;
 
-border-radius: 10px;
+    border-radius: 10px;
 
-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
-#btn-cerrar-modal {
-position: absolute;
+.modal__close {
+    position: absolute;
 
-top: 10px;
-right: 10px;
+    top: 10px;
+    right: 10px;
 
-width: 35px;
-height: 35px;
+    width: 35px;
+    height: 35px;
 
-padding: 0;
+    padding: 0;
 
-border-radius: 50%;
+    border-radius: 50%;
 
-background-color: #e5e7eb;
-color: #111827;
+    background-color: #e5e7eb;
+    color: #111827;
 
-font-size: 22px;
-
+    font-size: 22px;
 }
+
+.modal__close:hover {
+    background-color: #d1d5db;
+}
+
 
 /* =========================
-RESPONSIVE
+   RESPONSIVE
 ========================= */
 
 @media (max-width: 1100px) {
 
-.filters {
-    grid-template-columns: repeat(3, 1fr);
+    .filters {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .auctions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .header__nav {
+        gap: 12px;
+    }
 }
 
-.auctions-grid {
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.header__nav {
-    gap: 12px;
-}
-
-}
 
 @media (max-width: 768px) {
 
-.header {
-    flex-direction: column;
+    .header {
+        flex-direction: column;
 
-    gap: 15px;
+        gap: 15px;
 
-    padding: 15px 20px;
+        padding: 15px 20px;
+    }
+
+    .header__nav {
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+
+    .header__user {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .filters {
+        grid-template-columns: 1fr;
+    }
+
+    .auctions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #form-crear-subasta {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group--full,
+    .form-submit {
+        grid-column: auto;
+    }
+
+    #subasta-detalle {
+        grid-template-columns: 1fr;
+    }
+
+    .auction-info {
+        flex-direction: column;
+    }
+
+    #subasta-imagen {
+        width: 100%;
+    }
+
+    .wallet-summary {
+        grid-template-columns: 1fr;
+    }
+
+    #form-deposito {
+        flex-direction: column;
+    }
+
+    #form-deposito input {
+        max-width: none;
+    }
 }
 
-.header__nav {
-    flex-wrap: wrap;
-
-    justify-content: center;
-}
-
-.header__user {
-    width: 100%;
-
-    justify-content: center;
-}
-
-.filters {
-    grid-template-columns: 1fr;
-}
-
-.auctions-grid {
-    grid-template-columns: 1fr;
-}
-
-#form-crear-subasta {
-    grid-template-columns: 1fr;
-}
-
-#form-crear-subasta .form-group:nth-child(2) {
-    grid-column: auto;
-}
-
-#form-crear-subasta button {
-    grid-column: auto;
-}
-
-#subasta-detalle {
-    grid-template-columns: 1fr;
-}
-
-.auction-info {
-    flex-direction: column;
-}
-
-#subasta-imagen {
-    width: 100%;
-}
-
-.wallet-summary {
-    grid-template-columns: 1fr;
-}
-
-#form-deposito {
-    flex-direction: column;
-}
-
-#form-deposito input {
-    max-width: none;
-}
-
-table {
-    display: block;
-    overflow-x: auto;
-}
-
-}
 
 @media (max-width: 480px) {
 
-.section {
-    padding: 40px 15px;
-}
+    .section {
+        padding: 40px 15px;
+    }
 
-.header__nav {
-    flex-direction: column;
-    align-items: center;
-}
+    .header__nav {
+        flex-direction: column;
+        align-items: center;
+    }
 
-#contador {
-    font-size: 28px;
-}
+    #contador {
+        font-size: 28px;
+    }
 
+    .auction-info {
+        padding: 18px;
+    }
+
+    .wallet-card {
+        padding: 20px;
+    }
+
+    .toast {
+        min-width: auto;
+        width: calc(100vw - 40px);
+    }
 }

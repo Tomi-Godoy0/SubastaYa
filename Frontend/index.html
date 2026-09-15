@@ -1,462 +1,823 @@
 <!DOCTYPE html>
+<html lang="es">
 
-<html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SubastaYa</title>
+    <title>SubastaYa</title>
 
-<link rel="stylesheet" href="css/style.css">
-
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<!-- ==================== HEADER ==================== -->
-<header class="header">
+    <!-- ==================== HEADER ==================== -->
 
-    <div class="header__logo">
-        <a href="#">SubastaYa</a>
-    </div>
+    <header class="header">
 
-    <nav class="header__nav">
-        <a href="#catalogo">Subastas</a>
-        <a href="#crear-subasta">Vender</a>
-        <a href="#billetera">Billetera</a>
-        <a href="#mis-actividades">Mis actividades</a>
-    </nav>
-
-    <div class="header__user">
-        <span id="usuario-nombre">Usuario</span>
-        <button id="btn-logout">Cerrar sesión</button>
-    </div>
-
-</header>
-
-
-<!-- ==================== MAIN ==================== -->
-<main>
-
-    <!-- ==================== CATÁLOGO ==================== -->
-    <section id="catalogo" class="section">
-
-        <div class="section__header">
-            <h1>Subastas</h1>
-            <p>Explorá productos y participá en subastas.</p>
+        <div class="header__logo">
+            <a href="#catalogo">SubastaYa</a>
         </div>
 
-        <!-- Búsqueda y filtros -->
-        <div class="filters">
+        <nav class="header__nav">
+            <a href="#catalogo">Subastas</a>
+            <a href="#crear-subasta">Vender</a>
+            <a href="#billetera">Billetera</a>
+            <a href="#mis-actividades">Mis actividades</a>
+        </nav>
 
-            <input
-                type="search"
-                id="buscar-subasta"
-                placeholder="Buscar subastas..."
+        <div class="header__user">
+
+            <span id="usuario-nombre">
+                Usuario
+            </span>
+
+            <button
+                id="btn-logout"
+                type="button"
             >
-
-            <select id="filtro-estado">
-                <option value="">Todos los estados</option>
-                <option value="ACTIVA">Activas</option>
-                <option value="PROXIMA">Próximas</option>
-                <option value="FINALIZADA">Finalizadas</option>
-                <option value="DESIERTA">Desiertas</option>
-            </select>
-
-            <select id="filtro-categoria">
-                <option value="">Todas las categorías</option>
-            </select>
-
-            <input
-                type="number"
-                id="precio-min"
-                placeholder="Precio mínimo"
-            >
-
-            <input
-                type="number"
-                id="precio-max"
-                placeholder="Precio máximo"
-            >
-
-            <select id="ordenar">
-                <option value="">Ordenar por</option>
-                <option value="tiempo">Menor tiempo restante</option>
-                <option value="puja">Mayor puja</option>
-            </select>
-
-            <button id="btn-filtrar">
-                Filtrar
+                Cerrar sesión
             </button>
 
         </div>
 
-
-        <!-- Cards de subastas -->
-        <div id="subastas-container" class="auctions-grid">
-
-            <!-- Las subastas serán cargadas mediante JavaScript -->
-
-        </div>
-
-    </section>
+    </header>
 
 
-    <!-- ==================== CREAR SUBASTA ==================== -->
-    <section id="crear-subasta" class="section">
+    <!-- ==================== MAIN ==================== -->
 
-        <div class="section__header">
-            <h2>Crear subasta</h2>
-            <p>Publicá un producto para comenzar a recibir ofertas.</p>
-        </div>
-
-        <form id="form-crear-subasta">
-
-            <div class="form-group">
-                <label for="titulo">Título</label>
-                <input
-                    type="text"
-                    id="titulo"
-                    name="titulo"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="descripcion">Descripción</label>
-                <textarea
-                    id="descripcion"
-                    name="descripcion"
-                    required
-                ></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="imagen">URL de imagen</label>
-                <input
-                    type="url"
-                    id="imagen"
-                    name="imagen"
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="categoria">Categoría</label>
-                <select
-                    id="categoria"
-                    name="categoria"
-                    required
-                >
-                    <option value="">Seleccionar categoría</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="precio-base">Precio base</label>
-                <input
-                    type="number"
-                    id="precio-base"
-                    name="precio-base"
-                    min="1"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="incremento">Incremento mínimo</label>
-                <input
-                    type="number"
-                    id="incremento"
-                    name="incremento"
-                    min="1"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="fecha-inicio">Fecha y hora de inicio</label>
-                <input
-                    type="datetime-local"
-                    id="fecha-inicio"
-                    name="fecha-inicio"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="fecha-fin">Fecha y hora de finalización</label>
-                <input
-                    type="datetime-local"
-                    id="fecha-fin"
-                    name="fecha-fin"
-                    required
-                >
-            </div>
-
-            <button type="submit">
-                Publicar subasta
-            </button>
-
-        </form>
-
-    </section>
+    <main>
 
 
-    <!-- ==================== SALA DE SUBASTA ==================== -->
-    <section id="sala-subasta" class="section">
+        <!-- ==================== LOGIN ==================== -->
 
-        <div class="section__header">
-            <h2>Sala de subasta</h2>
-        </div>
+        <section
+            id="login"
+            class="section section--login"
+        >
 
-        <div id="subasta-detalle">
+            <div class="section__header">
 
-            <div class="auction-info">
-                <img
-                    id="subasta-imagen"
-                    src=""
-                    alt="Producto"
-                >
-
-                <div>
-                    <h3 id="subasta-titulo">Producto</h3>
-                    <p id="subasta-descripcion">
-                        Descripción del producto.
-                    </p>
-                </div>
-            </div>
-
-
-            <!-- Temporizador -->
-            <div class="auction-timer">
-
-                <span>Tiempo restante</span>
-
-                <strong id="contador">
-                    --:--:--
-                </strong>
-
-            </div>
-
-
-            <!-- Estado del usuario -->
-            <div id="estado-puja">
-                <span id="estado-puja-texto">
-                    Sin pujar
-                </span>
-            </div>
-
-
-            <!-- Puja actual -->
-            <div class="current-bid">
-
-                <span>Puja actual</span>
-
-                <strong id="puja-actual">
-                    $0
-                </strong>
-
-            </div>
-
-
-            <!-- Consola de puja -->
-            <div class="bid-console">
+                <h1>Ingresar</h1>
 
                 <p>
-                    Próxima puja sugerida:
-                    <strong id="puja-sugerida">
-                        $0
-                    </strong>
+                    Iniciá sesión para participar en las subastas.
                 </p>
 
-                <input
-                    type="number"
-                    id="monto-puja"
-                    placeholder="Ingresá tu oferta"
-                >
-
-                <button id="btn-pujar">
-                    Realizar puja
-                </button>
-
             </div>
 
 
-            <!-- Historial -->
-            <div class="bid-history">
+            <form
+                id="form-login"
+                class="form-card"
+            >
 
-                <h3>Historial de ofertas</h3>
+                <div class="form-group">
 
-                <ul id="historial-pujas">
-                    <!-- Las pujas se cargarán mediante JS -->
-                </ul>
+                    <label for="login-email">
+                        Email
+                    </label>
 
-            </div>
+                    <input
+                        type="email"
+                        id="login-email"
+                        name="email"
+                        placeholder="tu@email.com"
+                        required
+                    >
 
-        </div>
-
-    </section>
-
-
-    <!-- ==================== BILLETERA ==================== -->
-    <section id="billetera" class="section">
-
-        <div class="section__header">
-            <h2>Mi billetera</h2>
-        </div>
-
-        <div class="wallet-summary">
-
-            <div class="wallet-card">
-                <span>Saldo total</span>
-                <strong id="saldo-total">$0</strong>
-            </div>
-
-            <div class="wallet-card">
-                <span>Saldo retenido</span>
-                <strong id="saldo-retenido">$0</strong>
-            </div>
-
-            <div class="wallet-card">
-                <span>Saldo disponible</span>
-                <strong id="saldo-disponible">$0</strong>
-            </div>
-
-        </div>
+                </div>
 
 
-        <!-- Cargar saldo -->
-        <div class="wallet-deposit">
+                <div class="form-group">
 
-            <h3>Cargar saldo</h3>
+                    <label for="login-password">
+                        Contraseña
+                    </label>
 
-            <form id="form-deposito">
+                    <input
+                        type="password"
+                        id="login-password"
+                        name="password"
+                        placeholder="Contraseña"
+                        required
+                    >
 
-                <input
-                    type="number"
-                    id="monto-deposito"
-                    placeholder="Monto"
-                    min="1"
-                    required
-                >
+                </div>
+
 
                 <button type="submit">
-                    Acreditar saldo
+                    Ingresar
                 </button>
 
             </form>
 
-        </div>
+        </section>
 
 
-        <!-- Movimientos -->
-        <div class="wallet-history">
+        <!-- ==================== CATÁLOGO ==================== -->
 
-            <h3>Historial de movimientos</h3>
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                        <th>Monto</th>
-                    </tr>
-                </thead>
-
-                <tbody id="movimientos-container">
-                    <!-- Movimientos cargados mediante JS -->
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
-
-
-    <!-- ==================== MIS ACTIVIDADES ==================== -->
-    <section id="mis-actividades" class="section">
-
-        <div class="section__header">
-            <h2>Mis actividades</h2>
-        </div>
-
-        <div class="tabs">
-
-            <button id="tab-compras">
-                Mis compras / pujas
-            </button>
-
-            <button id="tab-publicaciones">
-                Mis publicaciones
-            </button>
-
-        </div>
-
-
-        <!-- Mis compras / pujas -->
-        <div id="mis-compras">
-
-            <h3>Mis compras y pujas</h3>
-
-            <div id="compras-container">
-                <!-- Datos cargados mediante JS -->
-            </div>
-
-        </div>
-
-
-        <!-- Mis publicaciones -->
-        <div id="mis-publicaciones">
-
-            <h3>Mis publicaciones</h3>
-
-            <div id="publicaciones-container">
-                <!-- Datos cargados mediante JS -->
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<!-- ==================== NOTIFICACIONES ==================== -->
-<div
-    id="toast-container"
-    class="toast-container"
-    aria-live="polite"
->
-    <!-- Toasts generados mediante JS -->
-</div>
-
-
-<!-- ==================== MODAL ==================== -->
-<div
-    id="modal"
-    class="modal"
-    hidden
->
-
-    <div class="modal__content">
-
-        <button
-            id="btn-cerrar-modal"
-            type="button"
+        <section
+            id="catalogo"
+            class="section"
         >
-            ×
-        </button>
 
-        <div id="modal-body">
-            <!-- Contenido dinámico -->
+            <div class="section__header">
+
+                <h2>Subastas</h2>
+
+                <p>
+                    Explorá productos y participá en subastas.
+                </p>
+
+            </div>
+
+
+            <!-- Filtros -->
+
+            <div class="filters">
+
+                <input
+                    type="search"
+                    id="buscar-subasta"
+                    placeholder="Buscar subastas..."
+                >
+
+
+                <select id="filtro-estado">
+
+                    <option value="">
+                        Todos los estados
+                    </option>
+
+                    <option value="ACTIVA">
+                        Activas
+                    </option>
+
+                    <option value="PROGRAMADA">
+                        Próximas
+                    </option>
+
+                    <option value="FINALIZADA">
+                        Finalizadas
+                    </option>
+
+                    <option value="DESIERTA">
+                        Desiertas
+                    </option>
+
+                </select>
+
+
+                <select id="filtro-categoria">
+
+                    <option value="">
+                        Todas las categorías
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="number"
+                    id="precio-min"
+                    placeholder="Precio mínimo"
+                    min="0"
+                >
+
+
+                <input
+                    type="number"
+                    id="precio-max"
+                    placeholder="Precio máximo"
+                    min="0"
+                >
+
+
+                <select id="ordenar">
+
+                    <option value="">
+                        Ordenar por
+                    </option>
+
+                    <option value="timeRemaining">
+                        Menor tiempo restante
+                    </option>
+
+                    <option value="highestBid">
+                        Mayor puja
+                    </option>
+
+                </select>
+
+
+                <button
+                    id="btn-filtrar"
+                    type="button"
+                >
+                    Filtrar
+                </button>
+
+            </div>
+
+
+            <!-- Cards -->
+
+            <div
+                id="subastas-container"
+                class="auctions-grid"
+            >
+                <!-- Subastas cargadas mediante JavaScript -->
+            </div>
+
+        </section>
+
+
+        <!-- ==================== CREAR SUBASTA ==================== -->
+
+        <section
+            id="crear-subasta"
+            class="section"
+        >
+
+            <div class="section__header">
+
+                <h2>Crear subasta</h2>
+
+                <p>
+                    Publicá un producto para comenzar a recibir ofertas.
+                </p>
+
+            </div>
+
+
+            <form id="form-crear-subasta">
+
+                <div class="form-group">
+
+                    <label for="titulo">
+                        Título
+                    </label>
+
+                    <input
+                        type="text"
+                        id="titulo"
+                        name="titulo"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="categoria">
+                        Categoría
+                    </label>
+
+                    <select
+                        id="categoria"
+                        name="categoria"
+                        required
+                    >
+
+                        <option value="">
+                            Seleccionar categoría
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group form-group--full">
+
+                    <label for="descripcion">
+                        Descripción
+                    </label>
+
+                    <textarea
+                        id="descripcion"
+                        name="descripcion"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group form-group--full">
+
+                    <label for="imagen">
+                        URL de imagen
+                    </label>
+
+                    <input
+                        type="url"
+                        id="imagen"
+                        name="imagen"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="precio-base">
+                        Precio base
+                    </label>
+
+                    <input
+                        type="number"
+                        id="precio-base"
+                        name="precio-base"
+                        min="1"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="incremento">
+                        Incremento mínimo
+                    </label>
+
+                    <input
+                        type="number"
+                        id="incremento"
+                        name="incremento"
+                        min="1"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="fecha-inicio">
+                        Fecha y hora de inicio
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="fecha-inicio"
+                        name="fecha-inicio"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="fecha-fin">
+                        Fecha y hora de finalización
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="fecha-fin"
+                        name="fecha-fin"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="form-submit"
+                >
+                    Publicar subasta
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ==================== SALA DE SUBASTA ==================== -->
+
+        <section
+            id="sala-subasta"
+            class="section"
+        >
+
+            <div class="section__header">
+
+                <h2>Sala de subasta</h2>
+
+                <p>
+                    Participá en tiempo real.
+                </p>
+
+            </div>
+
+
+            <div id="subasta-detalle">
+
+
+                <!-- Información -->
+
+                <div class="auction-info">
+
+                    <img
+                        id="subasta-imagen"
+                        src=""
+                        alt="Producto de la subasta"
+                    >
+
+
+                    <div>
+
+                        <span
+                            id="subasta-categoria"
+                            class="auction-card__category"
+                        >
+                            Categoría
+                        </span>
+
+                        <h3 id="subasta-titulo">
+                            Producto
+                        </h3>
+
+                        <p id="subasta-descripcion">
+                            Descripción del producto.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Temporizador -->
+
+                <div class="auction-timer">
+
+                    <span>
+                        Tiempo restante
+                    </span>
+
+                    <strong id="contador">
+                        --:--:--
+                    </strong>
+
+                </div>
+
+
+                <!-- Estado -->
+
+                <div
+                    id="estado-puja"
+                    class="bid-status"
+                >
+
+                    <span id="estado-puja-texto">
+                        Sin pujar
+                    </span>
+
+                </div>
+
+
+                <!-- Puja actual -->
+
+                <div class="current-bid">
+
+                    <span>
+                        Puja actual
+                    </span>
+
+                    <strong id="puja-actual">
+                        $0
+                    </strong>
+
+                </div>
+
+
+                <!-- Consola -->
+
+                <div class="bid-console">
+
+                    <p>
+                        Próxima puja sugerida:
+                        <strong id="puja-sugerida">
+                            $0
+                        </strong>
+                    </p>
+
+
+                    <input
+                        type="number"
+                        id="monto-puja"
+                        placeholder="Ingresá tu oferta"
+                        min="1"
+                        step="0.01"
+                    >
+
+
+                    <button
+                        id="btn-pujar"
+                        type="button"
+                    >
+                        Realizar puja
+                    </button>
+
+                </div>
+
+
+                <!-- Historial -->
+
+                <div class="bid-history">
+
+                    <h3>
+                        Historial de ofertas
+                    </h3>
+
+                    <ul id="historial-pujas">
+                        <!-- Pujas cargadas mediante JS -->
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================== BILLETERA ==================== -->
+
+        <section
+            id="billetera"
+            class="section"
+        >
+
+            <div class="section__header">
+
+                <h2>
+                    Mi billetera
+                </h2>
+
+                <p>
+                    Consultá tu saldo y movimientos.
+                </p>
+
+            </div>
+
+
+            <div class="wallet-summary">
+
+
+                <div class="wallet-card">
+
+                    <span>
+                        Saldo total
+                    </span>
+
+                    <strong id="saldo-total">
+                        $0
+                    </strong>
+
+                </div>
+
+
+                <div class="wallet-card">
+
+                    <span>
+                        Saldo retenido
+                    </span>
+
+                    <strong id="saldo-retenido">
+                        $0
+                    </strong>
+
+                </div>
+
+
+                <div class="wallet-card wallet-card--available">
+
+                    <span>
+                        Saldo disponible
+                    </span>
+
+                    <strong id="saldo-disponible">
+                        $0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Cargar saldo -->
+
+            <div class="wallet-deposit">
+
+                <h3>
+                    Cargar saldo
+                </h3>
+
+
+                <form id="form-deposito">
+
+                    <input
+                        type="number"
+                        id="monto-deposito"
+                        placeholder="Monto"
+                        min="1"
+                        step="0.01"
+                        required
+                    >
+
+                    <button type="submit">
+                        Acreditar saldo
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- Movimientos -->
+
+            <div class="wallet-history">
+
+                <h3>
+                    Historial de movimientos
+                </h3>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                                <th>Monto</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="movimientos-container">
+
+                            <!-- Movimientos cargados mediante JS -->
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================== MIS ACTIVIDADES ==================== -->
+
+        <section
+            id="mis-actividades"
+            class="section"
+        >
+
+            <div class="section__header">
+
+                <h2>
+                    Mis actividades
+                </h2>
+
+                <p>
+                    Consultá tus pujas y publicaciones.
+                </p>
+
+            </div>
+
+
+            <div class="tabs">
+
+                <button
+                    id="tab-compras"
+                    type="button"
+                    class="tab-button active"
+                >
+                    Mis compras / pujas
+                </button>
+
+
+                <button
+                    id="tab-publicaciones"
+                    type="button"
+                    class="tab-button"
+                >
+                    Mis publicaciones
+                </button>
+
+            </div>
+
+
+            <!-- Compras -->
+
+            <div
+                id="mis-compras"
+                class="activity-panel"
+            >
+
+                <h3>
+                    Mis compras y pujas
+                </h3>
+
+                <div id="compras-container">
+
+                    <!-- Datos cargados mediante JS -->
+
+                </div>
+
+            </div>
+
+
+            <!-- Publicaciones -->
+
+            <div
+                id="mis-publicaciones"
+                class="activity-panel"
+            >
+
+                <h3>
+                    Mis publicaciones
+                </h3>
+
+                <div id="publicaciones-container">
+
+                    <!-- Datos cargados mediante JS -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==================== NOTIFICACIONES ==================== -->
+
+    <div
+        id="toast-container"
+        class="toast-container"
+        aria-live="polite"
+        aria-atomic="true"
+    ></div>
+
+
+    <!-- ==================== MODAL ==================== -->
+
+    <div
+        id="modal"
+        class="modal"
+        hidden
+    >
+
+        <div
+            class="modal__content"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <button
+                id="btn-cerrar-modal"
+                type="button"
+                class="modal__close"
+                aria-label="Cerrar"
+            >
+                ×
+            </button>
+
+
+            <div id="modal-body">
+
+                <!-- Contenido dinámico -->
+
+            </div>
+
         </div>
 
     </div>
 
-</div>
 
+    <!-- ==================== JAVASCRIPT ==================== -->
 
-<!-- ==================== JAVASCRIPT ==================== -->
-<script src="js/index.js"></script>
+    <script src="js/index.js"></script>
 
-</body> </html>
+</body>
+
+</html>
