@@ -1,15 +1,20 @@
 using Microsoft.EntityFrameworkCore;
+using SubastaYa.API.Hubs;
 using SubastaYa.API.Middleware;
+using SubastaYa.API.Services;
 using SubastaYa.Application.Interfaces;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Security;
 using SubastaYa.Application.Interfaces.Service.Auctions;
+using SubastaYa.Application.Interfaces.Service.Bids;
 using SubastaYa.Application.Interfaces.Service.Categories;
 using SubastaYa.Application.Interfaces.Service.Users;
 using SubastaYa.Application.Interfaces.Service.Wallets;
+using SubastaYa.Application.Interfaces.Service.Worker;
 using SubastaYa.Application.UseCases.Auctions.CreateAuction;
 using SubastaYa.Application.UseCases.Auctions.GetAuction;
 using SubastaYa.Application.UseCases.Auctions.GetAuctions;
+using SubastaYa.Application.UseCases.Bids.CreateBid;
 using SubastaYa.Application.UseCases.Categories.CreateCategory;
 using SubastaYa.Application.UseCases.Categories.GetCategories;
 using SubastaYa.Application.UseCases.Users.CreateUser;
@@ -17,6 +22,7 @@ using SubastaYa.Application.UseCases.Users.GetUser;
 using SubastaYa.Application.UseCases.Users.UserAuthentication;
 using SubastaYa.Application.UseCases.Wallets.BalanceWallet;
 using SubastaYa.Application.UseCases.Wallets.DepositWallet;
+using SubastaYa.Application.UseCases.Worker;
 using SubastaYa.Infrastructure.Persistence;
 using SubastaYa.Infrastructure.Persistence.Repositories;
 using SubastaYa.Infrastructure.Security;
@@ -72,7 +78,27 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICreateCategoryHandler, CreateCategoryHandler>();
 builder.Services.AddScoped<IGetCategoriesHandler, GetCategoriesHandler>();
 
+//Pujas
+builder.Services.AddScoped<IBidRepository, BidRepository>();
+builder.Services.AddScoped<ICreateBidHandler, CreateBidHandler>();
 
+//Worker
+builder.Services.AddHostedService<AuctionWorker>();
+builder.Services.AddScoped<IAuctionClosingService, AuctionClosingService>();
+builder.Services.AddScoped<IAuctionStartingService, AuctionStartingService>();
+
+//SignalR
+builder.Services.AddScoped<IAuctionNotifier, AuctionNotifierService>();
+builder.Services.AddSignalR();
+
+//Configuracion de cors
+builder.Services.AddCors(opciones =>
+    opciones.AddPolicy("frontend", politica => politica
+        .WithOrigins("http://127.0.0.1:5500")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+ ));
 
 // Ledger
 builder.Services.AddScoped<ITransactionLedgerRepository, TransactionLedgerRepository>();
@@ -102,8 +128,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("frontend");
 app.UseAuthorization();
 
+// ----------- Uso de SignalR ------------
+app.MapHub<AuctionHub>("/hubs/auction");
 app.MapControllers();
 
 app.Run();

@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SubastaYa.Application.Interfaces.DTOs;
 using SubastaYa.Application.Interfaces.Service.Wallets;
 using SubastaYa.Application.UseCases.Wallets.BalanceWallet;
 using SubastaYa.Application.UseCases.Wallets.DepositWallet;
 
 namespace SubastaYa.API.Controllers
 {
-    [Route("api/wallets")]
+    [Route("api/users/{userId}/wallet")]
     [ApiController]
     public class WalletController : ControllerBase
     {
@@ -19,17 +20,18 @@ namespace SubastaYa.API.Controllers
             _depositHandler = depositHandler;
         }
 
-        [HttpGet("/{id}/balance")]
-        public async Task<IActionResult> GetBalance(int id)
+        [HttpGet("balance")]
+        public async Task<IActionResult> GetBalance(int userId)
         {
-            var balance = await _getBalanceHandler.HandleAsync(new GetBalanceQuery { UserId = id });
+            var balance = await _getBalanceHandler.HandleAsync(new GetBalanceQuery { UserId = userId });
 
             return Ok(balance);
         }
 
-        [HttpPost("/{id}/deposit")]
-        public async Task<IActionResult> CreateDeposit(DepositCommand command)
+        [HttpPost("deposit")]
+        public async Task<IActionResult> CreateDeposit(int userId, [FromBody] DepositRequest request)
         {
+            var command = new DepositCommand { UserId = userId, Amount = request.Amount };
             var newBalance = await _depositHandler.HandleAsync(command);
 
             return Ok(newBalance);

@@ -6,7 +6,7 @@ using SubastaYa.Application.UseCases.Users.GetUser;
 
 namespace SubastaYa.API.Controllers
 {
-    [Route("api/v1/users")]
+    [Route("api/users")]
     [ApiController]
     public class UserController : ControllerBase
     {

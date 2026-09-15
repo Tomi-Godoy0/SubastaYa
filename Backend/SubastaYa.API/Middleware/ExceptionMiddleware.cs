@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SubastaYa.Domain.Exceptions;
-using System.Data;
 using System.Net;
 
 namespace SubastaYa.API.Middleware
@@ -47,10 +46,10 @@ namespace SubastaYa.API.Middleware
                 // Unauthorized
                 UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
                 // Conflict
-                DuplicateNameException => StatusCodes.Status409Conflict,
                 ConflictException => StatusCodes.Status409Conflict,
                 DbUpdateConcurrencyException => StatusCodes.Status409Conflict,
-                //
+                //Insufficient
+                InsufficientFundsException => StatusCodes.Status422UnprocessableEntity,
                 //Fallback para excepción de dominio no mapeada
                 DomainException => StatusCodes.Status400BadRequest,
                 _ => StatusCodes.Status500InternalServerError

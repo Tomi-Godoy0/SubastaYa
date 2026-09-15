@@ -25,7 +25,7 @@ namespace SubastaYa.Application.Interfaces.Repositories
         //Filtros y Worker
         Task<(List<Auction> Items, int TotalCount)> GetFilterAsync(AuctionFilter filter, int pageNumber, int pageSize);
         Task<List<Auction>> GetExpiredAsync(DateTime now); // Esto lo usamos para el worker que cierra subastas vencidas
-        Task<List<Auction>> GetActiveAsync(DateTime now);
+        Task<List<Auction>> GetReadyToStartAsync(DateTime now);
         
         Task<bool> ExistsAsync(int id);
     }

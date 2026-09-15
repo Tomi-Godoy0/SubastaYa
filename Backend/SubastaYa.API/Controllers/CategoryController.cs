@@ -7,7 +7,7 @@ using SubastaYa.Application.UseCases.Categories.GetCategories;
 
 namespace SubastaYa.API.Controllers
 {
-    [Route("api/category")]
+    [Route("api/categories")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
