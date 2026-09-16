@@ -44,6 +44,7 @@ builder.Services.AddScoped<IGetCategoriesHandler, GetCategoriesHandler>();
 //Pujas
 builder.Services.AddScoped<IBidRepository, BidRepository>();
 builder.Services.AddScoped<ICreateBidHandler, CreateBidHandler>();
+builder.Services.AddScoped<IGetBidHistoryHandler, GetBidHistoryHandler>();
 
 // Ledger
 builder.Services.AddScoped<ITransactionLedgerRepository, TransactionLedgerRepository>();

@@ -157,7 +157,7 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
                         BuyerId = command.BuyerId,
                         Alias = AliasGenerator.Generate(auction.Id, command.BuyerId),
                         CreatedAt = DateTime.UtcNow,
-                        TotalBids = auction.Bids.Count
+                        TotalBids = await _bidRepository.CountByAuctionIdAsync(auction.Id)
                     };
 
                     await _auctionNotifier.NotifyNewBidAsync(auction.Id, payload);

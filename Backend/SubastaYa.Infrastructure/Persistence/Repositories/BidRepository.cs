@@ -35,7 +35,7 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
                 .GroupBy(b => b.AuctionId)
                 .Select(g => g
                 .OrderByDescending(b => b.CreatedAt)
-                .FirstOrDefault());
+                .FirstOrDefault()!);
                 
 
             var totalCount = await groupQuery.CountAsync();
@@ -46,13 +46,24 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
 
             return (items, totalCount);
         }
-        public async Task<List<Bid>> GetByAuctionIdAsync(int auctionId)
+        public async Task<int> CountByAuctionIdAsync(int auctionId)
         {
-            return await _context.Bids
+            return await _context.Bids.CountAsync(b => b.AuctionId == auctionId);
+        }
+        public async Task<(List<Bid> Items, int TotalCount)> GetByAuctionIdAsync(int auctionId, int pageNumber, int pageSize)
+        {
+            IQueryable<Bid> query = _context.Bids
                 .AsNoTracking()
                 .Where(b => b.AuctionId == auctionId)
-                .OrderByDescending(b => b.CreatedAt)
+                .OrderByDescending(b => b.CreatedAt);
+
+            var totalCount = await query.CountAsync();
+            var items = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            return (items, totalCount);
         }
         public async Task<Bid?> GetHighestBidByAuctionIdAsync(int auctionId)
         {

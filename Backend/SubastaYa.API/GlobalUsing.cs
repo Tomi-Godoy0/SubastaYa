@@ -23,6 +23,7 @@ global using SubastaYa.Application.UseCases.Auctions.GetAuctions;
 global using SubastaYa.Application.UseCases.Audits.GetAudit;
 global using SubastaYa.Application.UseCases.Audits.GetAudits;
 global using SubastaYa.Application.UseCases.Bids.CreateBid;
+global using SubastaYa.Application.UseCases.Bids.GetBidHistory;
 global using SubastaYa.Application.UseCases.Categories.CreateCategory;
 global using SubastaYa.Application.UseCases.Categories.GetCategories;
 global using SubastaYa.Application.UseCases.LedgerTransactions.GetTransaction;
