@@ -905,3 +905,77 @@ th {
         width: calc(100vw - 40px);
     }
 }
+
+
+
+
+/* =========================
+LOGIN
+========================= */
+
+.login-container {
+min-height: 100vh;
+
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+padding: 20px;
+
+
+}
+
+.login-card {
+width: 100%;
+max-width: 420px;
+
+
+padding: 35px;
+
+background-color: white;
+
+border-radius: 10px;
+
+box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+
+
+}
+
+.login-card h1 {
+margin-bottom: 5px;
+
+
+text-align: center;
+
+color: #2563eb;
+ 
+
+}
+
+.login-card h2 {
+margin-bottom: 30px;
+
+ 
+text-align: center;
+
+color: #111827;
+ 
+
+}
+
+#form-login {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+#form-login button {
+width: 100%;
+}
+
+.login-error {
+margin-top: 15px;
+color: #dc2626;
+text-align: center;
+}
