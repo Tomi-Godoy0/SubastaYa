@@ -20,6 +20,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICreateUserHandler, CreateUserHandler>();
 builder.Services.AddScoped<IGetUserHandler, GetUserHandler>();
+builder.Services.AddScoped<IGetUserAuctionsHandler, GetUserAuctionsHandler>();
+builder.Services.AddScoped<IGetUserBidsHandler, GetUserBidsHandler>();
 builder.Services.AddScoped<IUserAuthenticationHandler, UserAuthenticationHandler>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
