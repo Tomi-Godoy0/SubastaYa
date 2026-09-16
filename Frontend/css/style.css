@@ -611,7 +611,7 @@ button:disabled {
 
 
 /* =========================
-   TABLA
+   TABLA GENERAL
 ========================= */
 
 .table-wrapper {
@@ -793,8 +793,494 @@ th {
 
 
 /* =========================
-   RESPONSIVE
+   LOGIN
 ========================= */
+
+.login-container {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 35px;
+
+    background-color: white;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.10);
+}
+
+.login-card h1 {
+    margin-bottom: 5px;
+
+    text-align: center;
+
+    color: #2563eb;
+}
+
+.login-card h2 {
+    margin-bottom: 30px;
+
+    text-align: center;
+
+    color: #111827;
+}
+
+#form-login {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+#form-login button {
+    width: 100%;
+}
+
+.login-error {
+    margin-top: 15px;
+
+    color: #dc2626;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   HISTORIAL DE MOVIMIENTOS
+========================================= */
+
+.wallet-history {
+    width: 100%;
+
+    margin-top: 24px;
+    padding: 24px;
+
+    background-color: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.07);
+}
+
+.wallet-history__header {
+    margin-bottom: 20px;
+}
+
+.wallet-history__header h3 {
+    margin: 0 0 6px;
+
+    font-size: 22px;
+
+    color: #1f2937;
+}
+
+.wallet-history__header p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   TABLA DE MOVIMIENTOS
+   MISMO ESTILO VISUAL QUE AUDITORÍAS
+========================================= */
+
+.transactions-table {
+    width: 100%;
+
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.transactions-table thead th {
+    padding: 14px 16px;
+
+    background-color: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-align: left;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.03em;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.transactions-table thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.transactions-table thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.transactions-table tbody tr {
+    transition:
+        background-color 0.2s ease;
+}
+
+.transactions-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.transactions-table tbody td {
+    padding: 16px;
+
+    color: #374151;
+
+    font-size: 14px;
+
+    border-bottom: 1px solid #eef2f7;
+}
+
+.transactions-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================
+   FECHA
+========================================= */
+
+.transactions-table .transaction-date {
+    color: #6b7280;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   TIPO
+========================================= */
+
+.transaction-type {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 10px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.03em;
+}
+
+.transaction-type--deposit {
+    background-color: #dcfce7;
+
+    color: #15803d;
+}
+
+.transaction-type--charge {
+    background-color: #fee2e2;
+
+    color: #dc2626;
+}
+
+.transaction-type--other {
+    background-color: #e5e7eb;
+
+    color: #4b5563;
+}
+
+
+/* =========================================
+   DESCRIPCIÓN
+========================================= */
+
+.transaction-description {
+    color: #374151;
+
+    font-weight: 500;
+}
+
+
+/* =========================================
+   MONTO
+========================================= */
+
+.transaction-amount {
+    font-size: 15px;
+    font-weight: 700;
+    text-align: left !important;
+    white-space: nowrap;
+}
+
+.transaction-amount--positive {
+    color: #16a34a !important;
+}
+
+.transaction-amount--negative {
+    color: #dc2626 !important;
+}
+
+/* =========================================
+   ANCHOS MOVIMIENTOS
+========================================= */
+
+.transactions-table th:nth-child(1),
+.transactions-table td:nth-child(1) {
+    width: 180px;
+}
+
+.transactions-table th:nth-child(2),
+.transactions-table td:nth-child(2) {
+    width: 150px;
+}
+
+.transactions-table th:nth-child(3),
+.transactions-table td:nth-child(3) {
+    width: 300px;
+}
+
+/* Monto ocupa todo el espacio restante */
+.transactions-table th:nth-child(4),
+.transactions-table td:nth-child(4) {
+    width: auto;
+    text-align: left;
+}
+
+/* =========================================
+   ESTADOS MOVIMIENTOS
+========================================= */
+
+.transactions-empty,
+.transactions-error {
+    padding: 35px !important;
+
+    text-align: center;
+
+    color: #6b7280 !important;
+}
+
+.transactions-error {
+    color: #dc2626 !important;
+}
+
+
+/* =========================================
+   HISTORIAL DE AUDITORÍAS
+========================================= */
+
+.audit-history {
+    width: 100%;
+
+    margin-top: 0;
+
+    padding: 24px;
+
+    background-color: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.07);
+}
+
+.audit-history__header {
+    margin-bottom: 20px;
+}
+
+.audit-history__header h3 {
+    margin: 0 0 6px;
+
+    font-size: 22px;
+
+    color: #1f2937;
+}
+
+.audit-history__header p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   TABLA AUDITORÍAS
+========================================= */
+
+.audits-table {
+    width: 100%;
+
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+
+/* ENCABEZADO */
+
+.audits-table thead th {
+    padding: 14px 16px;
+
+    background-color: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-align: left;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.03em;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.audits-table thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.audits-table thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+
+/* FILAS */
+
+.audits-table tbody tr {
+    transition:
+        background-color 0.2s ease;
+}
+
+.audits-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+
+/* CELDAS */
+
+.audits-table tbody td {
+    padding: 16px;
+
+    color: #374151;
+
+    font-size: 14px;
+
+    border-bottom: 1px solid #eef2f7;
+}
+
+.audits-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* FECHA */
+
+.audits-table .audit-date {
+    color: #6b7280;
+
+    white-space: nowrap;
+}
+
+
+/* ENTIDAD */
+
+.audit-entity {
+    color: #374151;
+
+    font-weight: 500;
+}
+
+
+/* ID */
+
+.audit-id {
+    color: #6b7280;
+
+    white-space: nowrap;
+}
+
+
+/* ACCIÓN */
+
+.audit-action {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 10px;
+
+    border-radius: 999px;
+
+    background-color: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.03em;
+}
+
+
+/* DETALLE */
+
+.audit-detail {
+    color: #374151;
+}
+
+
+/* ANCHOS */
+
+.audits-table th:nth-child(1),
+.audits-table td:nth-child(1) {
+    width: 180px;
+}
+
+.audits-table th:nth-child(2),
+.audits-table td:nth-child(2) {
+    width: 150px;
+}
+
+.audits-table th:nth-child(3),
+.audits-table td:nth-child(3) {
+    width: 80px;
+}
+
+.audits-table th:nth-child(4),
+.audits-table td:nth-child(4) {
+    width: 140px;
+}
+
+.audits-table th:nth-child(5),
+.audits-table td:nth-child(5) {
+    width: auto;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
 
 @media (max-width: 1100px) {
 
@@ -874,6 +1360,41 @@ th {
     #form-deposito input {
         max-width: none;
     }
+
+    .wallet-history {
+        padding: 16px;
+
+        border-radius: 12px;
+    }
+
+    .wallet-history__header h3 {
+        font-size: 19px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+  
+
+    .transactions-table thead th,
+    .transactions-table tbody td {
+        padding: 12px;
+    }
+
+    .audit-history {
+        padding: 16px;
+
+        border-radius: 12px;
+    }
+
+    .audit-history__header h3 {
+        font-size: 19px;
+    }
+
+    .audits-table {
+        min-width: 850px;
+    }
 }
 
 
@@ -885,6 +1406,7 @@ th {
 
     .header__nav {
         flex-direction: column;
+
         align-items: center;
     }
 
@@ -902,80 +1424,7 @@ th {
 
     .toast {
         min-width: auto;
+
         width: calc(100vw - 40px);
     }
-}
-
-
-
-
-/* =========================
-LOGIN
-========================= */
-
-.login-container {
-min-height: 100vh;
-
-
-display: flex;
-align-items: center;
-justify-content: center;
-
-padding: 20px;
-
-
-}
-
-.login-card {
-width: 100%;
-max-width: 420px;
-
-
-padding: 35px;
-
-background-color: white;
-
-border-radius: 10px;
-
-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
-
-
-}
-
-.login-card h1 {
-margin-bottom: 5px;
-
-
-text-align: center;
-
-color: #2563eb;
- 
-
-}
-
-.login-card h2 {
-margin-bottom: 30px;
-
- 
-text-align: center;
-
-color: #111827;
- 
-
-}
-
-#form-login {
-display: flex;
-flex-direction: column;
-gap: 20px;
-}
-
-#form-login button {
-width: 100%;
-}
-
-.login-error {
-margin-top: 15px;
-color: #dc2626;
-text-align: center;
 }

@@ -49,7 +49,6 @@
 
     <main>
 
-
         <!-- ==================== LOGIN ==================== -->
 
         <section
@@ -116,6 +115,48 @@
         </section>
 
 
+        <!-- ==================== AUDITORÍAS ==================== -->
+
+        <section id="auditorias" class="section">
+
+            <div class="audit-history">
+
+                <div class="audit-history__header">
+                    <div>
+                        <h3>Historial de auditorías</h3>
+
+                        <p>
+                            Consultá las acciones registradas en tu cuenta.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table class="audits-table">
+
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Entidad</th>
+                                <th>ID</th>
+                                <th>Acción</th>
+                                <th>Detalle</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="auditorias-container">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
         <!-- ==================== CATÁLOGO ==================== -->
 
         <section
@@ -143,7 +184,6 @@
                     id="buscar-subasta"
                     placeholder="Buscar subastas..."
                 >
-
 
                 <select id="filtro-estado">
 
@@ -422,9 +462,6 @@
 
             <div id="subasta-detalle">
 
-
-                <!-- Información -->
-
                 <div class="auction-info">
 
                     <img
@@ -456,8 +493,6 @@
                 </div>
 
 
-                <!-- Temporizador -->
-
                 <div class="auction-timer">
 
                     <span>
@@ -471,8 +506,6 @@
                 </div>
 
 
-                <!-- Estado -->
-
                 <div
                     id="estado-puja"
                     class="bid-status"
@@ -484,8 +517,6 @@
 
                 </div>
 
-
-                <!-- Puja actual -->
 
                 <div class="current-bid">
 
@@ -499,8 +530,6 @@
 
                 </div>
 
-
-                <!-- Consola -->
 
                 <div class="bid-console">
 
@@ -530,8 +559,6 @@
 
                 </div>
 
-
-                <!-- Historial -->
 
                 <div class="bid-history">
 
@@ -571,7 +598,6 @@
 
 
             <div class="wallet-summary">
-
 
                 <div class="wallet-card">
 
@@ -614,8 +640,6 @@
             </div>
 
 
-            <!-- Cargar saldo -->
-
             <div class="wallet-deposit">
 
                 <h3>
@@ -643,42 +667,40 @@
             </div>
 
 
-            <!-- Movimientos -->
+           
+        <div class="wallet-history">
 
-            <div class="wallet-history">
-
-                <h3>
-                    Historial de movimientos
-                </h3>
-
-
-                <div class="table-wrapper">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Tipo</th>
-                                <th>Descripción</th>
-                                <th>Monto</th>
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody id="movimientos-container">
-
-                            <!-- Movimientos cargados mediante JS -->
-
-                        </tbody>
-
-                    </table>
-
+            <div class="wallet-history__header">
+                <div>
+                    <h3>Historial de movimientos</h3>
+                    <p>Consultá los últimos movimientos de tu billetera.</p>
                 </div>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table class="transactions-table">
+
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="movimientos-container">
+                        <!-- Movimientos cargados mediante JavaScript -->
+                    </tbody>
+
+                </table>
 
             </div>
+
+        </div>
+
+
 
         </section>
 
@@ -725,8 +747,6 @@
             </div>
 
 
-            <!-- Compras -->
-
             <div
                 id="mis-compras"
                 class="activity-panel"
@@ -744,8 +764,6 @@
 
             </div>
 
-
-            <!-- Publicaciones -->
 
             <div
                 id="mis-publicaciones"
