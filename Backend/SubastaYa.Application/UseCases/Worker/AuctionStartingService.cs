@@ -3,11 +3,6 @@ using SubastaYa.Application.Interfaces;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.Worker;
 using SubastaYa.Domain.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubastaYa.Application.UseCases.Worker
 {

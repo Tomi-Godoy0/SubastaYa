@@ -1,7 +1,6 @@
 using SubastaYa.Application.Interfaces.DTOs;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.Audits;
-using SubastaYa.Domain.Entities;
 using SubastaYa.Domain.Exceptions;
 
 namespace SubastaYa.Application.UseCases.Audits.GetAudit

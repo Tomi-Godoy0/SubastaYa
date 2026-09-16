@@ -5,11 +5,6 @@ using SubastaYa.Application.Interfaces.Service.Wallets;
 using SubastaYa.Domain.Constants;
 using SubastaYa.Domain.Entities;
 using SubastaYa.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubastaYa.Application.UseCases.Wallets.DepositWallet
 {
@@ -41,8 +36,6 @@ namespace SubastaYa.Application.UseCases.Wallets.DepositWallet
 
             wallet.TotalBalance += command.Amount;
 
-            await _walletRepository.UpdateAsync(wallet); //Sacar
-
             var auditEntry = new AuditLog
             {
                 Entity = "BILLETERA",
@@ -54,7 +47,6 @@ namespace SubastaYa.Application.UseCases.Wallets.DepositWallet
             };
             await _auditLogRepository.AddAsync(auditEntry);
 
-            //Historial de transacciones
             var ledgerEntry = new TransactionLedger
             {
                 WalletId = wallet.Id,

@@ -2,12 +2,6 @@
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.Wallets;
 using SubastaYa.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubastaYa.Application.UseCases.Wallets.BalanceWallet
 {

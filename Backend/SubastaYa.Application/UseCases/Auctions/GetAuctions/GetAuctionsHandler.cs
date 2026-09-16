@@ -2,12 +2,6 @@
 using SubastaYa.Application.Interfaces.DTOs;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.Auctions;
-using SubastaYa.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubastaYa.Application.UseCases.Auctions.GetAuctions
 {
@@ -22,7 +16,6 @@ namespace SubastaYa.Application.UseCases.Auctions.GetAuctions
 
         public async Task<PagedResult<AuctionSummaryResponse>> HandleAsync(GetAuctionsQuery query)
         {
-
             var filter = new AuctionFilter
             {
                 Title = query.Title,
@@ -41,12 +34,11 @@ namespace SubastaYa.Application.UseCases.Auctions.GetAuctions
                 Title = a.Title,
                 ImageUrl = a.ImageUrl,
                 CategoryName = a.Category.Name,
-                CurrentBidAmount = a.Bids.Count != 0 ? a.Bids.Max(b => b.Amount) : a.BasePrice,
+                CurrentBidAmount = a.CurrentBidAmount,
                 TotalBids = a.Bids.Count,
                 EndDate = a.EndDate,
                 Status = a.Status
             }).ToList();
-
 
             return new PagedResult<AuctionSummaryResponse>
             {
