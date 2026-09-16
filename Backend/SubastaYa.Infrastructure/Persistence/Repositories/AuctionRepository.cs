@@ -65,10 +65,10 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
                 query = query.Where(a => a.Status == f.Status);
 
             if (f.MinPrice.HasValue)
-                query = query.Where(a => a.BasePrice >= f.MinPrice);
+                query = query.Where(a => a.CurrentBidAmount >= f.MinPrice);
 
             if (f.MaxPrice.HasValue)
-                query = query.Where(a => a.BasePrice <= f.MaxPrice);
+                query = query.Where(a => a.CurrentBidAmount <= f.MaxPrice);
 
             //Ordeno
             query = f.OrderBy switch
