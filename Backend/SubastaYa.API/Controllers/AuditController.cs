@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using SubastaYa.Application.Interfaces.Service.Audits;
-using SubastaYa.Application.UseCases.Audits.CreateAudit;
 using SubastaYa.Application.UseCases.Audits.GetAudit;
 using SubastaYa.Application.UseCases.Audits.GetAudits;
 

@@ -2,11 +2,6 @@
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Domain.Constants;
 using SubastaYa.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubastaYa.Infrastructure.Persistence.Repositories
 {
@@ -25,18 +20,10 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
 
             return auction;
         }
-        public async Task<Auction?> GetByIdAsync(int id)
-        {
-            return await _context.Auctions.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
-        }
+
         public async Task<Auction?> GetByIdTrackingAsync(int id)
         {
             return await _context.Auctions.FirstOrDefaultAsync(a => a.Id == id);
-        }
-
-        public async Task<bool> ExistsAsync(int id)
-        {
-            return await _context.Auctions.AnyAsync(a => a.Id == id);
         }
 
         public async Task<List<Auction>> GetReadyToStartAsync(DateTime now)
@@ -59,17 +46,6 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
                 .Include(a => a.Category)
                 .Include(a => a.Seller)
                 .FirstOrDefaultAsync(a => a.Id == id);
-        }
-
-        public async Task<List<Auction>> GetBySellerIdAsync(int sellerId)
-        {
-            return await _context.Auctions.Where(a => a.SellerId == sellerId).ToListAsync();
-        }
-        public Task<Auction> UpdateAsync(Auction auction)
-        {
-            _context.Auctions.Update(auction);
-
-            return Task.FromResult(auction);
         }
 
         public async Task<(List<Auction> Items, int TotalCount)> GetFilterAsync(AuctionFilter f ,int pageNumber, int pageSize)

@@ -1,41 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using SubastaYa.API;
-using SubastaYa.API.Hubs;
-using SubastaYa.API.Middleware;
-using SubastaYa.API.Services;
-using SubastaYa.Application.Interfaces;
-using SubastaYa.Application.Interfaces.Repositories;
-using SubastaYa.Application.Interfaces.Security;
-using SubastaYa.Application.Interfaces.Service.Auctions;
-using SubastaYa.Application.Interfaces.Service.Audits;
-using SubastaYa.Application.Interfaces.Service.Bids;
-using SubastaYa.Application.Interfaces.Service.Categories;
-using SubastaYa.Application.Interfaces.Service.LedgerTransactions;
-using SubastaYa.Application.Interfaces.Service.Users;
-using SubastaYa.Application.Interfaces.Service.Wallets;
-using SubastaYa.Application.Interfaces.Service.Worker;
-using SubastaYa.Application.UseCases.Auctions.CreateAuction;
-using SubastaYa.Application.UseCases.Auctions.GetAuction;
-using SubastaYa.Application.UseCases.Auctions.GetAuctions;
-using SubastaYa.Application.UseCases.Audits.CreateAudit;
-using SubastaYa.Application.UseCases.Audits.GetAudit;
-using SubastaYa.Application.UseCases.Audits.GetAudits;
-using SubastaYa.Application.UseCases.Bids.CreateBid;
-using SubastaYa.Application.UseCases.Categories.CreateCategory;
-using SubastaYa.Application.UseCases.Categories.GetCategories;
-using SubastaYa.Application.UseCases.LedgerTransactions.CreateTransaction;
-using SubastaYa.Application.UseCases.LedgerTransactions.GetTransaction;
-using SubastaYa.Application.UseCases.LedgerTransactions.GetTransactions;
-using SubastaYa.Application.UseCases.Users.CreateUser;
-using SubastaYa.Application.UseCases.Users.GetUser;
-using SubastaYa.Application.UseCases.Users.UserAuthentication;
-using SubastaYa.Application.UseCases.Wallets.BalanceWallet;
-using SubastaYa.Application.UseCases.Wallets.DepositWallet;
-using SubastaYa.Application.UseCases.Worker;
-using SubastaYa.Infrastructure.Persistence;
-using SubastaYa.Infrastructure.Persistence.Repositories;
-using SubastaYa.Infrastructure.Security;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -85,11 +47,9 @@ builder.Services.AddScoped<ICreateBidHandler, CreateBidHandler>();
 builder.Services.AddScoped<ITransactionLedgerRepository, TransactionLedgerRepository>();
 builder.Services.AddScoped<IGetTransactionHandler, GetTransactionHandler>();
 builder.Services.AddScoped<IGetTransactionsHandler, GetTransactionsHandler>();
-builder.Services.AddScoped<ICreateTransactionHandler, CreateTransactionHandler>();
 
 // Audit
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
-builder.Services.AddScoped<ICreateAuditHandler, CreateAuditHandler>();
 builder.Services.AddScoped<IGetAuditHandler, GetAuditHandler>();
 builder.Services.AddScoped<IGetAuditsHandler, GetAuditsHandler>();
 

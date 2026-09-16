@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SubastaYa.Domain.Exceptions;
-using System.Net;
 
 namespace SubastaYa.API.Middleware
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionMiddleware> _logger; //Registra los errores tecnicos de nuestra aplicacion (es decír de errores de producción) y limpia la información que se le muestra al usuario final.
+        private readonly ILogger<ExceptionMiddleware> _logger;
 
         public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {

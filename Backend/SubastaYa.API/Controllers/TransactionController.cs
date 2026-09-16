@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using SubastaYa.Application.Interfaces.Service.LedgerTransactions;
-using SubastaYa.Application.UseCases.LedgerTransactions.CreateTransaction;
 using SubastaYa.Application.UseCases.LedgerTransactions.GetTransaction;
 using SubastaYa.Application.UseCases.LedgerTransactions.GetTransactions;
 
@@ -11,17 +10,14 @@ namespace SubastaYa.API.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly IGetTransactionsHandler _getTransactionsHandler;
-        private readonly ICreateTransactionHandler _createTransactionHandler;
         private readonly IGetTransactionHandler _getTransactionHandler;
 
         public TransactionController(
             IGetTransactionHandler getTransactionHandler,
-            IGetTransactionsHandler getTransactionsHandler,
-            ICreateTransactionHandler createTransactionHandler)
+            IGetTransactionsHandler getTransactionsHandler)
         {
             _getTransactionHandler = getTransactionHandler;
             _getTransactionsHandler = getTransactionsHandler;
-            _createTransactionHandler = createTransactionHandler;
         }
 
         [HttpGet("wallet/{walletId}")]
@@ -41,15 +37,7 @@ namespace SubastaYa.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTransaction(int id)
         {
-            var transaction = await _getTransactionHandler.HandleAsync(
-                new GetTransactionQuery
-                {
-                    Id = id
-                });
-
-            if (transaction == null)
-                return NotFound();
-
+            var transaction = await _getTransactionHandler.HandleAsync(new GetTransactionQuery { Id = id });
             return Ok(transaction);
         }
     }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SubastaYa.Application.Interfaces.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
 using SubastaYa.Application.Interfaces.Service.Categories;
 using SubastaYa.Application.UseCases.Categories.CreateCategory;
 using SubastaYa.Application.UseCases.Categories.GetCategories;
@@ -23,9 +21,9 @@ namespace SubastaYa.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryCommand command)
         {
-            var categories = await _createCategoryHandler.HandleAsync(command);
+            var category = await _createCategoryHandler.HandleAsync(command);
 
-            return CreatedAtAction(nameof(GetCategories), null, categories);
+            return CreatedAtAction(nameof(GetCategories), null, category);
         }
 
         [HttpGet]

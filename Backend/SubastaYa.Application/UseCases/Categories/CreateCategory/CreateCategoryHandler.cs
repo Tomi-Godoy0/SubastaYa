@@ -37,7 +37,7 @@ namespace SubastaYa.Application.UseCases.Categories.CreateCategory
             return new CategoryResponse
             {
                 Id = category.Id,
-                Name = category.Name.Trim(),
+                Name = category.Name,
                 IconUrl = category.IconUrl
             };
         }

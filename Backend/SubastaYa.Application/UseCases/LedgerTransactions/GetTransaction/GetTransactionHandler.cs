@@ -15,7 +15,7 @@ namespace SubastaYa.Application.UseCases.LedgerTransactions.GetTransaction
             _transactionRepository = transactionRepository;
         }
 
-        public async Task<TransactionResponse?> HandleAsync(
+        public async Task<TransactionResponse> HandleAsync(
             GetTransactionQuery query)
         {
 
