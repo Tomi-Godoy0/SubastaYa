@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SubastaYa.Application.UseCases.Users.GetMyBids;
 
 namespace SubastaYa.API.Controllers
 {
@@ -9,12 +10,26 @@ namespace SubastaYa.API.Controllers
         private readonly ICreateUserHandler _createUserHandler;
         private readonly IGetUserHandler _getUserHandler;
         private readonly IGetUserAuctionsHandler _getUserAuctionsHandler;
+        private readonly IGetUserBidsHandler _getUserBidsHandler;
 
-        public UserController(ICreateUserHandler createUserHandler, IGetUserHandler getUserHandler, IGetUserAuctionsHandler getUserAuctionsHandler)
+        public UserController(
+            ICreateUserHandler createUserHandler, 
+            IGetUserHandler getUserHandler, 
+            IGetUserAuctionsHandler getUserAuctionsHandler, 
+            IGetUserBidsHandler getUserBidsHandler)
         {
             _createUserHandler = createUserHandler;
             _getUserHandler = getUserHandler;
             _getUserAuctionsHandler = getUserAuctionsHandler;
+            _getUserBidsHandler = getUserBidsHandler;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(CreateUserCommand command)
+        {
+            var userId = await _createUserHandler.HandleAsync(command);
+
+            return CreatedAtAction(nameof(GetUser), new { id = userId }, new { id = userId });
         }
 
         [HttpGet("{id}")]
@@ -40,12 +55,19 @@ namespace SubastaYa.API.Controllers
             return Ok(auctions);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateUser(CreateUserCommand command)
+        [HttpGet("{buyerId}/bids")]
+        public async Task<IActionResult> GetUserBids(int buyerId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var userId = await _createUserHandler.HandleAsync(command);
+            var query = new GetUserBidsQuery
+            {
+                BuyerId = buyerId,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
 
-            return CreatedAtAction(nameof(GetUser), new { id = userId }, new { id = userId });
+            var auctions = await _getUserBidsHandler.HandleAsync(query);
+
+            return Ok(auctions);
         }
     }
 }

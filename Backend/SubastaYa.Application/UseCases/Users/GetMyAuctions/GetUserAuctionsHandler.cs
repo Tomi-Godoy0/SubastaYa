@@ -23,7 +23,6 @@ namespace SubastaYa.Application.UseCases.Users.GetMyAuctions
 
              if(!userExists)
                 throw new NotFoundException("El vendedor solicitado no existe");
-
             
             var (auctions, totalCount) = await _auctionRepository.GetBySellerIdAsync(query.SellerId, query.PageNumber, query.PageSize);
 

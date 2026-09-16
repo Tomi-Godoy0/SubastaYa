@@ -30,6 +30,7 @@ global using SubastaYa.Application.UseCases.LedgerTransactions.GetTransactions;
 global using SubastaYa.Application.UseCases.Users.CreateUser;
 global using SubastaYa.Application.UseCases.Users.GetUser;
 global using SubastaYa.Application.UseCases.Users.GetMyAuctions;
+global using SubastaYa.Application.UseCases.Users.GetMyBids;
 global using SubastaYa.Application.UseCases.Users.UserAuthentication;
 global using SubastaYa.Application.UseCases.Wallets.BalanceWallet;
 global using SubastaYa.Application.UseCases.Wallets.DepositWallet;
