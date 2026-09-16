@@ -33,6 +33,10 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
                   .IsRequired()
                   .HasPrecision(18, 2);
 
+            entity.Property(s => s.CurrentBidAmount)
+                  .IsRequired()
+                  .HasPrecision(18, 2);
+
             entity.Property(s => s.MinimumIncrement)
                   .IsRequired()
                   .HasPrecision(18, 2);

@@ -15,6 +15,7 @@ namespace SubastaYa.Domain.Entities
         public string Description { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
         public decimal BasePrice { get; set; }
+        public decimal CurrentBidAmount { get; set; }
         public decimal MinimumIncrement { get; set; }   
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

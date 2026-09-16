@@ -26,9 +26,6 @@ namespace SubastaYa.Application.UseCases.Auctions.GetAuction
             if(auction == null)
                 throw new NotFoundException($"Subasta {query.AuctionId} no encontrada.");
 
-            var currentBid = auction.Bids.Count != 0 ? auction.Bids.Max(b => b.Amount) : auction.BasePrice;
-
-
             return new AuctionResponse
             {
                 Id = auction.Id,
@@ -37,7 +34,7 @@ namespace SubastaYa.Application.UseCases.Auctions.GetAuction
                 ImageUrl = auction.ImageUrl,
                 BasePrice = auction.BasePrice,
                 MinimumIncrement = auction.MinimumIncrement,
-                CurrentBidAmount = currentBid,
+                CurrentBidAmount = auction.CurrentBidAmount,
                 TotalBids = auction.Bids.Count,
                 EndDate = auction.EndDate,
                 Status = auction.Status,
