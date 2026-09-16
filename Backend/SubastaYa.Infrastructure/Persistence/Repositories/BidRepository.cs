@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubastaYa.Infrastructure.Persistence.Repositories
 {
@@ -32,7 +27,7 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
         {
             return await _context.Bids
                 .Where(b => b.AuctionId == auctionId)
-                .OrderByDescending(b => b.CreatedAt) // Voy a querer el más reciente primero
+                .OrderByDescending(b => b.CreatedAt)
                 .ToListAsync();
         }
         public async Task<Bid?> GetHighestBidByAuctionIdAsync(int auctionId)

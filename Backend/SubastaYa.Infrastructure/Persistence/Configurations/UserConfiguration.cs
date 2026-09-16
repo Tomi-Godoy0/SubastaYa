@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SubastaYa.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubastaYa.Infrastructure.Persistence.Configurations
 {
@@ -13,9 +8,11 @@ namespace SubastaYa.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<User> entity)
         {
+            entity.HasKey(u => u.Id);
 
             // Configuración de propiedades
             entity.Property(u => u.Email)
+                  .IsRequired()
                   .HasMaxLength(150);
 
             entity.Property(u => u.Name)

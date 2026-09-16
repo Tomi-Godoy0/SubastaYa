@@ -37,3 +37,4 @@ global using SubastaYa.Application.UseCases.Worker;
 global using SubastaYa.Infrastructure.Persistence;
 global using SubastaYa.Infrastructure.Persistence.Repositories;
 global using SubastaYa.Infrastructure.Security;
+global using SubastaYa.Infrastructure.Workers;
