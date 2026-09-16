@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SubastaYa.Application.Interfaces.Service.Users;
-using SubastaYa.Application.UseCases.Users.CreateUser;
-using SubastaYa.Application.UseCases.Users.GetUser;
 
 namespace SubastaYa.API.Controllers
 {
@@ -11,11 +8,13 @@ namespace SubastaYa.API.Controllers
     {
         private readonly ICreateUserHandler _createUserHandler;
         private readonly IGetUserHandler _getUserHandler;
+        private readonly IGetUserAuctionsHandler _getUserAuctionsHandler;
 
-        public UserController(ICreateUserHandler createUserHandler, IGetUserHandler getUserHandler)
+        public UserController(ICreateUserHandler createUserHandler, IGetUserHandler getUserHandler, IGetUserAuctionsHandler getUserAuctionsHandler)
         {
             _createUserHandler = createUserHandler;
             _getUserHandler = getUserHandler;
+            _getUserAuctionsHandler = getUserAuctionsHandler;
         }
 
         [HttpGet("{id}")]
@@ -26,6 +25,20 @@ namespace SubastaYa.API.Controllers
             return Ok(user);
         }
 
+        [HttpGet("{sellerId}/auctions")]
+        public async Task<IActionResult> GetUserAuctions(int sellerId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var query = new GetUserAuctionsQuery
+            {
+                SellerId = sellerId,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            var auctions = await _getUserAuctionsHandler.HandleAsync(query);
+
+            return Ok(auctions);
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateUser(CreateUserCommand command)

@@ -9,6 +9,7 @@ namespace SubastaYa.Application.Interfaces.Repositories
 
         //Queries
         Task<Auction?> GetByIdWithBidsAsync(int id);
+        Task<(List<Auction> Items, int TotalCount)> GetBySellerIdAsync(int sellerId, int pageNumber, int pageSize);
 
         // Concurrencia y Tracking
         Task<Auction?> GetByIdTrackingAsync(int id);

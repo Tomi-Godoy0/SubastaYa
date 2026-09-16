@@ -21,6 +21,23 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
             return auction;
         }
 
+        public async Task<(List<Auction> Items, int TotalCount)> GetBySellerIdAsync(int sellerId, int pageNumber, int pageSize)
+        {
+            IQueryable<Auction> query = _context.Auctions
+                .AsNoTracking()
+                .Where(a => a.SellerId == sellerId)
+                .Include(a => a.Category)
+                .Include(a => a.Bids);
+
+            var totalCount = await query.CountAsync();
+            var items = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (items, totalCount);
+        }
+
         public async Task<Auction?> GetByIdTrackingAsync(int id)
         {
             return await _context.Auctions.FirstOrDefaultAsync(a => a.Id == id);
