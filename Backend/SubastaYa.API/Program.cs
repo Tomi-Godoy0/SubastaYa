@@ -7,12 +7,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ----------- Conexi�n de base de datos ------------
+// ----------- Conexion de base de datos ------------
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
-// ----------- Inyecci�n de dependencias ------------
+// ----------- Inyeccion de dependencias ------------
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
