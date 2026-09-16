@@ -6,7 +6,6 @@ namespace SubastaYa.Application.Interfaces.Service.LedgerTransactions
 {
     public interface IGetTransactionsHandler
     {
-        Task<PagedResult<TransactionResponse>> HandleAsync(
-            GetTransactionsQuery query);
+        Task<PagedResult<TransactionResponse>> HandleAsync(GetTransactionsQuery query);
     }
 }
