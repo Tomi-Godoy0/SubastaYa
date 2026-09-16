@@ -48,6 +48,7 @@ namespace SubastaYa.Application.UseCases.Auctions.CreateAuction
                 Description = command.Description,
                 ImageUrl = command.ImageUrl,
                 BasePrice = command.BasePrice,
+                CurrentBidAmount = command.BasePrice,
                 MinimumIncrement = command.MinimumIncrement,
                 StartDate = command.StartDate,
                 EndDate = command.EndDate,

@@ -98,15 +98,15 @@ namespace SubastaYa.Infrastructure.Persistence.Repositories
             query = f.OrderBy switch
             {
                 "timeRemaining" => query.OrderBy(a => a.EndDate),
-                "highestBid" => query.OrderByDescending(a => a.BasePrice), //Todavia no tenemos un campo donde tengamos la puja mayor
+                "highestBid" => query.OrderByDescending(a => a.CurrentBidAmount),
                 _ => query.OrderBy(a => a.Id)
             };
 
             var totalCount = await query.CountAsync();
 
             var items = await query
-                        .Skip((pageNumber - 1) * pageSize) // Salta a otra página
-                        .Take(pageSize) // Limita
+                        .Skip((pageNumber - 1) * pageSize)
+                        .Take(pageSize)
                         .ToListAsync();
 
             return (items, totalCount);

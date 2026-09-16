@@ -62,7 +62,7 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
                 throw new NotFoundException("El comprador no existe");
 
             var highestBid = await _bidRepository.GetHighestBidByAuctionIdAsync(auction.Id);
-            var currentAmount = highestBid?.Amount ?? auction.BasePrice; // si no hubo pujas, vamos a usar el precio base
+            var currentAmount = highestBid?.Amount ?? auction.BasePrice;
             var minimunValidAmount = currentAmount + auction.MinimumIncrement;
 
             if (command.Amount < minimunValidAmount)
@@ -111,6 +111,8 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
                 };
 
                 await _bidRepository.AddAsync(newBid);
+
+                auction.CurrentBidAmount = command.Amount;
 
                 var ledgerRetention = new TransactionLedger
                 {
