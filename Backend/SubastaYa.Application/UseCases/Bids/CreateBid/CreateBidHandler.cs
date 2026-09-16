@@ -95,12 +95,9 @@ namespace SubastaYa.Application.UseCases.Bids.CreateBid
                     };
 
                     await _transactionLedgerRepository.AddAsync(ledgerRelease);
-                    await _walletRepository.UpdateAsync(lastWallet); //Sacar
                 }
 
                 wallet.HeldBalance += command.Amount;
-                await _walletRepository.UpdateAsync(wallet); //Sacar
-
 
                 var newBid = new Bid
                 {

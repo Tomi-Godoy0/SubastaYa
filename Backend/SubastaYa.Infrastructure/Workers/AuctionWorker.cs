@@ -1,13 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SubastaYa.Application.Interfaces.Service.Worker;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SubastaYa.Infrastructure.Persistence.Repositories
+namespace SubastaYa.Infrastructure.Workers
 {
     public class AuctionWorker : BackgroundService
     {

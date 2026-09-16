@@ -1,7 +1,6 @@
 ﻿using SubastaYa.Application.Interfaces.DTOs;
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.Categories;
-using SubastaYa.Domain.Entities;
 
 namespace SubastaYa.Application.UseCases.Categories.GetCategories
 {

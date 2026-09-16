@@ -1,9 +1,4 @@
 ﻿using SubastaYa.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubastaYa.Application.Interfaces.Repositories
 {
@@ -11,7 +6,7 @@ namespace SubastaYa.Application.Interfaces.Repositories
     {
         public Task<Bid> AddAsync(Bid bid);
         public Task<List<Bid>> GetByAuctionIdAsync(int auctionId); // Acá hago el historial de ofertas en una subasta
-        public Task<Bid?> GetHighestBidByAuctionIdAsync(int auctionId); // La puja lider actual
-        public Task<bool> ExistsByAuctionIdAsync(int auctionId); // Cantidad de ofertas
+        public Task<Bid?> GetHighestBidByAuctionIdAsync(int auctionId);
+        public Task<bool> ExistsByAuctionIdAsync(int auctionId);
     }
 }

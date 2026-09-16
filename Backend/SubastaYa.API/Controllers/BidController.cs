@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SubastaYa.Application.Interfaces.Service.Bids;
 using SubastaYa.Application.UseCases.Bids.CreateBid;
 
@@ -22,7 +21,7 @@ namespace SubastaYa.API.Controllers
             command.AuctionId = auctionId;
             var bidId = await _createBidHandler.HandleAsync(command);
 
-            return Ok(new { id = bidId });
+            return StatusCode(201, new { id = bidId });
         }
     }
 }

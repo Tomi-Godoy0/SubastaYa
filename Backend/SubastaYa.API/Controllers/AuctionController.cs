@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SubastaYa.Application.Interfaces.Service.Auctions;
 using SubastaYa.Application.UseCases.Auctions.CreateAuction;
 using SubastaYa.Application.UseCases.Auctions.GetAuction;
@@ -23,11 +22,11 @@ namespace SubastaYa.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> createAuction(CreateAuctionCommand command)
+        public async Task<IActionResult> CreateAuction(CreateAuctionCommand command)
         {
-            var auction = await _createAuctionHandler.HandleAsync(command);
+            var auctionId = await _createAuctionHandler.HandleAsync(command);
 
-            return CreatedAtAction(nameof(GetAuction), new { id = auction }, new { id = auction });
+            return CreatedAtAction(nameof(GetAuction), new { id = auctionId }, new { id = auctionId });
         }
 
         [HttpGet("{id}")]

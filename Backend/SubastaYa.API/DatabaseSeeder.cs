@@ -13,7 +13,7 @@ namespace SubastaYa.API
             var context = services.GetRequiredService<AppDbContext>();
             var passwordHasher = services.GetRequiredService<IPasswordHasher>();
 
-            context.Database.Migrate();
+            await context.Database.MigrateAsync();
 
             if (context.Users.Any())
                 return;
@@ -77,7 +77,7 @@ namespace SubastaYa.API
             context.Users.AddRange(userOne, userTwo, userThree, userFour);
             context.Wallets.AddRange(walletOne, walletTwo, walletThree, walletFour);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             var categoryTech = new Category { Name = "Tecnología", IconUrl = "https://ejemplo.com/icono.png" };
             var categoryCollectibles = new Category { Name = "Coleccionables", IconUrl = "https://ejemplo.com/icono.png" };
@@ -85,7 +85,7 @@ namespace SubastaYa.API
             var categoryVehicles = new Category { Name = "Vehículos", IconUrl = "https://ejemplo.com/icono.png" };
 
             context.Categories.AddRange(categoryTech, categoryCollectibles, categoryClothing, categoryVehicles);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             var auctionStandard = new Auction
             {
@@ -95,6 +95,7 @@ namespace SubastaYa.API
                 Description = "Reloj de colección en buen estado, funcionando",
                 ImageUrl = "https://ejemplo.com/reloj.jpg",
                 BasePrice = 40000,
+                CurrentBidAmount = 45000,
                 MinimumIncrement = 1000,
                 StartDate = DateTime.UtcNow,
                 EndDate = DateTime.UtcNow.AddMinutes(25),
@@ -109,6 +110,7 @@ namespace SubastaYa.API
                 Description = "Casco integral, talle M",
                 ImageUrl = "https://ejemplo.com/casco.jpg",
                 BasePrice = 5000,
+                CurrentBidAmount = 5000,
                 MinimumIncrement = 500,
                 StartDate = DateTime.UtcNow,
                 EndDate = DateTime.UtcNow.AddMinutes(2),
@@ -122,7 +124,8 @@ namespace SubastaYa.API
                 Title = "Notebook gamer",
                 Description = "Notebook nueva, sin uso",
                 ImageUrl = "https://ejemplo.com/notebook.jpg",
-                BasePrice = 800000,
+                BasePrice = 80000,
+                CurrentBidAmount = 80000,
                 MinimumIncrement = 20000,
                 StartDate = DateTime.UtcNow.AddHours(24),
                 EndDate = DateTime.UtcNow.AddHours(48),
@@ -136,7 +139,8 @@ namespace SubastaYa.API
                 Title = "Bicicleta de montaña",
                 Description = "Bicicleta rodado 29, poco uso",
                 ImageUrl = "https://ejemplo.com/bici.jpg",
-                BasePrice = 100000,
+                BasePrice = 10000,
+                CurrentBidAmount = 50000,
                 MinimumIncrement = 5000,
                 StartDate = DateTime.UtcNow.AddHours(-2),
                 EndDate = DateTime.UtcNow.AddMinutes(-5),
@@ -151,6 +155,7 @@ namespace SubastaYa.API
                 Description = "Campera talle L, nunca usada",
                 ImageUrl = "https://ejemplo.com/campera.jpg",
                 BasePrice = 30000,
+                CurrentBidAmount = 30000,
                 MinimumIncrement = 2000,
                 StartDate = DateTime.UtcNow.AddHours(-2),
                 EndDate = DateTime.UtcNow.AddMinutes(-5),
@@ -236,7 +241,7 @@ namespace SubastaYa.API
             context.Bids.AddRange(bidStandardOne, bidStandardTwo, bidWinner);
             context.Auctions.AddRange(auctionStandard, auctionCritic, auctionUpcoming, auctionExpiredWithWinner, auctionExpiredDeserted);
             context.TransactionLedgers.AddRange(ledgerDepositTwo, ledgerRetentionTwo, ledgerDepositThree, ledgerRetentionThree, ledgerRetentionThreeStandard, ledgerReleaseThreeStandard);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }
