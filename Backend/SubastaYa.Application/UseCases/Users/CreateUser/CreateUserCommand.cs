@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SubastaYa.Application.UseCases.Users.CreateUser
 {
     public class CreateUserCommand
     {
+        [Required(ErrorMessage = "El email es obligatorio")]
+        [EmailAddress(ErrorMessage = "El formato de email no es válido")]
         public string Email { get; set; } = string.Empty;
+        [Required(ErrorMessage = "El nombre es obligatorio")]
         public string Name { get; set; } = string.Empty;
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
         public string Password { get; set; } = string.Empty;
     }
 }

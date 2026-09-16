@@ -2,11 +2,6 @@
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.Auctions;
 using SubastaYa.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubastaYa.Application.UseCases.Auctions.GetAuction
 {
@@ -21,10 +16,8 @@ namespace SubastaYa.Application.UseCases.Auctions.GetAuction
 
         public async Task<AuctionResponse> HandleAsync(GetAuctionQuery query)
         {
-            var auction = await _auctionRepository.GetByIdWithBidsAsync(query.AuctionId);
-
-            if(auction == null)
-                throw new NotFoundException($"Subasta {query.AuctionId} no encontrada.");
+            var auction = await _auctionRepository.GetByIdWithBidsAsync(query.AuctionId)
+                ?? throw new NotFoundException($"Subasta {query.AuctionId} no encontrada.");
 
             return new AuctionResponse
             {

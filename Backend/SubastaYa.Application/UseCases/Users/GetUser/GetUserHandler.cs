@@ -2,11 +2,6 @@
 using SubastaYa.Application.Interfaces.Repositories;
 using SubastaYa.Application.Interfaces.Service.Users;
 using SubastaYa.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubastaYa.Application.UseCases.Users.GetUser
 {
@@ -21,10 +16,8 @@ namespace SubastaYa.Application.UseCases.Users.GetUser
 
         public async Task<UserResponse> HandleAsync(GetUserQuery query)
         {
-            var user = await _userRepository.GetByIdAsync(query.UserId);
-
-            if (user == null)
-                throw new NotFoundException($"Usuario {query.UserId} no encontrado");
+            var user = await _userRepository.GetByIdAsync(query.UserId)
+            ?? throw new NotFoundException($"Usuario {query.UserId} no encontrado");
 
             return new UserResponse
             {

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SubastaYa.Application.UseCases.Users.UserAuthentication
 {
     public class UserAuthenticationQuery
     {
-        public string Email { get; set; }
-        public string Password { get; set; } 
+        [Required(ErrorMessage = "El email es obligatorio")]
+        [EmailAddress(ErrorMessage = "El formato de email no es válido")]
+        public string Email { get; set; } = string.Empty;
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        public string Password { get; set; } = string.Empty;
     }
 }
