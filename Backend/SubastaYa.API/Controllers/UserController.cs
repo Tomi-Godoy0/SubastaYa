@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SubastaYa.Application.Interfaces.Service.Users;
 using SubastaYa.Application.UseCases.Users.CreateUser;
 using SubastaYa.Application.UseCases.Users.GetUser;
