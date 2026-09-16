@@ -13,7 +13,7 @@ namespace SubastaYa.API
             var context = services.GetRequiredService<AppDbContext>();
             var passwordHasher = services.GetRequiredService<IPasswordHasher>();
 
-            context.Database.Migrate();
+            await context.Database.MigrateAsync();
 
             if (context.Users.Any())
                 return;
@@ -77,7 +77,7 @@ namespace SubastaYa.API
             context.Users.AddRange(userOne, userTwo, userThree, userFour);
             context.Wallets.AddRange(walletOne, walletTwo, walletThree, walletFour);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             var categoryTech = new Category { Name = "Tecnología", IconUrl = "https://ejemplo.com/icono.png" };
             var categoryCollectibles = new Category { Name = "Coleccionables", IconUrl = "https://ejemplo.com/icono.png" };
@@ -85,7 +85,7 @@ namespace SubastaYa.API
             var categoryVehicles = new Category { Name = "Vehículos", IconUrl = "https://ejemplo.com/icono.png" };
 
             context.Categories.AddRange(categoryTech, categoryCollectibles, categoryClothing, categoryVehicles);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             var auctionStandard = new Auction
             {
@@ -241,7 +241,7 @@ namespace SubastaYa.API
             context.Bids.AddRange(bidStandardOne, bidStandardTwo, bidWinner);
             context.Auctions.AddRange(auctionStandard, auctionCritic, auctionUpcoming, auctionExpiredWithWinner, auctionExpiredDeserted);
             context.TransactionLedgers.AddRange(ledgerDepositTwo, ledgerRetentionTwo, ledgerDepositThree, ledgerRetentionThree, ledgerRetentionThreeStandard, ledgerReleaseThreeStandard);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }
