@@ -10,9 +10,9 @@ namespace SubastaYa.Application.UseCases.Audits.GetAudits
     public class GetAuditsQuery
     {
         public int? UserId { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "El número de página debe ser mayor a cero")]
+        [Range(1, int.MaxValue, ErrorMessage = "El nÃºmero de pÃ¡gina debe ser mayor a cero")]
         public int PageNumber { get; set; } = 1;
-        [Range(1, 100, ErrorMessage = "El tamaño de página debe estar entre 1 y 100")]
+        [Range(1, 100, ErrorMessage = "El tamaÃ±o de pÃ¡gina debe estar entre 1 y 100")]
         public int PageSize { get; set; } = 10;
     }
 }
