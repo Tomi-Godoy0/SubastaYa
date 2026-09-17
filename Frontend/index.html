@@ -1,261 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SubastaYa - Subastas</title>
 
-    <title>SubastaYa - Subastas</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/components/header.css">
+        <link rel="stylesheet" href="css/components/buttons.css">
+        <link rel="stylesheet" href="css/components/cards.css">
+        <link rel="stylesheet" href="css/components/forms.css">
+        <link rel="stylesheet" href="css/components/toast.css">
+        <link rel="stylesheet" href="css/pages/index.css">
+
+        <script src="js/index.js" defer></script>
+    </head>
 
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <body>
+        <header class="header">
 
-<body>
-
-<header class="header">
-
-    <div class="header__logo">
-        <a href="index.html">SubastaYa</a>
-    </div>
-
-    <nav class="header__nav">
-        <a href="index.html">Subastas</a>
-        <a href="dashboard.html">Mi cuenta</a>
-    </nav>
-
-    <div class="header__user">
-
-        <span id="usuario-nombre">
-            Usuario
-        </span>
-
-        <button
-            type="button"
-            id="btn-logout">
-            Cerrar sesión
-        </button>
-
-    </div>
-
-</header>
-
-
-<main>
-
-<section class="section">
-
-    <div class="section__header">
-
-        <h1>
-            Subastas
-        </h1>
-
-        <p>
-            Explorá las subastas disponibles.
-        </p>
-
-    </div>
-
-
-    <!-- =====================================================
-         FILTROS
-    ====================================================== -->
-
-    <div class="catalog-filters">
-
-        <!-- BÚSQUEDA -->
-
-        <div class="form-group">
-
-            <label for="filtro-busqueda">
-                Buscar
-            </label>
-
-            <input
-                type="text"
-                id="filtro-busqueda"
-                placeholder="Buscar subasta..."
-            >
-
-        </div>
-
-
-        <!-- CATEGORÍA -->
-
-        <div class="form-group">
-
-            <label for="filtro-categoria">
-                Categoría
-            </label>
-
-            <select id="filtro-categoria">
-
-                <option value="">
-                    Todas las categorías
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <!-- ESTADO -->
-
-        <div class="form-group">
-
-            <label for="filtro-estado">
-                Estado
-            </label>
-
-            <select id="filtro-estado">
-
-                <option value="">
-                    Todos los estados
-                </option>
-
-                <option value="ACTIVA">
-                    Activas
-                </option>
-
-                <option value="PROXIMA">
-                    Próximas
-                </option>
-
-                <option value="FINALIZADA">
-                    Finalizadas
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <!-- PRECIO MÍNIMO -->
-
-        <div class="form-group">
-
-            <label for="filtro-precio-min">
-                Precio mínimo
-            </label>
-
-            <input
-                type="number"
-                id="filtro-precio-min"
-                min="0"
-                step="0.01"
-                placeholder="Ej. 1000"
-            >
-
-        </div>
-
-
-        <!-- PRECIO MÁXIMO -->
-
-        <div class="form-group">
-
-            <label for="filtro-precio-max">
-                Precio máximo
-            </label>
-
-            <input
-                type="number"
-                id="filtro-precio-max"
-                min="0"
-                step="0.01"
-                placeholder="Ej. 50000"
-            >
-
-        </div>
-
-
-        <!-- ORDENAMIENTO -->
-
-        <div class="form-group">
-
-
-            <label for="filtro-orden">
-                Ordenar por
-            </label>
-
-            <select id="filtro-orden">
-
-               <option value="" selected>Seleccionar</option>
-               <option value="tiempo">
-                    Menor tiempo restante
-                </option>
-
-                <option value="puja">
-                    Mayor puja
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <!-- BOTONES -->
-
-        <div class="filters__actions">
-
-            <button
-                type="button"
-                id="btn-filtrar">
-                Buscar
-            </button>
-
-            <button
-                type="button"
-                id="btn-limpiar-filtros"
-                class="button-secondary">
-                Limpiar
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         CATÁLOGO
-    ====================================================== -->
-
-    <section>
+            <div class="header__logo">
+                <a href="index.html">SubastaYa</a>
+            </div>
+
+            <nav class="header__nav">
+                <a href="index.html">Subastas</a>
+                <a href="/pages/dashboard.html">Mi cuenta</a>
+            </nav>
+
+            <div class="header__user">
+                <span id="usuario-nombre">Usuario</span>
+                <button type="button" id="btn-logout">Cerrar sesión</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="section">
+                <div class="section__header">
+                    <h1>Subastas</h1>
+                    <p>Explorá las subastas disponibles.</p>
+                </div>
+
+                <!-- =====================================================
+                    FILTROS
+                ====================================================== -->
+
+                <div class="catalog-filters">
+                    <!-- BÚSQUEDA -->
+
+                    <div class="form-group">
+                        <label for="filtro-busqueda">Buscar</label>
+
+                        <input
+                            type="text"
+                            id="filtro-busqueda"
+                            placeholder="Buscar subasta...">
+                    </div>
+
+                    <!-- CATEGORÍA -->
+                    <div class="form-group">
+                        <label for="filtro-categoria">Categoría</label>
+
+                        <select id="filtro-categoria">
+                            <option value="">Todas las categorías</option>
+                        </select>
+                    </div>
+
+                    <!-- ESTADO -->
+
+                    <div class="form-group">
+
+                        <label for="filtro-estado">Estado</label>
+
+                        <select id="filtro-estado">
+                            <option value="">Todos los estados</option>
+
+                            <option value="ACTIVA">Activas</option>
+
+                            <option value="PROGRAMADA">Programadas</option>
+
+                            <option value="FINALIZADA">Finalizadas</option>
+                        </select>
+                    </div>
+
+                    <!-- PRECIO MÍNIMO -->
+
+                    <div class="form-group">
+                        <label for="filtro-precio-min">Precio mínimo</label>
+
+                        <input
+                            type="number"
+                            id="filtro-precio-min"
+                            min="0"
+                            step="0.01"
+                            placeholder="Ej. 1000"
+                            >
+                    </div>
+
+                    <!-- PRECIO MÁXIMO -->
+
+                    <div class="form-group">
+                        <label for="filtro-precio-max">Precio máximo</label>
+
+                        <input
+                            type="number"
+                            id="filtro-precio-max"
+                            min="0"
+                            step="0.01"
+                            placeholder="Ej. 50000"
+                        >
+                    </div>
+
+                    <!-- ORDENAMIENTO -->
+                    <div class="form-group">
+                        <label for="filtro-orden">Ordenar por</label>
+
+                        <select id="filtro-orden">
+                            <option value="" selected>Seleccionar</option>
+
+                            <option value="tiempo">Menor tiempo restante</option>
+                            
+                            <option value="puja">Mayor puja</option>
+                        </select>
+                    </div>
+
+                    <!-- BOTONES -->
+                    <div class="filters__actions">
+                        <button type="button" id="btn-filtrar">Buscar</button>
+
+                        <button type="button" id="btn-limpiar-filtros" class="button-secondary">Limpiar</button>
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                    CATÁLOGO
+                ====================================================== -->
+                <section>
+                    <div id="catalogo-subastas" class="auction-grid">
+                        <p>Cargando subastas...</p>
+                    </div>
+                </section>
+
+                <!-- =====================================================
+                    PAGINACIÓN
+                ====================================================== -->
+                <div
+                    id="paginacion"
+                    class="pagination">
+                </div>
+            </section>
+        </main>
 
         <div
-            id="catalogo-subastas"
-            class="auction-grid">
-
-            <p>
-                Cargando subastas...
-            </p>
-
+            id="toast-container"
+            class="toast-container">
         </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         PAGINACIÓN
-    ====================================================== -->
-
-    <div
-        id="paginacion"
-        class="pagination">
-    </div>
-
-</section>
-
-</main>
-
-
-<div
-    id="toast-container"
-    class="toast-container">
-</div>
-
-
-<script src="js/index.js"></script>
-
-</body>
-
+    </body>
 </html>

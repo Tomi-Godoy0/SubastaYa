@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+        <title>SubastaYa - Mi cuenta</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/pages/dashboard.css">
+        <link rel="stylesheet" href="../css/components/header.css">
+        <link rel="stylesheet" href="../css/components/buttons.css">
+        <link rel="stylesheet" href="../css/components/toast.css">
+        <link rel="stylesheet" href="../css/components/modal.css">
+
+        <script src="../js/dashboard.js"></script>
+    </head>
+    <body>
+        <header class="header">
+
+            <div class="header__logo">
+                <a href="../index.html">SubastaYa</a>
+            </div>
+            <nav class="header__nav">
+                <a href="../index.html">Subastas</a>
+                <a href="dashboard.html">Mi cuenta</a>
+            </nav>
+
+            <div class="header__user">
+                <span id="usuario-nombre">Usuario</span>
+                <button type="button" id="btn-logout">
+                    Cerrar sesión
+                </button>
+            </div>
+        </header>
+        <main>
+            <section class="section">
+                <div class="section__header">
+                    <h1>Mi cuenta</h1>
+                    <p>Administrá tus pujas, publicaciones y billetera.</p>
+                </div>
+
+                <!-- TABS -->
+                <div class="dashboard-tabs">
+                    <button type="button" class="dashboard-tab is-active" data-tab="pujas">
+                        Mis pujas
+                    </button>
+
+                    <button type="button" class="dashboard-tab" data-tab="publicaciones">
+                        Mis publicaciones
+                    </button>
+
+                    <button type="button" class="dashboard-tab" data-tab="billetera">
+                        Billetera
+                    </button>
+                </div>
+
+                <!-- MIS PUJAS -->
+                <section id="panel-pujas" class="dashboard-panel">
+                    <h2>Mis pujas</h2>
+                    <p>Subastas en las que participaste.</p>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Subasta</th>
+                                    <th>Mi puja</th>
+                                    <th>Puja actual</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tabla-mis-pujas">
+                                <tr>
+                                    <td colspan="5">Cargando...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- MIS PUBLICACIONES -->
+                <section id="panel-publicaciones" class="dashboard-panel" hidden>
+                    <h2>Mis publicaciones</h2>
+
+                    <p>Subastas que publicaste.</p>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Subasta</th>
+                                    <th>Precio inicial</th>
+                                    <th>Puja actual</th>
+                                    <th>Estado</th>
+                                    <th>Finaliza</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tabla-mis-publicaciones">
+                                <tr>
+                                    <td colspan="5">Cargando...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- BILLETERA -->
+                <section id="panel-billetera" class="dashboard-panel" hidden>
+                    <h2>Mi billetera</h2>
+                    <p>Consultá tu saldo y movimientos.</p>
+
+                    <div class="wallet-summary">
+                        <article class="wallet-card">
+                            <span>Saldo total</span>
+
+                            <strong id="saldo-total">$0</strong>
+                        </article>
+
+                        <article class="wallet-card">
+                            <span>Saldo disponible</span>
+
+                            <strong id="saldo-disponible">$0</strong>
+                        </article>
+
+                        <article class="wallet-card">
+                            <span>Saldo retenido</span>
+
+                            <strong id="saldo-retenido">$0</strong>
+                        </article>
+                    </div>
+
+                    <!-- DEPÓSITO -->
+                    <article class="wallet-deposit">
+                        <h3>Depositar fondos</h3>
+                        <p>Agregá saldo a tu billetera.</p>
+
+                        <form id="form-deposito">
+                            <input
+                                type="number"
+                                id="monto-deposito"
+                                min="1"
+                                step="0.01"
+                                placeholder="Monto"
+                                required>
+
+                            <button type="submit">Depositar</button>
+                        </form>
+                    </article>
+
+                    <!-- MOVIMIENTOS -->
+                    <article class="wallet-history">
+                        <h3>Historial de movimientos</h3>
+
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Tipo</th>
+                                        <th>Descripción</th>
+                                        <th>Monto</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-movimientos">
+                                    <tr>
+                                        <td colspan="4">Cargando movimientos...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+            </section>
+        </main>
+        <div
+            id="toast-container"
+            class="toast-container">
+        </div>
+    </body>
+</html>

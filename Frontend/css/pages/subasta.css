@@ -1,0 +1,279 @@
+.auction-detail {
+    display: block;
+    width: 100%;
+}
+/* -------------------------
+   IMAGEN
+------------------------- */
+.auction-detail-card__image {
+    width: 100%;
+    height: 360px;
+
+    overflow: hidden;
+
+    border-radius: 12px;
+    background-color: #f3f4f6;
+}
+
+.auction-detail-card__image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+/* -------------------------
+   CONTENIDO
+------------------------- */
+.auction-detail-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.auction-detail-card__content h1 {
+    margin: 0;
+
+    color: #111827;
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.auction-detail-card__content > p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 15px;
+}
+/* -------------------------
+   INFORMACIÓN
+------------------------- */
+.auction-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 8px 0;
+}
+
+.auction-info > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px;
+
+    background-color: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.auction-info span {
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.auction-info strong {
+    color: #111827;
+    font-size: 20px;
+}
+/* -------------------------
+   PUJA ACTUAL
+------------------------- */
+.auction-info > div:nth-child(2) {
+    background-color: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.auction-info > div:nth-child(2) strong {
+    color: #2563eb;
+    font-size: 24px;
+}
+
+/* -------------------------
+   SUBASTA CERRADA
+------------------------- */
+.auction-closed {
+    margin-top: 8px;
+    padding: 16px;
+
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+
+    background-color: #fef2f2;
+    color: #b91c1c;
+    font-weight: 600;
+}
+/* =========================================================
+   HISTORIAL DE PUJAS
+========================================================= */
+.bid-history {
+    width: 100%;
+    margin-top: 24px;
+    padding: 24px;
+
+    background-color: #fff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+.bid-history h2 {
+    margin: 0;
+
+    color: #111827;
+    font-size: 22px;
+}
+
+.bid-history .table-wrapper {
+    overflow-x: auto;
+}
+
+.bid-history table {
+    margin-top: 16px;
+}
+
+.bid-history th {
+    background-color: #f8fafc;
+    color: #64748b;
+
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.bid-history td {
+    color: #374151;
+}
+
+.bid-history tbody tr:hover {
+    background-color: #f8fafc;
+}
+/* =========================================================
+   TEMPORIZADOR DE SUBASTA
+========================================================= */
+.auction-timer {
+    margin: 25px 0;
+    padding: 20px;
+    text-align: center;
+
+    border-radius: 12px;
+    background: #f3f4f6;
+    border: 2px solid #d1d5db;
+
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+/* Texto "Tiempo restante" */
+.auction-timer__label {
+    display: block;
+    margin-bottom: 8px;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+/* Reloj */
+.auction-timer__clock {
+    display: block;
+
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #111827;
+
+    font-variant-numeric: tabular-nums;
+}
+
+/* Mensaje debajo del reloj */
+.auction-timer__message {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+/* =========================================================
+   ZONA DE ADVERTENCIA
+   Entre 5 minutos y 1 minuto
+========================================================= */
+.auction-timer--warning {
+    background: #fff7ed;
+    border-color: #f59e0b;
+}
+
+.auction-timer--warning .auction-timer__clock {
+    color: #d97706;
+}
+
+.auction-timer--warning .auction-timer__message {
+    color: #b45309;
+}
+/* =========================================================
+   ZONA CRÍTICA
+   ÚLTIMO MINUTO
+========================================================= */
+.auction-timer--critical {
+    background: #fef2f2;
+    border-color: #dc2626;
+    animation: timerPulse 1s infinite;
+}
+
+.auction-timer--critical .auction-timer__clock {
+    color: #dc2626;
+}
+
+.auction-timer--critical .auction-timer__message {
+    color: #b91c1c;
+}
+
+/* =========================================================
+   ANIMACIÓN ÚLTIMO MINUTO
+========================================================= */
+
+@keyframes timerPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.35);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+    }
+}
+
+@media (max-width: 768px) {
+    .auction-detail-card__image {
+        height: 280px;
+    }
+
+    .auction-detail-card__content h1 {
+        font-size: 26px;
+    }
+
+    .auction-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .auction-detail-card__image {
+        height: 220px;
+    }
+
+    .auction-detail-card__content h1 {
+        font-size: 23px;
+    }
+
+    .bid-history {
+        padding: 16px;
+    }
+}
