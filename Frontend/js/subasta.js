@@ -1,44 +1,24 @@
 const API_URL = "https://localhost:7204";
-
 const userId = localStorage.getItem("userId");
-
 const params = new URLSearchParams(window.location.search);
-
 const auctionId = Number(params.get("id"));
 
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl(`${API_URL}/hubs/auction`)
+    .withAutomaticReconnect()
+    .build();
+
 let paginaPujas = 1;
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 25;
+let totalPujas = 0;
+
 let subastaActual = null;
-
-/* =========================================================
-   TEMPORIZADOR / ACTUALIZACIÓN EN VIVO
-========================================================= */
 let intervaloTemporizador = null;
-let intervaloActualizacion = null;
-
-
-/*
- * Short-Polling:
- *
- * Cada 2 segundos consultamos nuevamente
- * la subasta y sus pujas.
- *
- * Esto permite que:
- *
- * - se actualice la puja actual
- * - aparezcan nuevas pujas
- * - se actualice el estado
- * - se mantenga sincronizado el temporizador
- */
-
-const INTERVALO_POLLING = 2000;
-
 
 /* =========================================================
    INICIO
 ========================================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
     configurarEventos();
     cargarUsuario();
@@ -48,14 +28,46 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    cargarSubasta();
+    await cargarSubasta();
     cargarHistorialPujas();
 
-    /*
-     * Iniciamos la actualización automática.
-     */
-    iniciarActualizacionEnVivo();
+    iniciarSignalR();
+    iniciarTemporizador();
 });
+
+// SignalR
+async function iniciarSignalR(){
+        
+    connection.on("NewBid", (payload) => {
+        subastaActual.currentBidAmount = payload.amount;
+        totalPujas = payload.totalBids;
+
+        actualizarDatosVisuales(subastaActual);
+        agregarPujaAlHistorial(payload);
+        renderizarPaginacionPujas(totalPujas)
+    });
+
+    connection.on("AuctionExtended", (newEndDate) => {
+        if(!subastaActual){
+            return;
+        }
+
+        subastaActual.endDate = newEndDate;
+
+        actualizarTemporizador();
+    });
+
+    try {
+        await connection.start();
+        console.log("SignalR conectado");
+
+        await connection.invoke("JoinAuctionGroup", auctionId)
+        console.log("Unido al grupo de subasta:", auctionId);
+
+    }catch (error) {
+        console.error("Error conectando SignalR:", error)
+    }
+}
 
 /* =========================================================
    EVENTOS
@@ -69,136 +81,20 @@ function configurarEventos() {
     }
 }
 
-/* =========================================================
-   ACTUALIZACIÓN EN VIVO
-========================================================= */
+function iniciarTemporizador() {
+    detenerTemporizador();
 
-function iniciarActualizacionEnVivo() {
-    detenerActualizacionEnVivo();
-
-    /*
-     * Actualiza el cronómetro cada segundo.
-     */
     intervaloTemporizador = setInterval(actualizarTemporizador, 1000);
-
-    /*
-     * Short-Polling cada 2 segundos.
-     *
-     * No recargamos toda la página.
-     * Solamente actualizamos los datos.
-     * sacar
-     */ 
-    intervaloActualizacion =
-        setInterval(
-            actualizarDatosEnVivo,
-            INTERVALO_POLLING
-        );
 }
 
-/* =========================================================
-   DETENER ACTUALIZACIÓN EN VIVO
-========================================================= */
-function detenerActualizacionEnVivo() {
+function detenerTemporizador() {
 
     if (intervaloTemporizador) {
         clearInterval(intervaloTemporizador);
         intervaloTemporizador = null;
     }
-
-    if (intervaloActualizacion) {
-        clearInterval(intervaloActualizacion);
-        intervaloActualizacion = null;
-    }
 }
 
-/* =========================================================
-   ACTUALIZAR DATOS EN VIVO
-========================================================= */
-async function actualizarDatosEnVivo() {
-    /*
-     * Si no tenemos la subasta todavía,
-     * no hacemos nada.
-     */
-    if (!auctionId || auctionId <= 0) {
-        return;
-    }
-
-    try {
-        /*
-         * Obtenemos nuevamente la subasta.
-         */
-        const response =
-            await fetch(
-                `${API_URL}/api/auctions/${auctionId}`
-            );
-
-        if (!response.ok) {
-            return;
-        }
-
-        const subasta = await response.json();
-        /*
-         * Obtenemos las pujas actuales.
-         */
-        const bids = await obtenerTodasLasPujas();
-
-        let mayorPuja = 0;
-
-        for (const puja of bids) {
-
-            const amount = Number(
-                    puja.amount ??
-                    puja.Amount ??
-                    puja.monto ??
-                    puja.Monto ??
-                    0
-                );
-
-            if (Number.isFinite(amount) && amount > mayorPuja) {
-                mayorPuja = amount;
-            }
-        }
-
-        const basePrice = Number(
-                subasta.basePrice ??
-                subasta.BasePrice ??
-                0
-            );
-
-        const precioActual =
-            mayorPuja > 0
-                ? mayorPuja
-                : basePrice;
-        /*
-         * Guardamos la información actualizada.
-         */
-        subastaActual = {
-            ...subasta,
-            precioActual,
-            mayorPuja,
-            totalBids: bids.length
-        };
-        /*
-         * Actualizamos visualmente los datos
-         * sin recargar la página completa.
-         */
-        actualizarDatosVisuales(subastaActual);
-        /*
-         * Actualizamos el historial de pujas.
-         */
-        cargarHistorialPujas();
-        /*
-         * Actualizamos el temporizador.
-         */
-        actualizarTemporizador();
-    }
-    catch (error) {
-        console.error(
-            "Error actualizando datos en vivo:",
-            error
-        );
-    }
-}
 /* =========================================================
    USUARIO
 ========================================================= */
@@ -636,52 +532,32 @@ function actualizarDatosVisuales(subasta) {
         return;
     }
 
-    const currentBid = Number(
-            subasta.precioActual ??
-            subasta.currentBidAmount ??
-            subasta.CurrentBidAmount ??
-            subasta.basePrice ??
-            0
-        );
+    const currentBid = Number(subasta.currentBidAmount ?? 0);
 
-    const totalBids = Number(
-            subasta.totalBids ??
-            subasta.TotalBids ??
-            0
-        );
+    const status = subasta.status ?? "Sin estado";
 
-    const status =
-        subasta.status ??
-        subasta.Status ??
-        "Sin estado";
+    const minimumIncrement = Number(subasta.minimumIncrement ?? 0);
 
-    /*
-     * Actualizamos puja actual.
-     */
+    /* Actualizamos puja actual. */
     const pujaActual = document.getElementById("puja-actual");
 
     if (pujaActual) {
         pujaActual.textContent = formatearPrecio(currentBid);
     }
 
-    /*
-     * Actualizamos cantidad de pujas.
-     */
+    /* Actualizamos cantidad de pujas. */
     const cantidadPujas = document.getElementById("cantidad-pujas");
 
     if (cantidadPujas) {
-        cantidadPujas.textContent = totalBids;
+        cantidadPujas.textContent = totalPujas;
     }
 
-    /*
-     * Actualizamos estado.
-     */
+    /* Actualizamos estado. */
     const estado = document.getElementById("estado-subasta");
 
     if (estado) {
         estado.textContent = status;
     }
-
     /*
      * Actualizamos el formulario de puja.
      */
@@ -703,25 +579,10 @@ function actualizarDatosVisuales(subasta) {
             const formActual = document.getElementById("form-puja");
 
             if (formActual) {
-                actualizarFormularioPuja(currentBid,
-                    Number(
-                        subasta.minimumIncrement ??
-                        subasta.MinimumIncrement ??
-                        0
-                    )
-                );
+                actualizarFormularioPuja(currentBid, minimumIncrement);
             }
             else {
-
-                zonaFormulario.innerHTML =
-                    renderizarFormularioPuja(
-                        currentBid,
-                        Number(
-                            subasta.minimumIncrement ??
-                            subasta.MinimumIncrement ??
-                            0
-                        )
-                    );
+                zonaFormulario.innerHTML = renderizarFormularioPuja(currentBid, minimumIncrement);
 
                 const nuevoForm = document.getElementById("form-puja");
 
@@ -809,9 +670,7 @@ function calcularMontoMinimo(currentBid, increment) {
 function actualizarTemporizador() {
 
     const contador = document.getElementById("contador-subasta");
-
     const temporizador = document.getElementById("temporizador-subasta");
-
     const mensaje = document.getElementById("mensaje-temporizador");
 
     if (!contador || !temporizador) {
@@ -915,7 +774,6 @@ function actualizarTemporizador() {
      */
 
     temporizador.classList.remove("auction-timer--warning");
-
     temporizador.classList.remove("auction-timer--critical");
 
     /*
@@ -958,8 +816,43 @@ function pad(numero) {
         .padStart(2, "0");
 }
 /* =========================================================
-   OBTENER FECHA DE FINALIZACIÓN
+   FECHA
 ========================================================= */
+function formatearFecha(fecha) {
+
+    const date = convertirFecha(fecha)
+
+    if (!date) {
+        return String(fecha);
+    }
+
+    return date.toLocaleString("es-AR");
+}
+
+function convertirFecha(fecha){
+    if (!fecha) {
+        return null;
+    }
+
+    if (typeof fecha === "number") {
+        const timestamp = fecha < 10000000000
+            ? fecha * 1000
+            : fecha;
+
+        return new Date(timestamp);
+    }
+
+    const fechaUtc = String(fecha).endsWith("Z")
+        ? fecha
+        : `${fecha}Z`;
+
+    const date = new Date(fechaUtc);
+
+    return Number.isNaN(date.getTime())
+        ? null
+        : date;
+}
+
 function obtenerFechaFinalizacion(subasta) {
 
     if (!subasta) {
@@ -981,26 +874,12 @@ function obtenerFechaFinalizacion(subasta) {
         return null;
     }
 
-    if (typeof fecha === "number") {
-        /*
-         * Si el backend devuelve Unix
-         * en segundos.
-         */
-        if (fecha < 10000000000) {
-            return fecha * 1000;
-        }
+    
+   const date = convertirFecha(fecha)
 
-        return Number.isFinite(fecha)
-            ? fecha
-            : null;
-    }
-
-    const timestamp = new Date(fecha).getTime();
-
-    return Number.isNaN(timestamp)
-        ? null
-        : timestamp;
+    return date ? date.getTime() : null;
 }
+
 /* =========================================================
    FORMULARIO PUJA
 ========================================================= */
@@ -1120,12 +999,6 @@ async function realizarPuja(event) {
         }
 
         mostrarToast("Puja realizada correctamente.", "success");
-
-        paginaPujas = 1;
-        /*
-         * Actualizamos inmediatamente.
-         */
-        await actualizarDatosEnVivo();
     }
     catch (error) {
         console.error(
@@ -1141,11 +1014,9 @@ async function realizarPuja(event) {
     }
 }
 
-
 /* =========================================================
    HISTORIAL PUJAS
 ========================================================= */
-
 async function cargarHistorialPujas() {
     const tbody = document.getElementById("tabla-pujas");
 
@@ -1158,9 +1029,8 @@ async function cargarHistorialPujas() {
     }
 
     try {
-        const response =
-            await fetch(
-                `${API_URL}/api/auctions/${auctionId}/bids?PageNumber=${paginaPujas}&PageSize=${pageSizePujas}`
+        const response = await fetch(
+                `${API_URL}/api/auctions/${auctionId}/bids?PageNumber=${paginaPujas}&PageSize=${PAGE_SIZE}`
             );
 
         if (!response.ok) {
@@ -1171,27 +1041,17 @@ async function cargarHistorialPujas() {
 
         const pujas = obtenerItems(data);
 
-        const totalCount = Number(
-                data.totalCount ??
-                data.TotalCount ??
-                data.total ??
-                data.Total ??
-                pujas.length
-            );
+        totalPujas = Number(data.totalCount ?? pujas.length);
 
         renderizarPujas(pujas);
-
-        renderizarPaginacionPujas(totalCount);
+        renderizarPaginacionPujas(totalPujas);
     }
     catch (error) {
         console.error(
             "Error cargando historial:",
             error
         );
-        /*
-         * No borramos el historial anterior
-         * si falla una consulta de polling.
-         */
+
         if (!tbody.children.length) {
             tbody.innerHTML = `
                 <tr>
@@ -1204,36 +1064,45 @@ async function cargarHistorialPujas() {
     }
 }
 
+function agregarPujaAlHistorial(payload) {
+
+    if(paginaPujas !== 1){
+        return;
+    }
+
+    const tbody = document.getElementById("tabla-pujas");
+
+    if (!tbody) {
+        return;
+    }
+
+    const mensajeVacio =tbody.querySelector("td[coldspan='3']");
+
+    if (mensajeVacio) {
+        tbody.innerHTML = "";
+    }
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+        <td>${escapeHtml(payload.alias)}</td>
+        <td>${formatearPrecio(payload.amount)}</td>
+        <td>${formatearFecha(payload.createdAt)}</td>
+    `;
+
+    tbody.prepend(tr);
+
+    if (tbody.children.length > PAGE_SIZE) {
+        tbody.lastElementChild.remove();
+    }
+}
+
 /* =========================================================
    OBTENER ITEMS
 ========================================================= */
 
 function obtenerItems(data) {
-    if (Array.isArray(data)) {
-        return data;
-    }
-
-    if (Array.isArray(data.items)) {
-        return data.items;
-    }
-
-    if (Array.isArray(data.Items)) {
-        return data.Items;
-    }
-
-    if (Array.isArray(data.data)) {
-        return data.data;
-    }
-
-    if (Array.isArray(data.Data)) {
-        return data.Data;
-    }
-
-    if (Array.isArray(data.results)) {
-        return data.results;
-    }
-
-    return [];
+    return Array.isArray(data?.items) ? data.items : [];
 }
 
 /* =========================================================
@@ -1264,33 +1133,9 @@ function renderizarPujas(pujas) {
         puja => {
             const tr = document.createElement("tr");
 
-            const alias =
-                puja.alias ??
-                puja.Alias ??
-                puja.userName ??
-                puja.UserName ??
-                puja.buyerName ??
-                puja.BuyerName ??
-                puja.email ??
-                puja.Email ??
-                "-";
-
-            const amount = Number(
-                    puja.amount ??
-                    puja.Amount ??
-                    puja.monto ??
-                    puja.Monto ??
-                    0
-                );
-
-            const createdAt =
-                puja.createdAt ??
-                puja.CreatedAt ??
-                puja.createdDate ??
-                puja.CreatedDate ??
-                puja.date ??
-                puja.Date ??
-                null;
+            const alias = puja.alias ?? "-";
+            const amount = Number(puja.amount ?? 0);
+            const createdAt = puja.createdAt ?? null;
 
             tr.innerHTML = `
                 <td>
@@ -1303,11 +1148,7 @@ function renderizarPujas(pujas) {
 
                 <td>
                     ${
-                        createdAt
-                            ? formatearFecha(
-                                createdAt
-                            )
-                            : "-"
+                        createdAt ? formatearFecha(createdAt): "-"
                     }
                 </td>
             `;
@@ -1329,7 +1170,7 @@ function renderizarPaginacionPujas(totalCount) {
 
     container.innerHTML = "";
 
-    const totalPages = Math.ceil(totalCount / pageSizePujas);
+    const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
     if (totalPages <= 1) {
         return;
@@ -1401,13 +1242,11 @@ function esSubastaActiva(status) {
    SESIÓN
 ========================================================= */
 function cerrarSesion() {
-
-    detenerActualizacionEnVivo();
-
+    detenerTemporizador();
     localStorage.removeItem("userId");
-
     window.location.href = "../login.html";
 }
+
 /* =========================================================
    LEER RESPUESTA
 ========================================================= */
@@ -1447,21 +1286,6 @@ function formatearPrecio(valor) {
             currency: "ARS"
         }
     ).format(numero);
-}
-/* =========================================================
-   FECHA
-========================================================= */
-function formatearFecha(fecha) {
-
-    const date = new Date(fecha);
-
-    if (Number.isNaN(date.getTime())) {
-        return String(fecha);
-    }
-
-    return date.toLocaleString(
-        "es-AR"
-    );
 }
 /* =========================================================
    ESCAPE HTML
