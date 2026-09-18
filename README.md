@@ -57,7 +57,6 @@ Incluye funcionalidades relacionadas con:
 * Subastas
 * Pujas
 * Categorías
-* Transactions Ledger
 * Auditorías
 * Worker de cierre de subastas
 
@@ -208,13 +207,15 @@ El sistema valida, entre otras condiciones:
 * Que el monto de la puja respete el incremento mínimo.
 * Que el comprador tenga saldo disponible suficiente.
 
-### Escrow
+---
+
+## Escrow
 
 Cuando un usuario realiza una puja, el monto correspondiente se retiene en su billetera.
 
 Si otro usuario supera la puja anterior, el monto retenido del usuario anterior es liberado.
 
-Este movimiento queda registrado en el ledger de transacciones.
+Estos movimientos quedan registrados en el ledger de transacciones.
 
 ---
 
@@ -407,6 +408,70 @@ Las entidades `Auction` y `Wallet` utilizan una propiedad `Version` configurada 
 
 Esto permite utilizar el mecanismo de concurrencia optimista de Entity Framework Core para evitar inconsistencias cuando múltiples operaciones intentan modificar simultáneamente los mismos datos.
 
+Cuando dos operaciones intentan modificar simultáneamente la misma entidad, Entity Framework Core puede detectar el conflicto mediante el `RowVersion` y evitar que ambas modificaciones se confirmen sobre la misma versión de los datos.
+
+---
+
+## Prueba de concurrencia
+
+El proyecto incluye un script de Python para realizar una prueba de concurrencia sobre el endpoint de pujas.
+
+El objetivo es enviar dos pujas simultáneamente sobre la misma subasta para verificar el comportamiento de la concurrencia optimista.
+
+El script se encuentra en:
+
+```text
+Tests/
+└── concurrency_test.py
+```
+
+### Requisitos
+
+Se necesita Python y la librería `httpx`.
+
+Instalar la dependencia:
+
+```bash
+py -m pip install httpx
+```
+
+En caso de utilizar `python` en lugar de `py`:
+
+```bash
+python -m pip install httpx
+```
+
+### Ejecución
+
+Con el backend ejecutándose, desde la raíz del proyecto:
+
+```bash
+py Tests\concurrency_test.py
+```
+
+El script realiza solicitudes concurrentes al endpoint:
+
+```http
+POST /api/auctions/{auctionId}/bids
+```
+
+Por ejemplo:
+
+```text
+Endpoint: http://localhost:5212/api/auctions/1/bids
+```
+
+La prueba busca comprobar que dos solicitudes de puja que intentan modificar simultáneamente la misma subasta no puedan confirmar ambas operaciones sobre la misma versión del registro.
+
+El resultado esperado es que:
+
+* Una solicitud sea procesada correctamente.
+* La otra sea rechazada debido al conflicto de concurrencia.
+* El sistema responda con un código HTTP de conflicto, según el manejo de excepciones configurado en la API.
+* La base de datos conserve una única modificación válida correspondiente a la puja aceptada.
+
+> La prueba debe ejecutarse con una subasta activa y con el comprador utilizado por el script con saldo suficiente para realizar la puja.
+
 ---
 
 ## Seeder
@@ -425,18 +490,22 @@ Incluye usuarios de prueba, billeteras, categorías, subastas, pujas y movimient
 
 ```text
 Vendedor
+
 Email: vendedor@test.com
 Password: contra123
 
 Comprador 1
+
 Email: comprador1@test.com
 Password: contra123
 
 Comprador 2
+
 Email: comprador2@test.com
 Password: contra123
 
 Usuario sin fondos
+
 Email: sinfondos@test.com
 Password: contra123
 ```
@@ -449,24 +518,109 @@ Estos usuarios son únicamente para desarrollo y pruebas locales.
 
 En entorno de desarrollo, Swagger está habilitado para explorar y probar la API.
 
-Una vez ejecutado el proyecto, se puede acceder a la interfaz de Swagger desde:
+La aplicación utiliza los siguientes perfiles de ejecución:
+
+### HTTP
 
 ```text
-/swagger
+http://localhost:5212
+```
+
+Swagger:
+
+```text
+http://localhost:5212/swagger
+```
+
+### HTTPS
+
+```text
+https://localhost:7204
+```
+
+Swagger:
+
+```text
+https://localhost:7204/swagger
+```
+
+El perfil HTTPS también mantiene disponible el endpoint HTTP:
+
+```text
+http://localhost:5212
+```
+
+---
+
+## Puertos
+
+Los puertos utilizados por la aplicación están definidos en:
+
+```text
+SubastaYa.API/Properties/launchSettings.json
+```
+
+Configuración actual:
+
+| Perfil      | Protocolo | Dirección                 |
+| ----------- | --------- | ------------------------- |
+| HTTP        | HTTP      | `http://localhost:5212`   |
+| HTTPS       | HTTPS     | `https://localhost:7204`  |
+| HTTPS       | HTTP      | `http://localhost:5212`   |
+| IIS Express | HTTP      | `http://localhost:40921`  |
+| IIS Express | HTTPS     | `https://localhost:44320` |
+
+Para ejecutar normalmente el proyecto mediante `dotnet run`, se puede utilizar:
+
+```bash
+dotnet run --project SubastaYa.API
+```
+
+y acceder a:
+
+```text
+http://localhost:5212/swagger
+```
+
+Para utilizar el perfil HTTPS:
+
+```text
+https://localhost:7204/swagger
 ```
 
 ---
 
 ## CORS
 
-El backend permite solicitudes desde los siguientes orígenes configurados para desarrollo:
+El backend permite solicitudes desde los orígenes configurados para el frontend durante el desarrollo.
+
+Actualmente se contemplan:
 
 ```text
 http://127.0.0.1:5500
 http://127.0.0.1:5501
 ```
 
-Esto permite conectar el backend con un frontend ejecutándose localmente mediante un servidor de desarrollo.
+Estos puertos corresponden al servidor local del frontend y son independientes de los puertos utilizados por el backend.
+
+El backend utiliza:
+
+```text
+HTTP: 5212
+HTTPS: 7204
+```
+
+Por lo tanto, una configuración típica de desarrollo queda:
+
+```text
+Frontend
+http://127.0.0.1:5500
+        │
+        │ HTTP
+        ▼
+Backend
+http://localhost:5212
+```
 
 ---
 
@@ -478,39 +632,74 @@ Para ejecutar el proyecto localmente se necesita:
 * SQL Server / SQL Server Express
 * Visual Studio, Rider o VS Code
 * Git
+* Python 3.x, únicamente para ejecutar la prueba de concurrencia
+
+---
+
+## Instalación de Entity Framework Core CLI
+
+Si `dotnet ef` no está instalado, ejecutar:
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+Verificar la instalación:
+
+```bash
+dotnet ef --version
+```
 
 ---
 
 ## Ejecución del proyecto
 
-Clonar el repositorio:
+### 1. Clonar el repositorio
 
 ```bash
 git clone <URL_DEL_REPOSITORIO>
 ```
 
-Ingresar al proyecto:
+### 2. Ingresar al proyecto
 
 ```bash
 cd SubastaYa
 ```
 
-Restaurar dependencias:
+### 3. Restaurar dependencias
 
 ```bash
 dotnet restore
 ```
 
-Compilar:
+### 4. Compilar
 
 ```bash
 dotnet build
 ```
 
-Ejecutar:
+### 5. Ejecutar
 
 ```bash
 dotnet run --project SubastaYa.API
+```
+
+La API estará disponible en:
+
+```text
+http://localhost:5212
+```
+
+Swagger estará disponible en:
+
+```text
+http://localhost:5212/swagger
+```
+
+También se puede utilizar HTTPS mediante:
+
+```text
+https://localhost:7204/swagger
 ```
 
 Al iniciar la API, el `DatabaseSeeder` ejecutará las migraciones pendientes y, si la base de datos no contiene usuarios, cargará los datos iniciales.
@@ -521,14 +710,22 @@ Al iniciar la API, el `DatabaseSeeder` ejecutará las migraciones pendientes y, 
 
 Las migraciones de Entity Framework Core se pueden administrar utilizando:
 
+### Crear una migración
+
 ```bash
 dotnet ef migrations add NombreMigracion --project SubastaYa.Infrastructure --startup-project SubastaYa.API
 ```
 
-Para aplicar las migraciones:
+### Aplicar las migraciones
 
 ```bash
 dotnet ef database update --project SubastaYa.Infrastructure --startup-project SubastaYa.API
+```
+
+### Verificar las migraciones
+
+```bash
+dotnet ef migrations list --project SubastaYa.Infrastructure --startup-project SubastaYa.API
 ```
 
 ---
@@ -602,12 +799,15 @@ SubastaYa
 │   ├── Entities
 │   └── Exceptions
 │
-└── SubastaYa.Infrastructure
-    └── Persistence
-        ├── Configurations
-        ├── Repositories
-        ├── AppDbContext.cs
-        └── UnitOfWork.cs
+├── SubastaYa.Infrastructure
+│   └── Persistence
+│       ├── Configurations
+│       ├── Repositories
+│       ├── AppDbContext.cs
+│       └── UnitOfWork.cs
+│
+└── Tests
+    └── concurrency_test.py
 ```
 
 ---
@@ -636,4 +836,5 @@ El backend actualmente cuenta con:
 * Swagger.
 * CORS.
 * Unit of Work.
-* Control de concurrencia mediante RowVersion.
+* Control de concurrencia mediante `RowVersion`.
+* Prueba de concurrencia mediante script de Python.
