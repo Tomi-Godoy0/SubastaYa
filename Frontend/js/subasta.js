@@ -14,6 +14,7 @@ let totalPujas = 0;
 
 let subastaActual = null;
 let intervaloTemporizador = null;
+let estoyLiderando = false;
 
 /* =========================================================
    INICIO
@@ -41,6 +42,9 @@ async function iniciarSignalR(){
     connection.on("NewBid", (payload) => {
         subastaActual.currentBidAmount = payload.amount;
         totalPujas = payload.totalBids;
+
+        estoyLiderando = (payload.buyerId === Number(userId));
+        actualizarEstadoLiderazgo();
 
         actualizarDatosVisuales(subastaActual);
         agregarPujaAlHistorial(payload);
@@ -441,6 +445,12 @@ function renderizarSubasta(subasta) {
                             ${formatearPrecio(currentBid)}
                         </strong>
 
+                        <span
+                            id="estado-liderazgo"
+                            class="badge-liderazgo"
+                            style="display: none;">
+                        </span>
+
                         <div id="zona-formulario-puja">
                             ${
                                 puedePujar
@@ -527,6 +537,29 @@ function renderizarSubasta(subasta) {
     actualizarTemporizador();
 }
 
+function actualizarEstadoLiderazgo() {
+    const badge = document.getElementById("estado-liderazgo");
+
+    if (!badge) {
+        return;
+    }
+
+    if (!userId) {
+        badge.style.display = "none";
+        return;
+    }
+
+    badge.style.display = "inline-block";
+
+    if (estoyLiderando) {
+        badge.textContent = "Liderando";
+        badge.className = "badge-liderazgo badge-liderando";
+    } else {
+        badge.textContent = "Superado";
+        badge.className = "badge-liderazgo badge-superado";
+    }
+}
+
 /* =========================================================
    ACTUALIZAR DATOS VISUALES
 ========================================================= */
@@ -604,6 +637,7 @@ function actualizarDatosVisuales(subasta) {
             `;
         }
     }
+    actualizarEstadoLiderazgo();
 }
 
 /* =========================================================

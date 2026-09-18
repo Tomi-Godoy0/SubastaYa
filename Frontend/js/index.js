@@ -15,6 +15,20 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarSubastas();
 });
 
+const btnFiltros = document.getElementById("btn-filtros");
+const catalogFilters = document.getElementById("catalog-filters");
+const filtrosIcono = document.getElementById("filtros-icono");
+
+if (btnFiltros && catalogFilters) {
+    btnFiltros.addEventListener("click", () => {
+        const abierto = catalogFilters.classList.toggle("is-open");
+
+        if (filtrosIcono) {
+            filtrosIcono.textContent = abierto ? "−" : "+";
+        }
+    });
+}
+
 /* =========================================================
    EVENTOS
 ========================================================= */
@@ -376,6 +390,19 @@ async function cargarSubastas() {
     if (status) {
         params.set("Status", status);
     }
+    if (precioMin !== null) {
+        params.set("MinPrice", precioMin);
+    }
+
+    if (precioMax !== null) {
+        params.set("MaxPrice", precioMax);
+    }
+
+    if (orden === "tiempo") {
+        params.set("OrderBy", "timeRemaining");
+    } else if (orden === "puja") {
+        params.set("OrderBy", "highestBid");
+    }
 
     try {
         /* =================================================
@@ -528,87 +555,10 @@ async function cargarSubastas() {
                     }
                 )
             );
-        /* =================================================
-           FILTRAR POR PRECIO
-        ================================================= */
-        let subastasFiltradas =
-            subastasConPrecio.filter(
-                subasta => {
 
-                    const precio = Number(
-                            subasta.precioReal ?? 0
-                        );
-
-                    if (precioMin !== null && precio < precioMin) {
-                        return false;
-                    }
-
-                    if (precioMax !== null && precio > precioMax) {
-                        return false;
-                    }
-
-                    return true;
-                }
-            );
-
-        /* =================================================
-           ORDENAR POR TIEMPO
-        ================================================= */
-if (orden === "tiempo") {
-
-    const ahora = Date.now();
-
-    subastasFiltradas = subastasFiltradas.filter(subasta => {
-
-        const fechaFin = obtenerFechaFinalizacion(subasta);
-
-        if (fechaFin === null) {
-            return false;
-        }
-
-        return fechaFin > ahora;
-    });
-
-    subastasFiltradas.sort((a, b) => {
-
-        const fechaA = obtenerFechaFinalizacion(a);
-
-        const fechaB = obtenerFechaFinalizacion(b);
-
-        return fechaA - fechaB;
-    });
-}
-
-/* =================================================
-   ORDENAR POR MAYOR PUJA
-================================================= */
-else if (orden === "puja") {
-
-    subastasFiltradas.sort((a, b) => {
-
-        const pujaA = Number(a.mayorPuja ?? 0);
-
-        const pujaB = Number(b.mayorPuja ?? 0);
-
-        if (pujaA > 0 && pujaB > 0) {
-            return pujaB - pujaA;
-        }
-
-        if (pujaA > 0 && pujaB === 0) {
-            return -1;
-        }
-
-        if (pujaA === 0 && pujaB > 0) {
-            return 1;
-        }
-
-        const precioA = Number(a.basePrice ?? 0);
-
-        const precioB = Number(b.basePrice ?? 0);
-
-        return precioB - precioA;
-    });
-}
+        let subastasFiltradas = subastasConPrecio
+        
+   
         /* =================================================
            RENDERIZAR
         ================================================= */

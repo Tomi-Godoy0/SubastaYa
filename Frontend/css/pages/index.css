@@ -369,6 +369,10 @@
     font-size: 14px;
 }
 
+.filters-toggle {
+    display: none;
+}
+
 @media (max-width: 1100px) {
     .catalog-filters {
         grid-template-columns: repeat(3, 1fr);
@@ -402,9 +406,32 @@
         margin-top: -32px;
     }
 
+    .filters-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 48px;
+        margin-bottom: 12px;
+        padding: 0 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #fff;
+        color: #111827;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
     .catalog-filters {
+        display: none;
         grid-template-columns: 1fr;
         padding: 18px;
+        margin-bottom: 24px;
+    }
+
+    .catalog-filters.is-open {
+        display: grid;
     }
 
     .filters__actions {
@@ -416,7 +443,6 @@
     .filters__actions button {
         width: 100%;
     }
-
     .auction-grid {
         grid-template-columns: 1fr;
     }

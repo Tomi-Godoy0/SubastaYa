@@ -370,6 +370,25 @@
     }
 }
 
+.badge-liderazgo {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin: 8px 0;
+}
+
+.badge-liderando {
+    background: #E8F2EC;
+    color: #2F6F4E;
+}
+
+.badge-superado {
+    background: #FBEAEA;
+    color: #B33A3A;
+}
+
 @media (max-width: 900px) {
     .auction-detail-card {
         grid-template-columns: 1fr;
