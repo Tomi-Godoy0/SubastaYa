@@ -380,7 +380,10 @@
 }
 
 @media (max-width: 768px) {
-    
+    .hero {
+        padding: 60px 20px 70px;
+    }
+
     .hero__search {
         flex-direction: column;
         gap: 10px;
@@ -388,16 +391,15 @@
 
     .hero__search input,
     .hero__search button {
-        border-radius: 10px;
+        width: 100%;
         min-height: 48px;
+        border-radius: 10px;
     }
 
     .benefits {
-            grid-template-columns: 1fr;
-        }
-
-    .categories__grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
+        width: min(100% - 32px, 500px);
+        margin-top: -32px;
     }
 
     .catalog-filters {
@@ -421,15 +423,25 @@
 }
 
 @media (max-width: 500px) {
-    .hero__search {
-        flex-direction: column;
-        gap: 10px;
+    .hero {
+        padding: 50px 16px 60px;
     }
 
-    .hero__search input,
-    .hero__search button {
-        border-radius: 10px;
-        min-height: 48px;
+    .hero h1 {
+        letter-spacing: -1.5px;
+    }
+
+    .hero__subtitle {
+        margin-top: 20px;
+    }
+
+    .benefits {
+        width: calc(100% - 32px);
+        gap: 14px;
+    }
+
+    .benefit-card {
+        padding: 20px;
     }
 
     .pagination {

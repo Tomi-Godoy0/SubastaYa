@@ -17,3 +17,13 @@ document.addEventListener("DOMContentLoaded", () => {
         btnMiCuenta.style.display = "none";
     }
 });
+
+const btnMenu = document.getElementById("btn-menu");
+const headerNav = document.getElementById("header-nav");
+
+if (btnMenu && headerNav) {
+    btnMenu.addEventListener("click", () => {
+        const abierto = headerNav.classList.toggle("is-open");
+        btnMenu.classList.toggle("is-open", abierto);
+    });
+}
