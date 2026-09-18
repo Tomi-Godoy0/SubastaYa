@@ -59,6 +59,18 @@ async function iniciarSignalR(){
         subastaActual.endDate = newEndDate;
 
         actualizarTemporizador();
+
+        mostrarToast("¡Se extendió el tiempo! +2 minutos", "success");
+
+        const temporizador = document.getElementById("temporizador-subasta");
+
+        if (temporizador) {
+            temporizador.classList.add("auction-timer--extended");
+
+            setTimeout(() => {
+                temporizador.classList.remove("auction-timer--extended");
+            }, 1400);
+        }
     });
 
     try {
@@ -400,21 +412,23 @@ function renderizarSubasta(subasta) {
                             id="temporizador-subasta"
                             class="auction-timer">
 
-                            <span class="auction-timer__label">
-                                Tiempo restante
+                            <span id="pulso-timer" class="timer-pulse-wrapper">
+
+                                <span class="auction-timer__label">
+                                    Tiempo restante
+                                </span>
+
+                                <strong
+                                    id="contador-subasta"
+                                    class="auction-timer__clock">
+                                    --:--:--
+                                </strong>
+
+                                <span
+                                    id="mensaje-temporizador"
+                                    class="auction-timer__message">
+                                </span>
                             </span>
-
-                            <strong
-                                id="contador-subasta"
-                                class="auction-timer__clock">
-                                --:--:--
-                            </strong>
-
-                            <span
-                                id="mensaje-temporizador"
-                                class="auction-timer__message">
-                            </span>
-
                         </div>
 
                     </div>

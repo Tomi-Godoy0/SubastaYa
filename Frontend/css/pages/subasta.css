@@ -318,6 +318,17 @@
     font-size: 0.9rem;
     font-weight: 600;
 }
+
+.auction-timer--extended {
+    animation: pulso-extension 1.4s ease-out;
+}
+
+.timer-pulse-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* =========================================================
    ZONA DE ADVERTENCIA
    Entre 5 minutos y 1 minuto
@@ -367,6 +378,21 @@
 
     100% {
         box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+    }
+}
+
+@keyframes pulso-extension {
+    0% {
+        box-shadow: 0 0 0 0 rgba(184, 134, 11, 0.45);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 0 14px rgba(184, 134, 11, 0);
+        transform: scale(1.015);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(184, 134, 11, 0);
+        transform: scale(1);
     }
 }
 
