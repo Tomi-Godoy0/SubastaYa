@@ -9,9 +9,9 @@ import httpx
 
 BASE_URL = "https://localhost:7204"
 
-AUCTION_ID = 1
+AUCTION_ID = 3
 BUYER_ID = 2
-BID_AMOUNT = 1000
+BID_AMOUNT = 6000
 
 BID_ENDPOINT = f"{BASE_URL}/api/auctions/{AUCTION_ID}/bids"
 
