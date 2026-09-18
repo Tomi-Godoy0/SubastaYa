@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>SubastaYa - Detalle</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/components/header.css">
+        <link rel="stylesheet" href="../css/components/buttons.css">
+        <link rel="stylesheet" href="../css/components/cards.css">
+        <link rel="stylesheet" href="../css/components/forms.css">
+        <link rel="stylesheet" href="../css/components/toast.css">
+        <link rel="stylesheet" href="../css/pages/subasta.css">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+        <script src="../js/page-loader.js" defer></script>
+        <script src="../js/header.js" defer></script>
+        <script src="../js/subasta.js" defer></script>
+    </head>
+    <body>
+        <div id="page-loader" class="page-loader">
+            <span class="page-loader__spinner"></span>
+        </div>
+        <header class="header">
+            <div class="header__logo">
+                <a href="../index.html">
+                    Subasta<span>Ya</span>
+                </a>
+            </div>
+            <button type="button" class="header__toggle" id="btn-menu">
+                ☰
+            </button>
+
+            <nav class="header__nav" id="header-nav">
+                <div class="header__container__nav">
+                    <a href="index.html">Explorar</a>
+                    <a href="dashboardd.html">Mis Subastas</a>
+                    <a href="billetera.html">Billetera</a>
+
+                    <div class="header__user">
+                        <span id="usuario-nombre">Usuario</span>
+                        <button type="button" id="btn-logout">Cerrar sesión</button>
+                        <a href="../login.html" id="btn-login">Iniciar sesión</a>
+                    </div>    
+                </div>
+            </nav>
+        </header>
+        <main>
+            <section class="section">
+                <a href="../index.html" class="auction-back">← Volver a subastas</a>
+
+                <!-- =====================================================
+                    DETALLE DE LA SUBASTA
+                ====================================================== -->
+                <div id="detalle-subasta" class="auction-detail">
+                    <p>Cargando subasta...</p>
+                </div>
+
+                <!-- =====================================================
+                    HISTORIAL DE PUJAS
+                ====================================================== -->
+                <section class="auction-secondary">
+                    <section class="bid-history">
+                        <h2>Historial de pujas</h2>
+
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Monto</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="tabla-pujas">
+                                    <tr>
+                                        <td colspan="3">Cargando...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div
+                            id="paginacion-pujas"
+                            class="pagination">
+
+                        </div>
+                    </section>
+                    <section
+                        id="auction-info-container"
+                        class="auction-info-panel">
+                    </section>
+                </section>
+            </section>
+        </main>
+
+        <div
+            id="toast-container"
+            class="toast-container">
+        </div>
+    </body>
+</html>

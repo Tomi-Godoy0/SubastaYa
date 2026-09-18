@@ -1,0 +1,223 @@
+.form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 30px;
+
+    background-color: #fff;
+    border-radius: 10px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+/* -------------------------
+   CARD DE SUBASTA
+------------------------- */
+.auction-card {
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background-color: #fff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auction-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(15, 23, 42, 0.10);
+}
+
+.auction-card__image {
+    display: block;
+
+    width: 100%;
+    height: 210px;
+
+    object-fit: cover;
+
+    background-color: #f3f4f6;
+}
+
+.auction-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.auction-card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    gap: 10px;
+
+    padding: 20px;
+}
+
+.auction-card__category {
+    align-self: flex-start;
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border-radius: 6px;
+
+    background-color: #eff6ff;
+    color: #2563eb;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+/* Card estado */
+.auction-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+
+.auction-card__bids {
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.auction-card__status {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 9px;
+    border-radius: 6px;
+
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-activa {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-programada {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-finalizada {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+.status-desierta {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.auction-card__countdown {
+    align-self: center;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.auction-card__countdown.countdown-warning {
+    color: #d97706;
+}
+
+.auction-card__countdown.countdown-critical {
+    color: #dc2626;
+}
+
+.auction-card h3 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 20px;
+    line-height: 1.3;
+}
+
+.auction-card p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+
+    overflow: hidden;
+}
+
+.auction-card__price {
+    margin-top: auto;
+
+    color: #111827;
+
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.auction-card__price::before {
+    content: "Puja actual";
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.auction-card__timer {
+    padding: 9px 11px;
+
+    border-radius: 8px;
+
+    background-color: #f8fafc;
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.auction-card button {
+    width: 100%;
+
+    min-height: 42px;
+
+    margin-top: 5px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+@media (max-width: 500px) {
+    .auction-card__image {
+        height: 190px;
+    }
+    .auction-card__body {
+        padding: 16px;
+    }
+}

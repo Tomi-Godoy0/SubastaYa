@@ -1,841 +1,200 @@
 <!DOCTYPE html>
 <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SubastaYa - Subastas</title>
 
-    <title>SubastaYa</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/components/header.css">
+        <link rel="stylesheet" href="css/components/buttons.css">
+        <link rel="stylesheet" href="css/components/cards.css">
+        <link rel="stylesheet" href="css/components/forms.css">
+        <link rel="stylesheet" href="css/components/modal.css">
+        <link rel="stylesheet" href="css/components/toast.css">
+        <link rel="stylesheet" href="css/pages/index.css">
 
-    <link rel="stylesheet" href="css/style.css">
-</head>
+        <script src="js/page-loader.js" defer></script>
+        <script src="js/index.js" defer></script>
+        <script src="js/header.js" defer></script>
+    </head>
 
-<body>
-
-    <!-- ==================== HEADER ==================== -->
-
-    <header class="header">
-
-        <div class="header__logo">
-            <a href="#catalogo">SubastaYa</a>
+    <body>
+        <div id="page-loader" class="page-loader">
+            <span class="page-loader__spinner"></span>
         </div>
-
-        <nav class="header__nav">
-            <a href="#catalogo">Subastas</a>
-            <a href="#crear-subasta">Vender</a>
-            <a href="#billetera">Billetera</a>
-            <a href="#mis-actividades">Mis actividades</a>
-        </nav>
-
-        <div class="header__user">
-
-            <span id="usuario-nombre">
-                Usuario
-            </span>
-
-            <button
-                id="btn-logout"
-                type="button"
-            >
-                Cerrar sesión
+        <header class="header">
+            <div class="header__logo">
+                <a href="index.html">
+                    Subasta<span>Ya</span>
+                </a>
+            </div>
+            <button type="button" class="header__toggle" id="btn-menu">
+                ☰
             </button>
 
-        </div>
+            <nav class="header__nav" id="header-nav">
+                <div class="header__container__nav">
+                    <a href="index.html">Explorar</a>
+                    <a href="pages/dashboardd.html">Mis Subastas</a>
+                    <a href="pages/billetera.html">Billetera</a>
 
-    </header>
-
-
-    <!-- ==================== MAIN ==================== -->
-
-    <main>
-
-        <!-- ==================== LOGIN ==================== -->
-
-        <section
-            id="login"
-            class="section section--login"
-        >
-
-            <div class="section__header">
-
-                <h1>Ingresar</h1>
-
-                <p>
-                    Iniciá sesión para participar en las subastas.
-                </p>
-
-            </div>
-
-
-            <form
-                id="form-login"
-                class="form-card"
-            >
-
-                <div class="form-group">
-
-                    <label for="login-email">
-                        Email
-                    </label>
-
-                    <input
-                        type="email"
-                        id="login-email"
-                        name="email"
-                        placeholder="tu@email.com"
-                        required
-                    >
-
+                    <div class="header__user">
+                        <span id="usuario-nombre">Usuario</span>
+                        <button type="button" id="btn-logout">Cerrar sesión</button>
+                        <a href="login.html" id="btn-login">Iniciar sesión</a>
+                    </div>    
                 </div>
-
-
-                <div class="form-group">
-
-                    <label for="login-password">
-                        Contraseña
-                    </label>
-
-                    <input
-                        type="password"
-                        id="login-password"
-                        name="password"
-                        placeholder="Contraseña"
-                        required
-                    >
-
-                </div>
-
-
-                <button type="submit">
-                    Ingresar
-                </button>
-
-            </form>
-
-        </section>
-
-
-        <!-- ==================== AUDITORÍAS ==================== -->
-
-        <section id="auditorias" class="section">
-
-            <div class="audit-history">
-
-                <div class="audit-history__header">
-                    <div>
-                        <h3>Historial de auditorías</h3>
-
-                        <p>
-                            Consultá las acciones registradas en tu cuenta.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="table-wrapper">
-
-                    <table class="audits-table">
-
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Entidad</th>
-                                <th>ID</th>
-                                <th>Acción</th>
-                                <th>Detalle</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="auditorias-container">
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==================== CATÁLOGO ==================== -->
-
-        <section
-            id="catalogo"
-            class="section"
-        >
-
-            <div class="section__header">
-
-                <h2>Subastas</h2>
-
-                <p>
-                    Explorá productos y participá en subastas.
-                </p>
-
-            </div>
-
-
-            <!-- Filtros -->
-
-            <div class="filters">
-
-                <input
-                    type="search"
-                    id="buscar-subasta"
-                    placeholder="Buscar subastas..."
-                >
-
-                <select id="filtro-estado">
-
-                    <option value="">
-                        Todos los estados
-                    </option>
-
-                    <option value="ACTIVA">
-                        Activas
-                    </option>
-
-                    <option value="PROGRAMADA">
-                        Próximas
-                    </option>
-
-                    <option value="FINALIZADA">
-                        Finalizadas
-                    </option>
-
-                    <option value="DESIERTA">
-                        Desiertas
-                    </option>
-
-                </select>
-
-
-                <select id="filtro-categoria">
-
-                    <option value="">
-                        Todas las categorías
-                    </option>
-
-                </select>
-
-
-                <input
-                    type="number"
-                    id="precio-min"
-                    placeholder="Precio mínimo"
-                    min="0"
-                >
-
-
-                <input
-                    type="number"
-                    id="precio-max"
-                    placeholder="Precio máximo"
-                    min="0"
-                >
-
-
-                <select id="ordenar">
-
-                    <option value="">
-                        Ordenar por
-                    </option>
-
-                    <option value="timeRemaining">
-                        Menor tiempo restante
-                    </option>
-
-                    <option value="highestBid">
-                        Mayor puja
-                    </option>
-
-                </select>
-
-
-                <button
-                    id="btn-filtrar"
-                    type="button"
-                >
-                    Filtrar
-                </button>
-
-            </div>
-
-
-            <!-- Cards -->
-
-            <div
-                id="subastas-container"
-                class="auctions-grid"
-            >
-                <!-- Subastas cargadas mediante JavaScript -->
-            </div>
-
-        </section>
-
-
-        <!-- ==================== CREAR SUBASTA ==================== -->
-
-        <section
-            id="crear-subasta"
-            class="section"
-        >
-
-            <div class="section__header">
-
-                <h2>Crear subasta</h2>
-
-                <p>
-                    Publicá un producto para comenzar a recibir ofertas.
-                </p>
-
-            </div>
-
-
-            <form id="form-crear-subasta">
-
-                <div class="form-group">
-
-                    <label for="titulo">
-                        Título
-                    </label>
-
-                    <input
-                        type="text"
-                        id="titulo"
-                        name="titulo"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="categoria">
-                        Categoría
-                    </label>
-
-                    <select
-                        id="categoria"
-                        name="categoria"
-                        required
-                    >
-
-                        <option value="">
-                            Seleccionar categoría
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="form-group form-group--full">
-
-                    <label for="descripcion">
-                        Descripción
-                    </label>
-
-                    <textarea
-                        id="descripcion"
-                        name="descripcion"
-                        required
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-group form-group--full">
-
-                    <label for="imagen">
-                        URL de imagen
-                    </label>
-
-                    <input
-                        type="url"
-                        id="imagen"
-                        name="imagen"
-                        placeholder="https://..."
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="precio-base">
-                        Precio base
-                    </label>
-
-                    <input
-                        type="number"
-                        id="precio-base"
-                        name="precio-base"
-                        min="1"
-                        step="0.01"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="incremento">
-                        Incremento mínimo
-                    </label>
-
-                    <input
-                        type="number"
-                        id="incremento"
-                        name="incremento"
-                        min="1"
-                        step="0.01"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="fecha-inicio">
-                        Fecha y hora de inicio
-                    </label>
-
-                    <input
-                        type="datetime-local"
-                        id="fecha-inicio"
-                        name="fecha-inicio"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="fecha-fin">
-                        Fecha y hora de finalización
-                    </label>
-
-                    <input
-                        type="datetime-local"
-                        id="fecha-fin"
-                        name="fecha-fin"
-                        required
-                    >
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="form-submit"
-                >
-                    Publicar subasta
-                </button>
-
-            </form>
-
-        </section>
-
-
-        <!-- ==================== SALA DE SUBASTA ==================== -->
-
-        <section
-            id="sala-subasta"
-            class="section"
-        >
-
-            <div class="section__header">
-
-                <h2>Sala de subasta</h2>
-
-                <p>
-                    Participá en tiempo real.
-                </p>
-
-            </div>
-
-
-            <div id="subasta-detalle">
-
-                <div class="auction-info">
-
-                    <img
-                        id="subasta-imagen"
-                        src=""
-                        alt="Producto de la subasta"
-                    >
-
-
-                    <div>
-
-                        <span
-                            id="subasta-categoria"
-                            class="auction-card__category"
-                        >
-                            Categoría
-                        </span>
-
-                        <h3 id="subasta-titulo">
-                            Producto
-                        </h3>
-
-                        <p id="subasta-descripcion">
-                            Descripción del producto.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="auction-timer">
-
-                    <span>
-                        Tiempo restante
-                    </span>
-
-                    <strong id="contador">
-                        --:--:--
-                    </strong>
-
-                </div>
-
-
-                <div
-                    id="estado-puja"
-                    class="bid-status"
-                >
-
-                    <span id="estado-puja-texto">
-                        Sin pujar
-                    </span>
-
-                </div>
-
-
-                <div class="current-bid">
-
-                    <span>
-                        Puja actual
-                    </span>
-
-                    <strong id="puja-actual">
-                        $0
-                    </strong>
-
-                </div>
-
-
-                <div class="bid-console">
-
-                    <p>
-                        Próxima puja sugerida:
-                        <strong id="puja-sugerida">
-                            $0
-                        </strong>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="hero__content">
+                    <h1>Encontrá. <span>Pujá.</span> Ganá.</h1>
+
+                    <p class="hero__subtitle">
+                        Subastas en tiempo real. Productos únicos.
                     </p>
 
+                    <p class="hero__description">
+                        Descubrí oportunidades y competí en vivo.
+                    </p>
 
-                    <input
-                        type="number"
-                        id="monto-puja"
-                        placeholder="Ingresá tu oferta"
-                        min="1"
-                        step="0.01"
-                    >
+                    <div class="hero__search">
+                        <input
+                            type="text"
+                            id="filtro-busqueda"
+                            placeholder="Buscar subastas, productos..."
+                        >
 
-
-                    <button
-                        id="btn-pujar"
-                        type="button"
-                    >
-                        Realizar puja
-                    </button>
-
+                        <button type="button" id="btn-filtrar">
+                            Buscar
+                        </button>
+                    </div>
                 </div>
+            </section>
+            <section class="benefits">
+                <article class="benefit-card">
+                    <span class="benefit-card__icon">🔒</span>
+                    <div>
+                        <h3>Pagos seguros</h3>
+                        <p>Tu saldo protegido durante cada operación.</p>
+                    </div>
+                </article>
 
+                <article class="benefit-card">
+                    <span class="benefit-card__icon">⚡</span>
+                    <div>
+                        <h3>Tiempo real</h3>
+                        <p>Seguí las pujas al instante.</p>
+                    </div>
+                </article>
 
-                <div class="bid-history">
-
-                    <h3>
-                        Historial de ofertas
-                    </h3>
-
-                    <ul id="historial-pujas">
-                        <!-- Pujas cargadas mediante JS -->
-                    </ul>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ==================== BILLETERA ==================== -->
-
-        <section
-            id="billetera"
-            class="section"
-        >
-
-            <div class="section__header">
-
-                <h2>
-                    Mi billetera
-                </h2>
-
-                <p>
-                    Consultá tu saldo y movimientos.
-                </p>
-
-            </div>
-
-
-            <div class="wallet-summary">
-
-                <div class="wallet-card">
-
-                    <span>
-                        Saldo total
-                    </span>
-
-                    <strong id="saldo-total">
-                        $0
-                    </strong>
-
-                </div>
-
-
-                <div class="wallet-card">
-
-                    <span>
-                        Saldo retenido
-                    </span>
-
-                    <strong id="saldo-retenido">
-                        $0
-                    </strong>
-
-                </div>
-
-
-                <div class="wallet-card wallet-card--available">
-
-                    <span>
-                        Saldo disponible
-                    </span>
-
-                    <strong id="saldo-disponible">
-                        $0
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="wallet-deposit">
-
-                <h3>
-                    Cargar saldo
-                </h3>
-
-
-                <form id="form-deposito">
-
-                    <input
-                        type="number"
-                        id="monto-deposito"
-                        placeholder="Monto"
-                        min="1"
-                        step="0.01"
-                        required
-                    >
-
-                    <button type="submit">
-                        Acreditar saldo
-                    </button>
-
-                </form>
-
-            </div>
-
-
-           
-        <div class="wallet-history">
-
-            <div class="wallet-history__header">
-                <div>
-                    <h3>Historial de movimientos</h3>
-                    <p>Consultá los últimos movimientos de tu billetera.</p>
-                </div>
-            </div>
-
-            <div class="table-wrapper">
-
-                <table class="transactions-table">
-
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Tipo</th>
-                            <th>Descripción</th>
-                            <th>Monto</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="movimientos-container">
-                        <!-- Movimientos cargados mediante JavaScript -->
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-
-
-        </section>
-
-
-        <!-- ==================== MIS ACTIVIDADES ==================== -->
-
-        <section
-            id="mis-actividades"
-            class="section"
-        >
-
-            <div class="section__header">
-
-                <h2>
-                    Mis actividades
-                </h2>
-
-                <p>
-                    Consultá tus pujas y publicaciones.
-                </p>
-
-            </div>
-
-
-            <div class="tabs">
-
-                <button
-                    id="tab-compras"
-                    type="button"
-                    class="tab-button active"
-                >
-                    Mis compras / pujas
+                <article class="benefit-card">
+                    <span class="benefit-card__icon">🤝</span>
+                    <div>
+                        <h3>Comunidad</h3>
+                        <p>Compradores y vendedores en un mismo lugar.</p>
+                    </div>
+                </article>
+            </section>
+        
+            <section class="section">
+                <h2 class="catalog-title">Subastas disponibles</h2>
+                <button type="button" class="filters-toggle" id="btn-filtros">
+                    <span>⚙ Filtros</span>
+                    <span id="filtros-icono">+</span>
                 </button>
+                <div class="catalog-filters" id="catalog-filters">
 
+                    <div class="form-group">
+                        <label for="filtro-categoria">Categoría</label>
 
-                <button
-                    id="tab-publicaciones"
-                    type="button"
-                    class="tab-button"
-                >
-                    Mis publicaciones
-                </button>
+                        <select id="filtro-categoria">
+                            <option value="">Todas las categorías</option>
+                        </select>
+                    </div>
 
-            </div>
+                    <div class="form-group">
+                        <label for="filtro-estado">Estado</label>
 
+                        <select id="filtro-estado">
+                            <option value="">Todos los estados</option>
+                            <option value="ACTIVA">Activas</option>
+                            <option value="PROGRAMADA">Programadas</option>
+                            <option value="FINALIZADA">Finalizadas</option>
+                        </select>
+                    </div>
 
-            <div
-                id="mis-compras"
-                class="activity-panel"
-            >
+                    <div class="form-group">
+                        <label for="filtro-precio-min">Precio mínimo</label>
 
-                <h3>
-                    Mis compras y pujas
-                </h3>
+                        <input
+                            type="number"
+                            id="filtro-precio-min"
+                            min="0"
+                            step="0.01"
+                            placeholder="Ej. 1000"
+                        >
+                    </div>
 
-                <div id="compras-container">
+                    <div class="form-group">
+                        <label for="filtro-precio-max">Precio máximo</label>
 
-                    <!-- Datos cargados mediante JS -->
+                        <input
+                            type="number"
+                            id="filtro-precio-max"
+                            min="0"
+                            step="0.01"
+                            placeholder="Ej. 50000"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="filtro-orden">Ordenar por</label>
+
+                        <select id="filtro-orden">
+                            <option value="" selected>Seleccionar</option>
+                            <option value="tiempo">Menor tiempo restante</option>
+                            <option value="puja">Mayor puja</option>
+                        </select>
+                    </div>
+
+                    <div class="filters__actions">
+                        <button
+                            type="button"
+                            id="btn-limpiar-filtros"
+                            class="button-secondary">
+                            Limpiar
+                        </button>
+                    </div>
 
                 </div>
 
-            </div>
+                <!-- =====================================================
+                    CATÁLOGO
+                ====================================================== -->
+                <section id="subastas">
+                    <div id="catalogo-subastas" class="auction-grid">
+                        <p>Cargando subastas...</p>
+                    </div>
+                </section>
 
-
-            <div
-                id="mis-publicaciones"
-                class="activity-panel"
-            >
-
-                <h3>
-                    Mis publicaciones
-                </h3>
-
-                <div id="publicaciones-container">
-
-                    <!-- Datos cargados mediante JS -->
-
+                <!-- =====================================================
+                    PAGINACIÓN
+                ====================================================== -->
+                <div
+                    id="paginacion"
+                    class="pagination">
                 </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- ==================== NOTIFICACIONES ==================== -->
-
-    <div
-        id="toast-container"
-        class="toast-container"
-        aria-live="polite"
-        aria-atomic="true"
-    ></div>
-
-
-    <!-- ==================== MODAL ==================== -->
-
-    <div
-        id="modal"
-        class="modal"
-        hidden
-    >
+            </section>
+        </main>
 
         <div
-            class="modal__content"
-            role="dialog"
-            aria-modal="true"
-        >
-
-            <button
-                id="btn-cerrar-modal"
-                type="button"
-                class="modal__close"
-                aria-label="Cerrar"
-            >
-                ×
-            </button>
-
-
-            <div id="modal-body">
-
-                <!-- Contenido dinámico -->
-
-            </div>
-
+            id="toast-container"
+            class="toast-container">
         </div>
-
-    </div>
-
-
-    <!-- ==================== JAVASCRIPT ==================== -->
-
-    <script src="js/index.js"></script>
-
-</body>
-
+    </body>
 </html>

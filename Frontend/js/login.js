@@ -1,7 +1,7 @@
 const API_URL = "https://localhost:7204";
 
 document.addEventListener("DOMContentLoaded", () => {
-
+    document.body.classList.remove("page-loading");
 
 const form = document.getElementById("form-login");
 const errorElement = document.getElementById("login-error");
@@ -15,11 +15,9 @@ form.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
-    const email =
-        document.getElementById("login-email").value.trim();
+    const email = document.getElementById("login-email").value.trim();
 
-    const password =
-        document.getElementById("login-password").value;
+    const password = document.getElementById("login-password").value;
 
     if (errorElement) {
         errorElement.textContent = "";
@@ -78,6 +76,4 @@ form.addEventListener("submit", async (event) => {
         }
     }
 });
-
-
 });
