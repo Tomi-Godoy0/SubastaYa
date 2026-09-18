@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis subastas - SubastaYa</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/dashboardd.css">
+
+    <script src="../js/page-loader.js" defer></script>
+    <script src="../js/header.js" defer></script>
+    <script src="../js/dashboardd.js" defer></script>
+</head>
+
+<body>
+    <div id="page-loader" class="page-loader">
+        <span class="page-loader__spinner"></span>
+    </div>
+    <header class="header">
+        <div class="header__logo">
+            <a href="../index.html">Subasta<span>Ya</span></a>
+        </div>
+
+        <nav class="header__nav">
+            <div class="header__container__nav">
+                    <a href="../index.html">Explorar</a>
+                    <a href="dashboardd.html">Mis Subastas</a>
+                    <a href="billetera.html">Billetera</a>
+
+                <div class="header__user">
+                    <span id="usuario-nombre">Usuario</span>
+                    <button type="button" id="btn-logout">Cerrar sesión</button>
+                    <a href="../login.html" id="btn-login">Iniciar sesión</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard">
+        <section class="dashboard__container">
+            <header class="dashboard__header">
+                <h1>Mis subastas</h1>
+                <p>Gestioná tus pujas y publicaciones en un solo lugar.</p>
+            </header>
+
+            <div class="dashboard-tabs">
+                <button type="button" class="dashboard-tab dashboard-tab--active" id="tab-mis-pujas" data-tab="mis-pujas">Mis pujas</button>
+                <button type="button" class="dashboard-tab" id="tab-mis-publicaciones" data-tab="mis-publicaciones">Mis publicaciones</button>
+            </div>
+
+            <section class="dashboard-panel">
+                <div id="panel-mis-pujas" class="dashboard-tab-panel">
+                    <div class="dashboard-content-header">
+                        <div>
+                            <h2>Mis pujas</h2>
+                            <p>Todas las subastas en las que participaste.</p>
+                        </div>
+
+                        <select id="ordenar-pujas" class="dashboard-sort">
+                            <option value="recent">Más recientes</option>
+                            <option value="ending">Próximas a finalizar</option>
+                        </select>
+                    </div>
+
+                    <div class="dashboard-table-wrapper">
+                        <table class="dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Subasta</th>
+                                    <th>Mi última puja</th>
+                                    <th>Puja actual</th>
+                                    <th>Estado</th>
+                                    <th>Finaliza</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-mis-pujas">
+                                <tr>
+                                    <td colspan="6">Cargando...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="panel-mis-publicaciones" class="dashboard-tab-panel" hidden>
+                    <div class="dashboard-content-header">
+                        <div>
+                            <h2>Mis publicaciones</h2>
+                            <p>Todas las subastas que publicaste.</p>
+                        </div>
+
+                        <select id="ordenar-publicaciones" class="dashboard-sort">
+                            <option value="recent">Más recientes</option>
+                            <option value="ending">Próximas a finalizar</option>
+                        </select>
+                    </div>
+
+                    <div class="dashboard-table-wrapper">
+                        <table class="dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Subasta</th>
+                                    <th>Precio base</th>
+                                    <th>Puja actual</th>
+                                    <th>Estado</th>
+                                    <th>Finaliza</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-mis-publicaciones">
+                                <tr>
+                                    <td colspan="6">Cargando...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+</body>
+</html>

@@ -347,6 +347,7 @@ function renderizarSubasta(subasta) {
         "-";
 
     const endDate = obtenerFechaFinalizacion(subasta);
+    const startDate = obtenerFechaInicio(subasta)
 
     const puedePujar =
         esSubastaActiva(status) &&
@@ -354,12 +355,11 @@ function renderizarSubasta(subasta) {
         endDate > Date.now();
 
     container.innerHTML = `
-        <article class="auction-detail-card">
+    <article class="auction-detail-card">
             ${
                 imagen
                     ? `
                         <div class="auction-detail-card__image">
-
                             <img
                                 src="${escapeAttribute(imagen)}"
                                 alt="${escapeAttribute(titulo)}"
@@ -369,147 +369,151 @@ function renderizarSubasta(subasta) {
                     `
                     : ""
             }
-
             <div class="auction-detail-card__content">
-                <h1>
-                    ${escapeHtml(titulo)}
-                </h1>
+                <div class="auction-detail-card__main">
+                    <div class="auction-detail-card__info">
+                        <div class="auction-detail-card__title">
+                            <h1>
+                                ${escapeHtml(titulo)}
+                            </h1>
 
-                <p>
-                    ${escapeHtml(descripcion)}
-                </p>
+                            <span class="auction-detail-card__category">
+                                ${escapeHtml(category)}
+                            </span>
+                        </div>
 
-                <!-- =========================================
-                     TEMPORIZADOR EN VIVO
-                ========================================== -->
-                <div
-                    id="temporizador-subasta"
-                    class="auction-timer">
-                    <span class="auction-timer__label">
-                        Tiempo restante
-                    </span>
+                        <p class="auction-detail-card__description">
+                            ${escapeHtml(descripcion)}
+                        </p>
 
-                    <strong
-                        id="contador-subasta"
-                        class="auction-timer__clock">
+                        <p class="auction-detail-card__seller">
+                            Vendedor:
+                            <strong>${escapeHtml(seller)}</strong>
+                        </p>
 
-                        --:--:--
-                    </strong>
+                        <!-- TEMPORIZADOR -->
+                        <div
+                            id="temporizador-subasta"
+                            class="auction-timer">
 
-                    <span
-                        id="mensaje-temporizador"
-                        class="auction-timer__message">
-                    </span>
-                </div>
+                            <span class="auction-timer__label">
+                                Tiempo restante
+                            </span>
 
+                            <strong
+                                id="contador-subasta"
+                                class="auction-timer__clock">
+                                --:--:--
+                            </strong>
 
-                <div class="auction-info">
-                    <div>
-                        <span>
-                            Precio base
-                        </span>
-                        <strong
-                            id="precio-base">
-                            ${formatearPrecio(basePrice)}
-                        </strong>
+                            <span
+                                id="mensaje-temporizador"
+                                class="auction-timer__message">
+                            </span>
+
+                        </div>
+
                     </div>
 
-                    <div>
-                        <span>
+                    <div class="auction-detail-card__bid">
+                        <div class="auction-detail-card__bid-header">
+
+                            <span class="auction-detail-card__status">
+                                ${escapeHtml(status)}
+                            </span>
+
+                            <span class="auction-detail-card__bid-count">
+                                <strong id="cantidad-pujas">
+                                    ${totalBids}
+                                </strong>
+                                ${totalBids === 1 ? "puja" : "pujas"}
+                            </span>
+
+                        </div>
+
+                        <span class="auction-detail-card__bid-label">
                             Puja actual
                         </span>
-                        <strong
-                            id="puja-actual">
 
+                        <strong
+                            id="puja-actual"
+                            class="auction-detail-card__price">
                             ${formatearPrecio(currentBid)}
-
                         </strong>
-                    </div>
 
-
-                    <div>
-                        <span>
-                            Incremento mínimo
-                        </span>
-
-                        <strong>
-                            ${formatearPrecio(increment)}
-                        </strong>
-                    </div>
-
-                    <div>
-                        <span>
-                            Pujas
-                        </span>
-
-                        <strong
-                            id="cantidad-pujas">
-
-                            ${totalBids}
-                        </strong>
+                        <div id="zona-formulario-puja">
+                            ${
+                                puedePujar
+                                    ? renderizarFormularioPuja(
+                                        currentBid,
+                                        increment
+                                    )
+                                    : `
+                                        <div class="auction-closed">
+                                            Esta subasta no está disponible
+                                            para nuevas pujas.
+                                        </div>
+                                    `
+                            }
+                        </div>
                     </div>
                 </div>
+            </div>
+        </article>
+    `;
 
+    const infoContainer = document.getElementById("auction-info-container");
 
-                <p>
+    if (infoContainer) {
+        infoContainer.innerHTML = `
+            <h2>Información de la subasta</h2>
+            <div class="auction-info">
+                <div>
+                    <span>Precio base</span>
                     <strong>
-                        Estado:
+                        ${formatearPrecio(basePrice)}
                     </strong>
+                </div>
 
-                    <span id="estado-subasta">
-                        ${escapeHtml(status)}
-                    </span>
-                </p>
-
-
-                <p>
+                <div>
+                    <span>Incremento mínimo</span>
                     <strong>
-                        Categoría:
+                        ${formatearPrecio(increment)}
                     </strong>
-                    ${escapeHtml(category)}
-                </p>
+                </div>
 
-                <p>
+                <div>
+                    <span>Inicio</span>
                     <strong>
-                        Vendedor:
+                        ${
+                            startDate
+                                ? formatearFecha(startDate)
+                                : "-"
+                        }
                     </strong>
-                    ${escapeHtml(seller)}
-                </p>
+                </div>
 
-                <p>
-                    <strong>
-                        Finaliza:
-                    </strong>
-
-                    <span id="fecha-finalizacion">
+                <div>
+                    <span>Finalización</span>
+                    <strong id="fecha-finalizacion">
                         ${
                             endDate
                                 ? formatearFecha(endDate)
                                 : "-"
                         }
-                    </span>
-                </p>
-
-                <div id="zona-formulario-puja">
-                    ${
-                        puedePujar
-                            ? renderizarFormularioPuja(
-                                currentBid,
-                                increment
-                            )
-                            : `
-                                <div class="auction-closed">
-
-                                    Esta subasta no está disponible
-                                    para nuevas pujas.
-
-                                </div>
-                            `
-                    }
+                    </strong>
                 </div>
+
+                <div>
+                    <span>Estado</span>
+                    <strong id="estado-subasta">
+                        ${escapeHtml(status)}
+                    </strong>
+                </div>
+
             </div>
-        </article>
-    `;
+        `;
+    }
 
     const form = document.getElementById("form-puja");
 
@@ -854,7 +858,6 @@ function convertirFecha(fecha){
 }
 
 function obtenerFechaFinalizacion(subasta) {
-
     if (!subasta) {
         return null;
     }
@@ -874,7 +877,22 @@ function obtenerFechaFinalizacion(subasta) {
         return null;
     }
 
-    
+   const date = convertirFecha(fecha)
+
+    return date ? date.getTime() : null;
+}
+
+function obtenerFechaInicio(subasta) {
+    if (!subasta) {
+        return null;
+    }
+console.log(subasta)
+    const fecha = subasta.startDate;
+
+    if (!fecha) {
+        return null;
+    }
+
    const date = convertirFecha(fecha)
 
     return date ? date.getTime() : null;

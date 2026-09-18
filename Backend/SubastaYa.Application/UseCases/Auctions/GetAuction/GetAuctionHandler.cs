@@ -29,6 +29,7 @@ namespace SubastaYa.Application.UseCases.Auctions.GetAuction
                 MinimumIncrement = auction.MinimumIncrement,
                 CurrentBidAmount = auction.CurrentBidAmount,
                 TotalBids = auction.Bids.Count,
+                StartDate = auction.StartDate,
                 EndDate = auction.EndDate,
                 Status = auction.Status,
                 SellerName = auction.Seller.Name,

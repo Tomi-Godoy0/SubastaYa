@@ -2,15 +2,29 @@
     display: block;
     width: 100%;
 }
+
+.auction-detail-card {
+    display: grid;
+
+    grid-template-columns: minmax(300px, 380px) 1fr;
+
+    gap: 24px;
+    width: 100%;
+    padding: 22px;
+
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.07);
+}
 /* -------------------------
    IMAGEN
 ------------------------- */
 .auction-detail-card__image {
     width: 100%;
-    height: 360px;
-
+    height: 340px;
     overflow: hidden;
-
     border-radius: 12px;
     background-color: #f3f4f6;
 }
@@ -31,34 +45,139 @@
     min-width: 0;
 }
 
-.auction-detail-card__content h1 {
-    margin: 0;
-
-    color: #111827;
-    font-size: 32px;
-    line-height: 1.2;
+.auction-detail-card__main {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
-.auction-detail-card__content > p {
+.auction-detail-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.auction-detail-card__title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.auction-detail-card__title h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 30px;
+    line-height: 1.1;
+}
+
+.auction-detail-card__category {
+    padding: 5px 9px;
+    border-radius: 6px;
+    background-color: #eff6ff;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.auction-detail-card__description {
     margin: 0;
     color: #6b7280;
     font-size: 15px;
+}
+
+.auction-detail-card__seller {
+    margin: 4px 0 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.auction-detail-card__seller strong {
+    color: #111827;
+}
+
+.auction-detail-card__bid {
+    padding: 16px;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    background-color: #f8fafc;
+
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.auction-detail-card__status {
+    align-self: flex-start;
+
+    padding: 5px 9px;
+    border-radius: 6px;
+
+    background-color: #dcfce7;
+    color: #166534;
+
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.auction-detail-card__bid-label {
+    margin-top: 8px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.auction-detail-card__bid-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.auction-detail-card__price {
+    color: #2563eb;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.auction-detail-card__bid-count {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.auction-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-bottom: 12px;
+
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+.auction-back:hover {
+    color: #1d4ed8;
 }
 /* -------------------------
    INFORMACIÓN
 ------------------------- */
 .auction-info {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    margin: 8px 0;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 0;
 }
 
 .auction-info > div {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 16px;
+    gap: 6px;
+    padding: 14px;
 
     background-color: #f8fafc;
     border: 1px solid #e5e7eb;
@@ -66,29 +185,16 @@
 }
 
 .auction-info span {
-    color: #6b7280;
-    font-size: 12px;
-    font-weight: 600;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
 }
 
 .auction-info strong {
     color: #111827;
-    font-size: 20px;
+    font-size: 16px;
 }
-/* -------------------------
-   PUJA ACTUAL
-------------------------- */
-.auction-info > div:nth-child(2) {
-    background-color: #eff6ff;
-    border-color: #bfdbfe;
-}
-
-.auction-info > div:nth-child(2) strong {
-    color: #2563eb;
-    font-size: 24px;
-}
-
 /* -------------------------
    SUBASTA CERRADA
 ------------------------- */
@@ -103,23 +209,37 @@
     color: #b91c1c;
     font-weight: 600;
 }
-/* =========================================================
-   HISTORIAL DE PUJAS
-========================================================= */
-.bid-history {
-    width: 100%;
+/* Panel historial */
+.auction-secondary {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 24px;
     margin-top: 24px;
+    align-items: start;
+}
+
+.bid-history,
+.auction-info-panel {
+    width: 100%;
+    margin: 0;
     padding: 24px;
 
     background-color: #fff;
-
     border: 1px solid #e5e7eb;
     border-radius: 16px;
 
-    box-shadow:
-        0 4px 18px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
 }
 
+.auction-info-panel h2 {
+    margin: 0 0 16px;
+    color: #111827;
+    font-size: 22px;
+}
+
+/* =========================================================
+   HISTORIAL DE PUJAS
+========================================================= */
 .bid-history h2 {
     margin: 0;
 
@@ -154,8 +274,8 @@
    TEMPORIZADOR DE SUBASTA
 ========================================================= */
 .auction-timer {
-    margin: 25px 0;
-    padding: 20px;
+    margin: 14px 0;
+    padding: 16px;
     text-align: center;
 
     border-radius: 12px;
@@ -183,7 +303,7 @@
 .auction-timer__clock {
     display: block;
 
-    font-size: 2.4rem;
+    font-size: 2.1rem;
     font-weight: 800;
     letter-spacing: 2px;
     color: #111827;
@@ -250,30 +370,44 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+    .auction-detail-card {
+        grid-template-columns: 1fr;
+    }
+
     .auction-detail-card__image {
-        height: 280px;
+        height: 320px;
     }
 
-    .auction-detail-card__content h1 {
-        font-size: 26px;
-    }
-
-    .auction-info {
+    .auction-secondary {
         grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 500px) {
-    .auction-detail-card__image {
-        height: 220px;
+@media (max-width: 600px) {
+    .auction-detail-card {
+        padding: 18px;
     }
 
-    .auction-detail-card__content h1 {
-        font-size: 23px;
+    .auction-detail-card__image {
+        height: 260px;
+    }
+
+    .auction-detail-card__title h1 {
+        font-size: 28px;
+    }
+
+    .auction-info {
+        grid-template-columns: 1fr 1fr;
     }
 
     .bid-history {
         padding: 16px;
+    }
+}
+
+@media (max-width: 400px) {
+    .auction-info {
+        grid-template-columns: 1fr;
     }
 }

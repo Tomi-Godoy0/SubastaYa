@@ -10,6 +10,7 @@
         public decimal MinimumIncrement { get; set; }
         public decimal CurrentBidAmount { get; set; }
         public int TotalBids { get; set; }
+        public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Status { get; set; } = string.Empty;
         public string SellerName { get; set; } = string.Empty;

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi billetera - SubastaYa</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/pages/billetera.css">
+
+    <script src="../js/page-loader.js" defer></script>
+    <script src="../js/header.js" defer></script>
+    <script src="../js/billetera.js" defer></script>
+</head>
+
+<body>
+    <div id="page-loader" class="page-loader">
+        <span class="page-loader__spinner"></span>
+    </div>
+    <header class="header">
+        <div class="header__logo">
+            <a href="../index.html">Subasta<span>Ya</span></a>
+        </div>
+            <nav class="header__nav">
+                <div class="header__container__nav">
+                    <a href="../index.html">Explorar</a>
+                    <a href="dashboardd.html">Mis Subastas</a>
+                    <a href="billetera.html">Billetera</a>
+
+                    <div class="header__user">
+                        <span id="usuario-nombre">Usuario</span>
+                        <button type="button" id="btn-logout">Cerrar sesión</button>
+                        <a href="../login.html" id="btn-login">Iniciar sesión</a>
+                    </div>
+                </div>
+            </nav>
+    </header>
+
+    <main class="wallet">
+        <section class="wallet__container">
+            <header class="wallet__header">
+                <h1>Mi billetera</h1>
+                <p>Gestioná tu saldo, realizá depósitos y consultá tus movimientos.</p>
+            </header>
+
+            <section class="wallet-summary">
+                <article class="wallet-summary-card">
+                    <div class="wallet-summary-card__icon">$</div>
+                    <div>
+                        <span>Saldo total</span>
+                        <strong id="saldo-total">$ 0,00</strong>
+                    </div>
+                </article>
+
+                <article class="wallet-summary-card wallet-summary-card--held">
+                    <div class="wallet-summary-card__icon">🔒</div>
+                    <div>
+                        <span>Saldo retenido</span>
+                        <strong id="saldo-retenido">$ 0,00</strong>
+                    </div>
+                </article>
+
+                <article class="wallet-summary-card wallet-summary-card--available">
+                    <div class="wallet-summary-card__icon">✓</div>
+                    <div>
+                        <span>Saldo disponible</span>
+                        <strong id="saldo-disponible">$ 0,00</strong>
+                    </div>
+                </article>
+            </section>
+
+            <section class="wallet-deposit">
+                <div>
+                    <h2>Agregar fondos</h2>
+                    <p>Ingresá un monto para aumentar el saldo de tu billetera.</p>
+                </div>
+
+                <form id="form-deposito" class="deposit-form">
+                    <label for="monto-deposito">Monto</label>
+                    <div class="deposit-form__input">
+                        <span>$</span>
+                        <input type="number" id="monto-deposito" min="1" step="0.01" placeholder="0,00" required>
+                    </div>
+                    <button type="submit">Realizar depósito</button>
+                </form>
+            </section>
+
+            <section class="wallet-history">
+                <div class="wallet-history__header">
+                    <div>
+                        <h2>Historial de movimientos</h2>
+                        <p>Consultá todas las operaciones realizadas en tu billetera.</p>
+                    </div>
+                </div>
+
+                <div class="wallet-table-wrapper">
+                    <table class="wallet-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Descripción</th>
+                                <th>Tipo</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-movimientos">
+                            <tr>
+                                <td colspan="4">Cargando movimientos...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="wallet-pagination">
+                    <button type="button" id="btn-movimientos-anterior">←</button>
+                    <span id="pagina-movimientos">Página 1 de 1</span>
+                    <button type="button" id="btn-movimientos-siguiente">→</button>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <div id="toast-container" class="toast-container"></div>
+</body>
+</html>
