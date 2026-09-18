@@ -14,7 +14,7 @@
 .hero h1 {
     margin: 0;
 
-    font-size: clamp(40px, 6vw, 72px);
+    font-size: clamp(40px, 6vw, 68px);
     line-height: 1.05;
     font-weight: 800;
     letter-spacing: -2px;
@@ -27,7 +27,7 @@
 .hero__subtitle {
     margin: 24px 0 8px;
 
-    font-size: clamp(18px, 2vw, 24px);
+    font-size: clamp(18px, 2vw, 22px);
     font-weight: 600;
 }
 
@@ -35,7 +35,7 @@
     margin: 0;
 
     color: #9ca3af;
-    font-size: clamp(15px, 1.5vw, 18px);
+    font-size: clamp(15px, 1.5vw, 16px);
 }
 
 .hero__search {
@@ -80,7 +80,7 @@
 }
 /* Benefir */
 .benefits {
-    width: min(1200px, calc(100% - 48px));
+    width: min(1200px, calc(100% - 46px));
     margin: -32px auto 70px;
 
     display: grid;
@@ -105,7 +105,7 @@
 }
 
 .benefit-card__icon {
-    font-size: 28px;
+    font-size: 26px;
 }
 
 .benefit-card h3 {

@@ -88,6 +88,7 @@
 }
 
 .auction-card__bids {
+    color: #4b5563;
     font-size: 14px;
     font-weight: 600;
 }
@@ -187,11 +188,6 @@
     font-weight: 500;
 }
 
-.auction-card__bids {
-    color: #4b5563;
-    font-size: 14px;
-}
-
 .auction-card__timer {
     padding: 9px 11px;
 
@@ -215,31 +211,6 @@
 
     font-size: 14px;
     font-weight: 700;
-}
-/* -------------------------
-   CARD PRINCIPAL
-------------------------- */
-.auction-detail-card {
-    display: grid;
-
-    grid-template-columns: minmax(320px, 420px) 1fr;
-
-    gap: 32px;
-    width: 100%;
-    padding: 28px;
-
-    background-color: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 16px;
-
-    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.07);
-}
-
-@media (max-width: 768px) {
-    .auction-detail-card {
-        grid-template-columns: 1fr;
-        padding: 20px;
-    }
 }
 
 @media (max-width: 500px) {

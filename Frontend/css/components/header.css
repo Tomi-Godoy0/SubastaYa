@@ -1,5 +1,4 @@
 .header {
-    /* position: sticky; */
     top: 0;
     z-index: 1000;
 
@@ -7,7 +6,7 @@
     align-items: center;
     justify-content: space-between;
 
-    padding: 24px 40px;
+    padding: 20px 40px;
 
     background-color: #111827;
     color: #fff;
@@ -19,7 +18,7 @@
     color: #fff;
     text-decoration: none;
 
-    font-size: clamp(20px, 2vw, 32px);
+    font-size: clamp(20px, 2vw, 28px);
     font-weight: 800;
 
     transition: color 0.2s ease;
@@ -45,7 +44,7 @@
     color: #d9e4ef;
     text-decoration: none;
     font-weight: 500;
-    font-size: clamp(14px, 1vw, 20px);
+    font-size: clamp(14px, 1vw, 18px);
 
     transition: color 0.2s ease;
 }
