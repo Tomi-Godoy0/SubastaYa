@@ -1,6 +1,7 @@
 const API_URL = "https://localhost:7204";
 let paginaActual = 1;
 const PAGE_SIZE = 9;
+let intervaloCountdown = null;
 
 /* =========================================================
    INICIO
@@ -25,10 +26,14 @@ function configurarEventos() {
     const boton = document.getElementById("btn-filtrar");
 
     if (boton) {
-        boton.addEventListener("click", () => {
+        boton.addEventListener("click", async () => {
             paginaActual = 1;
+            await cargarSubastas();
 
-            cargarSubastas();
+            document.getElementById("subastas").scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
         });
     }
 
@@ -39,10 +44,15 @@ function configurarEventos() {
     const busqueda = document.getElementById("filtro-busqueda");
 
     if (busqueda) {
-        busqueda.addEventListener("keydown", event => {
+        busqueda.addEventListener("keydown", async event => {
             if (event.key === "Enter") {
                 paginaActual = 1;
-                cargarSubastas();
+                await cargarSubastas();
+
+                document.getElementById("subastas").scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
             }
         });
     }
@@ -256,9 +266,7 @@ async function cargarCategorias() {
                         ? data.data
                         : [];
 
-
         categorias.forEach(categoria => {
-
             const option = document.createElement("option");
 
             option.value = categoria.id;
@@ -282,7 +290,6 @@ async function cargarCategorias() {
 /* =========================================================
    SUBASTAS
 ========================================================= */
-
 async function cargarSubastas() {
 
     const container = document.getElementById("catalogo-subastas");
@@ -290,13 +297,7 @@ async function cargarSubastas() {
     if (!container) {
         return;
     }
-
-    container.innerHTML = `
-        <div class="loading-message">
-            <span class="spinner"></span>
-            Cargando subastas...
-        </div>
-    `;
+    container.classList.add("is-loading");
 
     /* =====================================================
        OBTENER FILTROS
@@ -610,27 +611,34 @@ else if (orden === "puja") {
         /* =================================================
            RENDERIZAR
         ================================================= */
+        detenerCountdownCards();
+        container.classList.remove("is-loading");
+
         renderizarSubastas(subastasFiltradas);
         renderizarPaginacion(totalCount);
+
+        iniciarCountdownCards();
     }
     catch (error) {
         console.error(
             "Error al cargar subastas:",
             error
         );
-
+        
         container.innerHTML = `
-            <p class="error-message">
-                No se pudieron cargar las subastas.
-            </p>
+        <p class="error-message">
+        No se pudieron cargar las subastas.
+        </p>
         `;
+
+        container.classList.remove("is-loading");
+        return;
     }
 }
 
 /* =========================================================
    OBTENER FECHA DE FINALIZACIÓN
 ========================================================= */
-
 function obtenerFechaFinalizacion(subasta) {
 
     const fecha =
@@ -659,9 +667,7 @@ function obtenerFechaFinalizacion(subasta) {
 /* =========================================================
    RENDER SUBASTAS
 ========================================================= */
-
 function renderizarSubastas(subastas) {
-
     const container = document.getElementById("catalogo-subastas");
 
     if (!container) {
@@ -687,24 +693,16 @@ function renderizarSubastas(subastas) {
 
             const id = subasta.id;
 
-            const titulo =
-                subasta.title ||
-                subasta.titulo ||
-                "Subasta";
+            const titulo = subasta.title || "Subasta";
 
-            const descripcion =
-                subasta.description ||
-                subasta.descripcion ||
-                "";
+            const categoria = subasta.categoryName || "Sin categoría";
 
-            const imagen =
-                subasta.imageUrl ||
-                subasta.imagen ||
-                "assets/placeholder.jpg";
+            const totalPujas = Number(subasta.totalBids ?? 0);
 
-            /* =============================================
-               PRECIO
-            ============================================= */
+
+            const imagen = typeof subasta.imageUrl === "string" && subasta.imageUrl.startsWith("http")
+                    ? subasta.imageUrl
+                    : "assets/placeholder.jpg";
 
             const precioReal = Number(subasta.precioReal);
             const precioBase = Number(subasta.basePrice ?? 0);
@@ -713,33 +711,13 @@ function renderizarSubastas(subastas) {
                     ? precioReal
                     : precioBase;
 
-            /* =============================================
-               ESTADO
-            ============================================= */
+            const estado = subasta.status || "Sin estado";
+            const fecha = subasta.endDate;
 
-            const estado =
-                subasta.status ||
-                subasta.estado ||
-                "Sin estado";
-
-            /* =============================================
-               FECHA
-            ============================================= */
-            const fecha =
-                subasta.endDate ??
-                subasta.endTime ??
-                subasta.fechaFin ??
-                subasta.fechaFinalizacion ??
-                subasta.endingAt ??
-                subasta.endDateTime;
-
-            /* =============================================
-               MAYOR PUJA
-            ============================================= */
-            const mayorPuja = Number(subasta.mayorPuja ?? 0);
 
             card.innerHTML = `
                 <div class="auction-card__image">
+                
                     <img
                         src="${escapeAttribute(imagen)}"
                         alt="${escapeAttribute(titulo)}"
@@ -748,41 +726,37 @@ function renderizarSubastas(subastas) {
                 </div>
 
                 <div class="auction-card__body">
+
+                    <span class="auction-card__category">
+                        ${escapeHtml(categoria)}
+                    </span>
+
                     <h3>
                         ${escapeHtml(titulo)}
                     </h3>
-
-                    <p>
-                        ${escapeHtml(descripcion)}
-                    </p>
 
                     <strong class="auction-card__price">
                         ${formatearPrecio(precio)}
                     </strong>
 
-                    ${
-                        mayorPuja > 0
-                            ? `
-                                <small>
-                                    Mayor puja:
-                                    ${formatearPrecio(mayorPuja)}
-                                </small>
-                              `
-                            : ""
-                    }
+                    <div class="auction-card__meta">
 
-                    <span class="auction-card__status">
-                        Estado:
-                        ${escapeHtml(estado)}
-                    </span>
+                        <span class="auction-card__status status-${estado.toLowerCase()}"> 
+                            ${escapeHtml(estado)}
+                        </span>
 
-                    <small>
-                        ${
-                            fecha
-                                ? `Finaliza: ${formatearFecha(fecha)}`
-                                : "Sin fecha de finalización"
-                        }
-                    </small>
+                        <span class="auction-card__bids">
+                            ${totalPujas} ${totalPujas === 1 ? "puja" : "pujas"}
+                        </span>
+                    </div>
+
+                    <div class="auction-card__countdown"
+                        ${estado === "ACTIVA" && fecha
+                            ? `data-end-date="${escapeAttribute(fecha)}"`
+                            : ""}
+                    >
+                        ${obtenerTextoCountdown(fecha, estado)}
+                    </div>
 
                     <button
                         type="button"
@@ -797,7 +771,6 @@ function renderizarSubastas(subastas) {
             const boton = card.querySelector(".btn-ver-subasta");
 
             if (boton) {
-
                 boton.addEventListener(
                     "click",
                     () => {
@@ -805,12 +778,153 @@ function renderizarSubastas(subastas) {
                     }
                 );
             }
-
             container.appendChild(card);
         }
     );
 }
 
+function obtenerTextoCountdown(fecha, estado) {
+
+    if (!fecha) {
+        return "Sin fecha";
+    }
+
+    if (estado === "FINALIZADA" || estado === "DESIERTA") {
+        return "Subasta finalizada";
+    }
+
+    if (estado === "PROGRAMADA") {
+        return "Próximamente";
+    }
+
+    const fechaFin = convertirFecha(fecha);
+
+    if (!fechaFin) {
+        return "Sin fecha";
+    }
+
+    const diferencia = fechaFin.getTime() - Date.now();
+
+    if (diferencia <= 0) {
+        return "Subasta finalizada";
+    }
+
+    const segundosTotales = Math.floor(diferencia / 1000);
+
+    const dias = Math.floor(segundosTotales / 86400);
+    const horas = Math.floor((segundosTotales % 86400) / 3600);
+    const minutos = Math.floor((segundosTotales % 3600) / 60);
+    const segundos = segundosTotales % 60;
+
+    if (dias > 0) {
+        return `Termina en ${dias}d ${horas}h ${minutos}m`;
+    }
+
+    return `Termina en ${String(horas).padStart(2, "0")}:${String(minutos).padStart(2, "0")}:${String(segundos).padStart(2, "0")}`;
+}
+
+function convertirFecha(fecha){
+    if (!fecha) {
+        return null;
+    }
+
+    if (typeof fecha === "number") {
+        const timestamp = fecha < 10000000000
+            ? fecha * 1000
+            : fecha;
+
+        return new Date(timestamp);
+    }
+
+    const fechaUtc = String(fecha).endsWith("Z")
+        ? fecha
+        : `${fecha}Z`;
+
+    const date = new Date(fechaUtc);
+
+    return Number.isNaN(date.getTime())
+        ? null
+        : date;
+}
+
+function actualizarCountdownCards() {
+
+    const countdowns = document.querySelectorAll(".auction-card__countdown[data-end-date]");
+
+    countdowns.forEach(countdown => {
+
+        const fecha = countdown.dataset.endDate;
+
+        const fechaFin = convertirFecha(fecha);
+
+        if (!fechaFin) {
+            countdown.textContent = "Sin fecha";
+            return;
+        }
+
+        const diferencia = fechaFin.getTime() - Date.now();
+
+        countdown.classList.remove(
+            "countdown-warning",
+            "countdown-critical"
+        );
+
+        if (diferencia <= 0) {
+            countdown.textContent = "Subasta finalizada";
+            return;
+        }
+
+        const segundosRestantes = Math.floor(diferencia / 1000);
+
+        if (segundosRestantes <= 60) {
+            countdown.classList.add("countdown-critical");
+        }
+        else if (segundosRestantes <= 300) {
+            countdown.classList.add("countdown-warning");
+        }
+
+        const segundosTotales = Math.floor(diferencia / 1000);
+
+        const dias = Math.floor(segundosTotales / 86400);
+
+        const horas = Math.floor((segundosTotales % 86400) / 3600);
+
+        const minutos = Math.floor((segundosTotales % 3600) / 60);
+
+        const segundos = segundosTotales % 60;
+
+        if (dias > 0) {
+            countdown.textContent = `Termina en ${dias}d ${horas}h ${minutos}m`;
+        }
+        else {
+            countdown.textContent =
+                `Termina en ${
+                    String(horas).padStart(2, "0")
+                }:${
+                    String(minutos).padStart(2, "0")
+                }:${
+                    String(segundos).padStart(2, "0")
+                }`;
+        }
+    });
+}
+
+function iniciarCountdownCards() {
+
+    detenerCountdownCards();
+
+    actualizarCountdownCards();
+
+    intervaloCountdown = setInterval(actualizarCountdownCards, 1000);
+}
+
+function detenerCountdownCards() {
+
+    if (intervaloCountdown) {
+        clearInterval(intervaloCountdown);
+        intervaloCountdown = null;
+    }
+}
 /* =========================================================
    PAGINACIÓN
 ========================================================= */

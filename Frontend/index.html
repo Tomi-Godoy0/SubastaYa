@@ -11,54 +11,95 @@
         <link rel="stylesheet" href="css/components/buttons.css">
         <link rel="stylesheet" href="css/components/cards.css">
         <link rel="stylesheet" href="css/components/forms.css">
+        <link rel="stylesheet" href="css/components/modal.css">
         <link rel="stylesheet" href="css/components/toast.css">
         <link rel="stylesheet" href="css/pages/index.css">
 
         <script src="js/index.js" defer></script>
+        <script src="js/header.js" defer></script>
     </head>
 
     <body>
         <header class="header">
-
             <div class="header__logo">
-                <a href="index.html">SubastaYa</a>
+                <a href="index.html">
+                    Subasta<span>Ya</span>
+                </a>
             </div>
 
             <nav class="header__nav">
-                <a href="index.html">Subastas</a>
-                <a href="/pages/dashboard.html">Mi cuenta</a>
-            </nav>
+                <div class="header__container__nav">
+                    <a href="index.html">Explorar</a>
+                    <a href="index.html">Categorías</a>
+                    <a href="index.html">Mis Actividades</a>
+                    <a href="index.html">Billetera</a>
+                    <a href="/pages/dashboard.html">Mi cuenta</a>
 
-            <div class="header__user">
-                <span id="usuario-nombre">Usuario</span>
-                <button type="button" id="btn-logout">Cerrar sesión</button>
-            </div>
+                    <div class="header__user">
+                        <span id="usuario-nombre">Usuario</span>
+                        <button type="button" id="btn-logout">Cerrar sesión</button>
+                        <a href="login.html" id="btn-login">Iniciar sesión</a>
+                    </div>    
+                </div>
+            </nav>
         </header>
 
         <main>
-            <section class="section">
-                <div class="section__header">
-                    <h1>Subastas</h1>
-                    <p>Explorá las subastas disponibles.</p>
-                </div>
+            <section class="hero">
+                <div class="hero__content">
+                    <h1>Encontrá. <span>Pujá.</span> Ganá.</h1>
 
-                <!-- =====================================================
-                    FILTROS
-                ====================================================== -->
+                    <p class="hero__subtitle">
+                        Subastas en tiempo real. Productos únicos.
+                    </p>
 
-                <div class="catalog-filters">
-                    <!-- BÚSQUEDA -->
+                    <p class="hero__description">
+                        Descubrí oportunidades y competí en vivo.
+                    </p>
 
-                    <div class="form-group">
-                        <label for="filtro-busqueda">Buscar</label>
-
+                    <div class="hero__search">
                         <input
                             type="text"
                             id="filtro-busqueda"
-                            placeholder="Buscar subasta...">
-                    </div>
+                            placeholder="Buscar subastas, productos..."
+                        >
 
-                    <!-- CATEGORÍA -->
+                        <button type="button" id="btn-filtrar">
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <section class="benefits">
+                <article class="benefit-card">
+                    <span class="benefit-card__icon">🔒</span>
+                    <div>
+                        <h3>Pagos seguros</h3>
+                        <p>Tu saldo protegido durante cada operación.</p>
+                    </div>
+                </article>
+
+                <article class="benefit-card">
+                    <span class="benefit-card__icon">⚡</span>
+                    <div>
+                        <h3>Tiempo real</h3>
+                        <p>Seguí las pujas al instante.</p>
+                    </div>
+                </article>
+
+                <article class="benefit-card">
+                    <span class="benefit-card__icon">🤝</span>
+                    <div>
+                        <h3>Comunidad</h3>
+                        <p>Compradores y vendedores en un mismo lugar.</p>
+                    </div>
+                </article>
+            </section>
+        
+            <section class="section">
+                <h2 class="catalog-title">Subastas disponibles</h2>
+                <div class="catalog-filters">
+
                     <div class="form-group">
                         <label for="filtro-categoria">Categoría</label>
 
@@ -67,24 +108,16 @@
                         </select>
                     </div>
 
-                    <!-- ESTADO -->
-
                     <div class="form-group">
-
                         <label for="filtro-estado">Estado</label>
 
                         <select id="filtro-estado">
                             <option value="">Todos los estados</option>
-
                             <option value="ACTIVA">Activas</option>
-
                             <option value="PROGRAMADA">Programadas</option>
-
                             <option value="FINALIZADA">Finalizadas</option>
                         </select>
                     </div>
-
-                    <!-- PRECIO MÍNIMO -->
 
                     <div class="form-group">
                         <label for="filtro-precio-min">Precio mínimo</label>
@@ -95,10 +128,8 @@
                             min="0"
                             step="0.01"
                             placeholder="Ej. 1000"
-                            >
+                        >
                     </div>
-
-                    <!-- PRECIO MÁXIMO -->
 
                     <div class="form-group">
                         <label for="filtro-precio-max">Precio máximo</label>
@@ -112,31 +143,31 @@
                         >
                     </div>
 
-                    <!-- ORDENAMIENTO -->
                     <div class="form-group">
                         <label for="filtro-orden">Ordenar por</label>
 
                         <select id="filtro-orden">
                             <option value="" selected>Seleccionar</option>
-
                             <option value="tiempo">Menor tiempo restante</option>
-                            
                             <option value="puja">Mayor puja</option>
                         </select>
                     </div>
 
-                    <!-- BOTONES -->
                     <div class="filters__actions">
-                        <button type="button" id="btn-filtrar">Buscar</button>
-
-                        <button type="button" id="btn-limpiar-filtros" class="button-secondary">Limpiar</button>
+                        <button
+                            type="button"
+                            id="btn-limpiar-filtros"
+                            class="button-secondary">
+                            Limpiar
+                        </button>
                     </div>
+
                 </div>
 
                 <!-- =====================================================
                     CATÁLOGO
                 ====================================================== -->
-                <section>
+                <section id="subastas">
                     <div id="catalogo-subastas" class="auction-grid">
                         <p>Cargando subastas...</p>
                     </div>

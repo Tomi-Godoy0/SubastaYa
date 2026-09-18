@@ -31,7 +31,6 @@
 
 .auction-card:hover {
     transform: translateY(-3px);
-
     box-shadow: 0 12px 25px rgba(15, 23, 42, 0.10);
 }
 
@@ -46,6 +45,13 @@
     background-color: #f3f4f6;
 }
 
+.auction-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .auction-card__body {
     display: flex;
     flex-direction: column;
@@ -58,18 +64,80 @@
 
 .auction-card__category {
     align-self: flex-start;
+    align-items: center;
 
     padding: 5px 9px;
 
-    border-radius: 999px;
+    border-radius: 6px;
 
     background-color: #eff6ff;
     color: #2563eb;
 
-    font-size: 12px;
+    font-size: 8px;
     font-weight: 700;
 
     text-transform: uppercase;
+}
+/* Card estado */
+.auction-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+
+.auction-card__bids {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.auction-card__status {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 9px;
+    border-radius: 6px;
+
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-activa {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-programada {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-finalizada {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+.status-desierta {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.auction-card__countdown {
+    align-self: center;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.auction-card__countdown.countdown-warning {
+    color: #d97706;
+}
+
+.auction-card__countdown.countdown-critical {
+    color: #dc2626;
 }
 
 .auction-card h3 {

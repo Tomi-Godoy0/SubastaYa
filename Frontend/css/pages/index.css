@@ -1,3 +1,127 @@
+.hero {
+    padding: clamp(70px, 8vw, 110px) 24px;
+    text-align: center;
+
+    background: #111827;
+    color: #fff;
+}
+
+.hero__content {
+    width: min(900px, 100%);
+    margin: 0 auto;
+}
+
+.hero h1 {
+    margin: 0;
+
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -2px;
+}
+
+.hero h1 span {
+    color: #60a5fa;
+}
+
+.hero__subtitle {
+    margin: 24px 0 8px;
+
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 600;
+}
+
+.hero__description {
+    margin: 0;
+
+    color: #9ca3af;
+    font-size: clamp(15px, 1.5vw, 18px);
+}
+
+.hero__search {
+    display: flex;
+    width: min(700px, 100%);
+    margin: 32px auto 0;
+}
+
+.hero__search input {
+    flex: 1;
+    min-width: 0;
+
+    padding: 15px 18px;
+
+    border: none;
+    border-radius: 10px 0 0 10px;
+
+    font-size: 15px;
+}
+
+.hero__search input:focus {
+    outline: none;
+}
+
+.hero__search button {
+    padding: 0 26px;
+
+    border: none;
+    border-radius: 0 10px 10px 0;
+
+    background: #2563eb;
+    color: #fff;
+
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.hero__search button:hover {
+    background: #1d4ed8;
+}
+/* Benefir */
+.benefits {
+    width: min(1200px, calc(100% - 48px));
+    margin: -32px auto 70px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    position: relative;
+}
+
+.benefit-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    padding: 22px;
+
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.benefit-card__icon {
+    font-size: 28px;
+}
+
+.benefit-card h3 {
+    margin: 0 0 4px;
+
+    color: #111827;
+    font-size: 16px;
+}
+
+.benefit-card p {
+    margin: 0;
+
+    color: #6b7280;
+    font-size: 14px;
+}
+
 .catalog {
     max-width: 1400px;
     margin: 0 auto;
@@ -92,9 +216,50 @@
    GRID DE SUBASTAS
 ------------------------- */
 .auction-grid {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
+}
+
+.auction-grid.is-loading::after {
+    content: "Cargando subastas...";
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(2px);
+
+    color: #374151;
+    font-size: 15px;
+    font-weight: 600;
+
+    z-index: 10;
+}
+
+.auction-grid.is-loading::before {
+    content: "";
+    position: absolute;
+
+    width: 22px;
+    height: 22px;
+
+    top: 50%;
+    left: 50%;
+
+    margin: -35px 0 0 -11px;
+
+    border: 3px solid #dbeafe;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+
+    z-index: 11;
 }
 
 /* -------------------------
@@ -215,6 +380,26 @@
 }
 
 @media (max-width: 768px) {
+    
+    .hero__search {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hero__search input,
+    .hero__search button {
+        border-radius: 10px;
+        min-height: 48px;
+    }
+
+    .benefits {
+            grid-template-columns: 1fr;
+        }
+
+    .categories__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .catalog-filters {
         grid-template-columns: 1fr;
         padding: 18px;
@@ -236,6 +421,17 @@
 }
 
 @media (max-width: 500px) {
+    .hero__search {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hero__search input,
+    .hero__search button {
+        border-radius: 10px;
+        min-height: 48px;
+    }
+
     .pagination {
         gap: 10px;
     }
