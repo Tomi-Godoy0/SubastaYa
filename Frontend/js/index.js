@@ -8,6 +8,7 @@ let intervaloCountdown = null;
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.remove("page-loading");
     configurarEventos();
     cargarUsuario();
     cargarCategorias();

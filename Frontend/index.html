@@ -15,11 +15,15 @@
         <link rel="stylesheet" href="css/components/toast.css">
         <link rel="stylesheet" href="css/pages/index.css">
 
+        <script src="js/page-loader.js" defer></script>
         <script src="js/index.js" defer></script>
         <script src="js/header.js" defer></script>
     </head>
 
     <body>
+        <div id="page-loader" class="page-loader">
+            <span class="page-loader__spinner"></span>
+        </div>
         <header class="header">
             <div class="header__logo">
                 <a href="index.html">
@@ -30,10 +34,8 @@
             <nav class="header__nav">
                 <div class="header__container__nav">
                     <a href="index.html">Explorar</a>
-                    <a href="index.html">Categorías</a>
-                    <a href="index.html">Mis Actividades</a>
-                    <a href="index.html">Billetera</a>
-                    <a href="/pages/dashboard.html">Mi cuenta</a>
+                    <a href="pages/dashboardd.html">Mis Subastas</a>
+                    <a href="pages/billetera.html">Billetera</a>
 
                     <div class="header__user">
                         <span id="usuario-nombre">Usuario</span>
